@@ -4,16 +4,11 @@
    vertical list (JS adds `.is-static`).
    ========================================================================== */
 
-/* Side nav stays visible on narrow screens — but as the compact dash rail only
-   (full labels would overlap the content). It hugs the left edge so the dashes
-   clear the copy; tap/hover still reveals the labels via `.is-revealed`. */
+/* Side nav hugs the left edge on narrow screens. Its dash-rail look comes from
+   the shared `.is-collapsed` rules (in the deck it's always collapsed; on the
+   hero it's hidden — see the phone block below), so nothing else is needed. */
 @media (max-width: 1024px) {
   .side-nav { left: var(--space-2xs); }
-  .side-nav:not(.is-revealed) .nav-link__label { opacity: 0; pointer-events: none; }
-  .side-nav:not(.is-revealed) .nav-link::before { height: 0.7em; opacity: 0.4; }
-  /* Active section is marked by the shared indicator bar (visible in both states),
-     so its own tick stays hidden — keeps the active marker consistent. */
-  .side-nav:not(.is-revealed) .nav-link.is-active::before { height: 0; opacity: 0; }
 }
 
 /* --- Tablet ( <= 960px ) -------------------------------------------------- */

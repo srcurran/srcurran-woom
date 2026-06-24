@@ -118,17 +118,27 @@
 }
 .nav-link__label {
   /* Clears the shared marker column (dash/indicator live at the list's left
-     edge); the dash itself stays 3px wide even when collapsed so this never
-     shifts. */
+     edge). Collapses to zero width when minimized (below) so the nav — and the
+     panel behind it — shrinks to a slim rail around the dashes, then expands to
+     fit the labels when revealed. */
   margin-left: var(--space-sm);
-  transition: opacity var(--duration-base) var(--ease-out);
+  max-width: 12rem;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width var(--duration-base) var(--ease-out),
+              margin-left var(--duration-base) var(--ease-out),
+              opacity var(--duration-base) var(--ease-out);
 }
 
 /* Collapsed (in the deck, idle): labels fade out; INACTIVE sections show a faint
    tick. The ACTIVE section is marked by the shared `.side-nav__indicator` bar in
    BOTH states (so its own tick stays hidden) — same element, same column, so the
    active marker never jumps when toggling collapsed ↔ revealed; it just slides. */
-.side-nav.is-collapsed:not(.is-revealed) .nav-link__label { opacity: 0; }
+.side-nav.is-collapsed:not(.is-revealed) .nav-link__label {
+  max-width: 0;
+  margin-left: 0;
+  opacity: 0;
+}
 .side-nav.is-collapsed:not(.is-revealed) .nav-link::before {
   height: 0.7em;
   opacity: 0.4;
@@ -138,7 +148,10 @@
   opacity: 0;
 }
 
-/* Revealed (hovering the deck or the nav): labels return on a blurred panel. */
+/* Blurred panel wraps the nav in BOTH states: a slim rounded rail around the
+   dashes when minimized, expanding to fit the labels when revealed. (On About —
+   neither collapsed nor revealed — it stays transparent with full labels.) */
+.side-nav.is-collapsed,
 .side-nav.is-revealed {
   background: color-mix(in srgb, var(--color-bg) 72%, transparent);
   backdrop-filter: blur(14px) saturate(160%);

@@ -141,12 +141,14 @@ export function initDeck(): void {
   let lastSection = "";
   const setActive = (section: string) => {
     if (!section) return;
+    // Toggle collapsed/visible FIRST: on mobile the nav is display:none on About,
+    // so the indicator must be positioned AFTER the nav is shown — otherwise
+    // offsetTop reads 0 and the bar lands at the top, overlapping a tick.
+    sideNav?.classList.toggle("is-collapsed", section !== "about");
     if (section !== lastSection) {
       lastSection = section;
       setActiveNav(section, navLinks, indicator);
     }
-    // Full labels on About; collapse to dashes once we're in the deck.
-    sideNav?.classList.toggle("is-collapsed", section !== "about");
   };
   // Document-absolute, untransformed top (avoids transform feedback).
   const absTop = (el: HTMLElement): number => {
