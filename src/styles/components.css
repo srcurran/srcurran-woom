@@ -61,14 +61,22 @@
   top: 50%;
   translate: 0 -50%;
   z-index: var(--z-sidenav); /* above the cards, so it can come up over them */
-  /* Padding + matching negative margin: room for the reveal panel without
-     nudging the labels' resting position. */
+  /* Padding + matching negative margin: room for the panel without nudging the
+     content's resting x. Both shrink in the collapsed state (below) so the panel
+     hugs the slim dash rail; margin always = -padding so the dashes never move. */
   padding: var(--space-md);
   margin: calc(-1 * var(--space-md));
   border-radius: var(--radius-lg);
   background: transparent;
   transition: background var(--duration-base) var(--ease-out),
-              backdrop-filter var(--duration-base) var(--ease-out);
+              backdrop-filter var(--duration-base) var(--ease-out),
+              padding var(--duration-base) var(--ease-out),
+              margin var(--duration-base) var(--ease-out);
+}
+/* Minimized: tighter padding so the panel is a slim rail around the dashes. */
+.side-nav.is-collapsed:not(.is-revealed) {
+  padding: var(--space-xs);
+  margin: calc(-1 * var(--space-xs));
 }
 .side-nav__list {
   position: relative;
