@@ -1,0 +1,35 @@
+---
+import Layout from "../layouts/Layout.astro";
+import TopNav from "../components/TopNav.astro";
+import SideNav from "../components/SideNav.astro";
+import Hero from "../components/Hero.astro";
+import Deck from "../components/Deck.astro";
+import { site, footerLinks } from "../data/site";
+---
+
+<Layout>
+  <TopNav />
+  <SideNav />
+
+  <main>
+    <Hero />
+    <Deck />
+  </main>
+
+  {/* End — headline + links */}
+  <footer class="site-footer page" id="end">
+    <div class="stack gap-lg">
+      <h2 class="h1 measure">Let's make something worth shipping.</h2>
+      <nav class="footer-links flex row" aria-label="Elsewhere">
+        {
+          footerLinks.map((link) => (
+            <a class="footer-link" href={link.href}>
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+      <p class="caption">© {site.name}. Built with Astro + GSAP.</p>
+    </div>
+  </footer>
+</Layout>

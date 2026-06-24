@@ -1,0 +1,94 @@
+/* ============================================================================
+   TYPOGRAPHY — named, reusable text styles.
+   Apply directly: <p class="body-lg">, <h2 class="h2">, <span class="eyebrow">.
+   These are the *named* half of the system; layout utilities are the generic half.
+   ========================================================================== */
+
+.display {
+  font-size: var(--text-display);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.h1 {
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.h2 {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+}
+
+.h3 {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.h4 {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+/* Eyebrow / small-caps label — e.g. "CARD CONTENT". */
+.eyebrow {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+.body-lg {
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+}
+
+.body {
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+}
+
+.body-sm {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.caption {
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+  color: var(--color-ink-subtle);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* --- Color / weight modifiers (compose onto any text) --------------------- */
+.text-muted  { color: var(--color-ink-muted); }
+.text-subtle { color: var(--color-ink-subtle); }
+.text-accent { color: var(--color-accent); }
+
+.fw-regular  { font-weight: var(--weight-regular); }
+.fw-medium   { font-weight: var(--weight-medium); }
+.fw-semibold { font-weight: var(--weight-semibold); }
+.fw-bold     { font-weight: var(--weight-bold); }
+
+/* --- Prose: vertical rhythm for free-flowing copy ------------------------- */
+.prose {
+  max-width: var(--measure);
+}
+.prose > * + * {
+  margin-top: var(--space-sm);
+}
+.prose > * + :is(h2, h3, h4, .h2, .h3, .h4) {
+  margin-top: var(--space-lg);
+}

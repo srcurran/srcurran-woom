@@ -1,0 +1,73 @@
+/* ============================================================================
+   RESPONSIVE — desktop-first. The coverflow is a desktop experience; below the
+   nav breakpoint the side nav is hidden and the deck falls back to a plain
+   vertical list (JS adds `.is-static`).
+   ========================================================================== */
+
+/* Side nav stays visible on narrow screens — but as the compact dash rail only
+   (full labels would overlap the content). It hugs the left edge so the dashes
+   clear the copy; tap/hover still reveals the labels via `.is-revealed`. */
+@media (max-width: 1024px) {
+  .side-nav { left: var(--space-2xs); }
+  .side-nav:not(.is-revealed) .nav-link__label { opacity: 0; pointer-events: none; }
+  .side-nav:not(.is-revealed) .nav-link::before { height: 0.7em; opacity: 0.4; }
+  /* Active section is marked by the shared indicator bar (visible in both states),
+     so its own tick stays hidden — keeps the active marker consistent. */
+  .side-nav:not(.is-revealed) .nav-link.is-active::before { height: 0; opacity: 0; }
+}
+
+/* --- Tablet ( <= 960px ) -------------------------------------------------- */
+@media (max-width: 960px) {
+  :root {
+    --page-padding-x: var(--space-lg);
+    --space-3xl: 5rem;
+  }
+  .deck__card { width: 78vw; }
+}
+
+/* Cards (width-driven for a true 16:9) need to widen on small screens. */
+@media (max-width: 760px) {
+  .deck__card { width: 90vw; }
+
+  /* The hero copy is taller than the viewport here, so centring overflows UP
+     under the fixed header (headline collides with the brand). Start it below
+     the header instead. */
+  .hero {
+    justify-content: flex-start;
+    padding-top: calc(var(--header-height) + var(--space-md));
+    padding-bottom: var(--space-xl);
+  }
+
+  /* A 16:9 card at 90vw is short, so 4 stack into view at once. A big,
+     vh-proportional gap keeps the count to ~3 — the centred (scaled, undimmed)
+     active card plus a peek of each neighbour — so the active one is obvious. */
+  .deck__viewport { gap: 22vh; }
+
+  /* The full-width About copy reaches the left edge, so the dash rail collides
+     with the bio text. Only surface the rail once we're in the deck (where the
+     cards are inset and clear of it) — i.e. when a section is active
+     (`.is-collapsed`), not on the hero. */
+  .side-nav:not(.is-collapsed) { display: none; }
+}
+
+/* --- Phone ( <= 600px ) --------------------------------------------------- */
+@media (max-width: 600px) {
+  :root {
+    --page-padding-x: var(--space-md);
+    --header-height: 3.75rem;
+  }
+
+  .brand {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* Let the glow bleed fully behind the smaller hero. */
+  .hero__glow {
+    width: 140vw;
+    height: 140vw;
+    right: -20%;
+  }
+
+  .footer-link { font-size: var(--text-base); }
+}

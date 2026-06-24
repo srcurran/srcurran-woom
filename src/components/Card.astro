@@ -1,0 +1,92 @@
+---
+import type { Slide } from "../data/site";
+
+interface Props {
+  slide: Slide;
+  index: number;
+}
+
+const { slide, index } = Astro.props;
+const theme = slide.theme ?? "light";
+const media = slide.media?.[0];
+
+/** __phrase__ → underlined emphasis (not a link). */
+function emphasize(text: string): string {
+  return text.replace(/__([^_]+)__/g, '<u class="slide__em">$1</u>');
+}
+---
+
+<article
+  class:list={["deck__card", "slide", `slide--${slide.kind}`, `slide--${theme}`]}
+  data-card
+  data-index={index}
+  data-section={slide.section}
+>
+  {
+    slide.kind === "bio" && (
+      <div class="slide__inner">
+        <h2 class="slide__heading">{slide.heading}</h2>
+        <div class="slide__prose">
+          {slide.paragraphs?.map((p) => <p set:html={emphasize(p)} />)}
+        </div>
+      </div>
+    )
+  }
+
+  {
+    slide.kind === "intro" && (
+      <div class="slide__inner slide__inner--intro">
+        <div class="slide__text">
+          <h2 class="slide__heading">{slide.heading}</h2>
+          <div class="slide__prose">
+            {slide.paragraphs?.map((p) => <p set:html={emphasize(p)} />)}
+          </div>
+        </div>
+        {media && (
+          <div class="slide__device" data-parallax>
+            {media.type === "video" ? (
+              <video src={media.src} autoplay muted loop playsinline />
+            ) : (
+              <img src={media.src} alt={media.alt ?? ""} />
+            )}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  {
+    slide.kind === "mockup" && media && (
+      <div class="slide__aperture" data-aperture>
+        <div class="slide__mockup">
+          {slide.heading && <p class="slide__mockup-heading">{slide.heading}</p>}
+          <div
+            class:list={["slide__shots", `count-${(slide.media ?? []).length}`]}
+            data-parallax
+          >
+            {(slide.media ?? []).map((m) => (
+              <figure class="slide__shot">
+                {m.type === "video" ? (
+                  <video src={m.src} autoplay muted loop playsinline />
+                ) : (
+                  <img src={m.src} alt={m.alt ?? ""} />
+                )}
+              </figure>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  {
+    slide.kind === "results" && (
+      <div class="slide__inner">
+        <h2 class="slide__heading">{slide.heading}</h2>
+        <ul class="slide__results">
+          {slide.items?.map((item) => <li set:html={emphasize(item)} />)}
+        </ul>
+      </div>
+    )
+  }
+</article>

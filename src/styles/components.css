@@ -1,0 +1,195 @@
+/* ============================================================================
+   COMPONENTS — specific, named building blocks for the dark gallery stage.
+   Card + deck visuals live in deck.css; this file is chrome: nav, buttons,
+   footer. Extend with modifier classes: <a class="button small warning">.
+   ========================================================================== */
+
+/* --- App shell ------------------------------------------------------------ */
+.page {
+  width: 100%;
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  padding-inline: var(--page-padding-x);
+}
+
+/* --- Top navigation (fixed; transparent over hero, tints once scrolled) --- */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: var(--z-header);
+  min-height: var(--header-height);
+  color: var(--color-ink);
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background var(--duration-base) var(--ease-out),
+              border-color var(--duration-base) var(--ease-out);
+}
+.site-header.is-scrolled {
+  background: color-mix(in srgb, var(--color-bg) 55%, transparent);
+  backdrop-filter: saturate(160%) blur(14px);
+  border-bottom-color: var(--color-border);
+}
+.site-header__inner {
+  min-height: var(--header-height);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  align-items: baseline;
+  gap: var(--space-sm);
+}
+.brand__name {
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-tight);
+}
+.brand__role { color: var(--color-ink-muted); }
+
+.header-link {
+  font-weight: var(--weight-medium);
+  color: var(--color-ink-muted);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.header-link:hover { color: var(--color-ink); }
+
+/* --- Side navigation (fixed left, vertically centred) ---------------------
+   Three states: full labels on About; collapses to dashes in the deck; comes
+   back up as a blurred panel when the deck (or the nav itself) is hovered. */
+.side-nav {
+  position: fixed;
+  left: var(--page-padding-x);
+  top: 50%;
+  translate: 0 -50%;
+  z-index: var(--z-sidenav); /* above the cards, so it can come up over them */
+  /* Padding + matching negative margin: room for the reveal panel without
+     nudging the labels' resting position. */
+  padding: var(--space-md);
+  margin: calc(-1 * var(--space-md));
+  border-radius: var(--radius-lg);
+  background: transparent;
+  transition: background var(--duration-base) var(--ease-out),
+              backdrop-filter var(--duration-base) var(--ease-out);
+}
+.side-nav__list {
+  position: relative;
+}
+/* Single tracker rectangle that SLIDES between the active links (label mode). */
+.side-nav__indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 1.1em;
+  border-radius: 2px;
+  background: var(--color-ink);
+  opacity: 0;
+  transform: translateY(0);
+  transition: transform var(--duration-base) var(--ease-out),
+              opacity var(--duration-base) var(--ease-out);
+  will-change: transform;
+}
+.side-nav__indicator.is-visible { opacity: 1; }
+
+.nav-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: var(--space-2xs) 0;
+  color: var(--color-ink-muted);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.nav-link:hover { color: var(--color-ink); }
+.nav-link.is-active {
+  color: var(--color-ink);
+  font-weight: var(--weight-semibold);
+}
+/* The dash — a short VERTICAL bar, mirroring the resolved indicator. Height 0 in
+   label mode (no effect); grows when collapsed, taller + darker when active. */
+.nav-link::before {
+  content: "";
+  flex: none;
+  width: 3px;
+  height: 0;
+  border-radius: 2px;
+  background: currentColor;
+  opacity: 0;
+  transition: height var(--duration-base) var(--ease-out),
+              opacity var(--duration-base) var(--ease-out);
+}
+.nav-link__label {
+  /* Clears the shared marker column (dash/indicator live at the list's left
+     edge); the dash itself stays 3px wide even when collapsed so this never
+     shifts. */
+  margin-left: var(--space-sm);
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+/* Collapsed (in the deck, idle): labels fade out; INACTIVE sections show a faint
+   tick. The ACTIVE section is marked by the shared `.side-nav__indicator` bar in
+   BOTH states (so its own tick stays hidden) — same element, same column, so the
+   active marker never jumps when toggling collapsed ↔ revealed; it just slides. */
+.side-nav.is-collapsed:not(.is-revealed) .nav-link__label { opacity: 0; }
+.side-nav.is-collapsed:not(.is-revealed) .nav-link::before {
+  height: 0.7em;
+  opacity: 0.4;
+}
+.side-nav.is-collapsed:not(.is-revealed) .nav-link.is-active::before {
+  height: 0;
+  opacity: 0;
+}
+
+/* Revealed (hovering the deck or the nav): labels return on a blurred panel. */
+.side-nav.is-revealed {
+  background: color-mix(in srgb, var(--color-bg) 72%, transparent);
+  backdrop-filter: blur(14px) saturate(160%);
+}
+
+/* --- Button --------------------------------------------------------------- */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-md);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  line-height: 1;
+  background: var(--color-ink);
+  color: var(--color-on-ink);
+  border: 1px solid var(--color-ink);
+  transition: background var(--duration-fast) var(--ease-out),
+              color var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out);
+}
+.button:hover { transform: translateY(-1px); }
+.button:active { transform: translateY(0); }
+.button.small { padding: var(--space-3xs) var(--space-sm); font-size: var(--text-xs); }
+.button.large { padding: var(--space-xs) var(--space-lg); font-size: var(--text-base); }
+.button.ghost {
+  background: transparent;
+  color: var(--color-ink);
+  border-color: var(--color-border-strong);
+}
+.button.ghost:hover { border-color: var(--color-ink); }
+.button.warning {
+  background: var(--color-warning);
+  border-color: var(--color-warning);
+  color: var(--color-on-accent);
+}
+.button.warning:hover { background: var(--color-warning-hover); border-color: var(--color-warning-hover); }
+
+/* --- Footer / end --------------------------------------------------------- */
+.site-footer {
+  position: relative;
+  z-index: 1;
+  padding-block: var(--space-3xl) var(--space-2xl);
+  background: var(--color-bg);
+}
+.footer-links { flex-wrap: wrap; gap: var(--space-md); }
+.footer-link {
+  font-size: var(--text-lg);
+  color: var(--color-ink-muted);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.footer-link:hover { color: var(--color-ink); }

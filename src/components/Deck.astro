@@ -1,0 +1,10 @@
+---
+import Card from "./Card.astro";
+import { slides } from "../data/site";
+---
+
+<section class="deck" data-deck aria-label="Selected work">
+  <div class="deck__viewport" data-deck-viewport>
+    {slides.map((slide, i) => <Card slide={slide} index={i} />)}
+  </div>
+</section>

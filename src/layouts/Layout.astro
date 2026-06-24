@@ -1,0 +1,45 @@
+---
+import "../styles/global.css";
+import { site } from "../data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `${site.name} — ${site.role}`,
+  description = `Portfolio of ${site.name}, ${site.role}.`,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+
+    {/* Type system from the Figma: Poppins (display) + Merriweather (serif body). */}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400&family=Poppins:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    {/* Flag JS as available before paint so reveal elements hide without a flash. */}
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
+  </head>
+  <body>
+    <slot />
+
+    <script>
+      import "../scripts/main";
+    </script>
+  </body>
+</html>

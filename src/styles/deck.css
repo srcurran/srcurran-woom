@@ -1,0 +1,253 @@
+/* ============================================================================
+   DECK + HERO — the gallery experience.
+   A full-viewport hero (animated gradient + typewriter) above a "deck": a
+   vertical column of evenly-spaced cards. Each card tilts in 3D by its distance
+   from the viewport centre — flat + largest at centre, rotated back above/below.
+   Real gaps between cards mean they never overlap (no z-stacking, no transparent
+   cross-fades needed). Free scroll; rotation is applied per card in deck.ts.
+   ========================================================================== */
+
+/* --- First-load intro guard ----------------------------------------------
+   Hide the targets the intro timeline (intro.ts) animates in, BEFORE paint, so
+   they don't pop in then jump. Gated on `.js` (set pre-paint in Layout) +
+   motion-ok, so no-JS and reduced-motion render everything immediately. GSAP
+   clears the opacity as it fades each one in. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .hero__headline,
+  .js .hero__bio p,
+  .js .site-header,
+  .js .side-nav {
+    opacity: 0;
+  }
+}
+
+/* --- HERO (a static, centred intro on the canvas) ------------------------- */
+.hero {
+  position: relative;
+  /* Full height so the About content centres vertically (centre at 50vh). */
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: var(--page-padding-x);
+  background: var(--color-bg);
+}
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md);
+  max-width: 62ch;
+  text-align: left;
+}
+.hero__eyebrow { color: var(--color-ink-muted); }
+.hero__headline {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: var(--tracking-tight);
+}
+.hero__bio {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  max-width: 56ch;
+}
+.hero__bio p {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+}
+
+/* --- DECK (vertical column of spaced, tilting cards) ---------------------- */
+.deck {
+  position: relative;
+  background: var(--color-bg);
+}
+.deck__viewport {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Gap between cards — small enough that the neighbours peek into view when a
+     card is centred (the "hint"), big enough they never collide. */
+  gap: clamp(2.5rem, 7vh, 7rem);
+  /* No top room (first card peeks under the 70vh hero); tail room so the last
+     card can still reach the centre. */
+  padding-block: 0 30vh;
+}
+
+/* --- Sticky scroll-snap (desktop, motion-ok) -----------------------------
+   Native mandatory snap: the scroll rests on a card and resists until you flick
+   past it. `scroll-snap-stop: always` makes that a deliberate, one-card move.
+   scroll-padding:0 so a centred card lands with its centre at 50vh. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-snap-type: y mandatory;
+    scroll-padding: 0;
+  }
+  .hero {
+    scroll-snap-align: center;
+  }
+  .deck__card {
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+}
+
+/* --- CARD / SLIDE --------------------------------------------------------
+   Each card is a 16:9 slide rebuilt from Figma. `container-type: size` lets the
+   slide content scale in container-query units: 1cqw ≈ 19.2 Figma px (slides are
+   1920px wide), so the layout matches the source at any card size. */
+.deck__card {
+  position: relative;
+  /* Width-driven for a true 16:9, but ALSO capped by height (the calc term) so a
+     card never exceeds ~54svh — it always fits the viewport with room for the
+     neighbours to peek, and a centred card's top stays below the exit line. */
+  width: min(90vw, 1180px, calc(54svh * 16 / 9));
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--elevation-3);
+  backface-visibility: hidden;
+  will-change: transform;
+  container-type: size;
+  z-index: var(--z-overlay); /* cards sit above the fixed side nav */
+}
+
+/* Dimming scrim — mixes the stage colour over the card as it leaves off the top
+   (driven by --dim from deck.ts). The card stays fully opaque, so it never
+   reveals the cards behind it; it just recedes into the stage. */
+.deck__card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--color-bg);
+  opacity: var(--dim, 0);
+  pointer-events: none;
+}
+
+/* Slide themes (the source mixes dark + light). */
+.slide--light { background: #ffffff; color: var(--gray-950); }
+.slide--dark  { background: var(--color-notblack); color: #ffffff; }
+
+/* Content scaffold — padded flex; sizing in cqw mirrors the 1920px source. */
+.slide__inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 7cqw 8.75cqw; /* Figma left margin 168px = 8.75cqw */
+}
+.slide__heading {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 5.7cqw;        /* 109px */
+  line-height: 1.15;
+  letter-spacing: -0.1cqw;  /* ~-2px */
+}
+.slide__prose {
+  margin-top: 2.4cqw;
+  max-width: 47cqw;         /* 889px */
+}
+.slide__prose p {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: 2.2cqw;        /* 42px */
+  line-height: 1.4;
+}
+.slide__prose p + p { margin-top: 1.4cqw; }
+
+/* Bio — wider measure for the longer paragraphs. */
+.slide--bio .slide__prose { max-width: 68cqw; }
+
+/* Project intro — text left, device mockup bleeding off the right. */
+.slide__inner--intro { position: relative; }
+.slide__inner--intro .slide__text { max-width: 50cqw; }
+.slide__device {
+  position: absolute;
+  top: -4cqw;              /* bleed off the top, per the source */
+  right: -3cqw;            /* bleed off the right edge */
+  height: 64cqw;           /* taller than the 56.25cqw card → bleeds top + bottom */
+  will-change: transform;
+}
+.slide__device :is(img, video) {
+  display: block;
+  height: 100%;
+  width: auto;
+}
+
+/* Mockup — a small HTML heading + the designed visual with its baked heading
+   cropped off. `.slide__aperture` is what the stack counter-scales (deck.ts), so
+   the content holds a fixed size while the card frame opens/closes around it. */
+.slide--mockup { background: #ffffff; }
+.slide__aperture {
+  position: absolute;
+  inset: 0;
+  transform-origin: center center;
+}
+.slide__mockup {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2cqw;
+  padding: 5cqw 6cqw;
+}
+.slide__mockup-heading {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2.5cqw;          /* smaller than the source's baked 68px header */
+  letter-spacing: -0.05cqw;
+  color: var(--gray-950);
+}
+/* One or more clean content images (titles already removed at export), laid out
+   in a centred row and contained to fit. */
+.slide__shots {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5cqw;
+}
+.slide__shot {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slide__shot :is(img, video) {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+}
+
+/* Results — heading + serif list (slightly larger, per the source). */
+.slide__results {
+  margin-top: 2.4cqw;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4cqw;
+}
+.slide__results li {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: 2.5cqw;
+  line-height: 1.25;
+  max-width: 82cqw;
+}
+
+/* Emphasis (not a link) — used via __underscores__ in copy. */
+.slide__em {
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.14em;
+}

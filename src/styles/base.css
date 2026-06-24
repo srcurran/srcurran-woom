@@ -1,0 +1,37 @@
+/* ============================================================================
+   BASE — default look of bare elements, expressed through tokens.
+   Anything here is the "no class needed" baseline.
+   ========================================================================== */
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-regular);
+  color: var(--color-ink);
+  background-color: var(--color-bg);
+}
+
+/* Inline links inside prose. Standalone nav/button links opt out via class. */
+.prose a,
+a.link {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  text-decoration-thickness: 1px;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.prose a:hover,
+a.link:hover {
+  color: var(--color-accent-hover);
+}
+
+::selection {
+  background: var(--color-ink);
+  color: var(--color-on-ink);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+}

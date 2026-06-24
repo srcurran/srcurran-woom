@@ -1,0 +1,136 @@
+/* ============================================================================
+   TOKENS — the single source of truth.
+   Everything visual (color, type, spacing, elevation, motion) resolves to a
+   variable defined here. Change the system from this one file.
+   ========================================================================== */
+
+:root {
+  /* --- Raw palette ---------------------------------------------------------
+     Primitive values. Prefer the *semantic* tokens below in actual CSS; only
+     reach for these when defining a new semantic token. */
+  --gray-0:   #ffffff;
+  --gray-50:  #f6f6f6;
+  --gray-100: #ededed;
+  --gray-200: #e2e2e2;
+  --gray-300: #cfcfcf;
+  --gray-400: #b3b3b3;
+  --gray-500: #8a8a8a;
+  --gray-600: #6b6b6b;
+  --gray-700: #4a4a4a;
+  --gray-800: #2a2a2a;
+  --gray-900: #141414;
+  --gray-950: #0a0a0a;
+
+  /* Single accent hue. The design is monochrome by default — accent is used
+     sparingly (hover, focus, active marker). Repoint this one line to colorize. */
+  --accent-500: #2f4cdd;
+  --accent-600: #2540c4;
+
+  --warning-500: #c2410c;
+  --warning-600: #9a3412;
+
+  /* --- Semantic color ------------------------------------------------------
+     The site is a LIGHT gallery stage (matching the Figma). Cards are white
+     frames; their media wells use --color-placeholder. Dark image cards
+     (`.is-dark`) re-scope these tokens locally in deck.css so overlaid text
+     flips light. */
+  --color-bg:           #e9e9ea;          /* light gallery stage */
+  --color-surface:      #f4f4f5;          /* slightly raised panels */
+  --color-surface-alt:  #ffffff;
+  --color-ink:          #0d0d0f;           /* primary text */
+  --color-ink-muted:    #5c5c63;           /* secondary text */
+  --color-ink-subtle:   #8a8a90;           /* tertiary / meta */
+  --color-border:       rgba(0, 0, 0, 0.12);
+  --color-border-strong:rgba(0, 0, 0, 0.22);
+  --color-placeholder:  #d2d2d4;           /* gray media stand-ins */
+  --color-notblack:     #1a1919;           /* dark slide background (Figma token) */
+  --color-accent:       var(--accent-500);
+  --color-accent-hover: var(--accent-600);
+  --color-warning:      var(--warning-500);
+  --color-warning-hover:var(--warning-600);
+
+  /* On-color text */
+  --color-on-ink:    var(--gray-0);        /* light text on a dark fill (e.g. .button) */
+  --color-on-accent: var(--gray-0);
+
+  /* --- Typography ----------------------------------------------------------
+     Swap --font-sans for a webfont (e.g. Inter) in one place to restyle. */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+               Arial, "Helvetica Neue", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+               "Liberation Mono", monospace;
+  /* Slide type system (from the Figma): bold display + editorial serif body. */
+  --font-display: "Poppins", var(--font-sans);
+  --font-serif: "Merriweather", Georgia, "Times New Roman", serif;
+
+  /* Modular type scale (base = 16px). */
+  --text-xs:      0.75rem;   /* 12 */
+  --text-sm:      0.875rem;  /* 14 */
+  --text-base:    1rem;      /* 16 */
+  --text-md:      1.125rem;  /* 18 */
+  --text-lg:      1.375rem;  /* 22 */
+  --text-xl:      1.75rem;   /* 28 */
+  --text-2xl:     2.25rem;   /* 36 */
+  --text-3xl:     3rem;      /* 48 */
+  --text-display: clamp(3rem, 6vw, 4.75rem); /* fluid hero headline */
+
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semibold:600;
+  --weight-bold:    700;
+
+  --leading-tight:  1.1;
+  --leading-snug:   1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed:1.7;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide:  0.08em;  /* eyebrows / small caps labels */
+
+  /* Comfortable reading line-length */
+  --measure: 64ch;
+
+  /* --- Spacing scale ------------------------------------------------------- */
+  --space-3xs: 0.25rem;  /* 4  */
+  --space-2xs: 0.5rem;   /* 8  */
+  --space-xs:  0.75rem;  /* 12 */
+  --space-sm:  1rem;     /* 16 */
+  --space-md:  1.5rem;   /* 24 */
+  --space-lg:  2rem;     /* 32 */
+  --space-xl:  3rem;     /* 48 */
+  --space-2xl: 4.5rem;   /* 72 */
+  --space-3xl: 7rem;     /* 112 */
+
+  /* --- Radii --------------------------------------------------------------- */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   16px;
+  --radius-full: 999px;
+
+  /* --- Elevation ----------------------------------------------------------- */
+  --elevation-0: none;
+  --elevation-1: 0 1px 2px rgba(10, 10, 10, 0.06), 0 1px 3px rgba(10, 10, 10, 0.08);
+  --elevation-2: 0 4px 12px rgba(10, 10, 10, 0.08), 0 2px 4px rgba(10, 10, 10, 0.06);
+  --elevation-3: 0 16px 40px rgba(10, 10, 10, 0.12), 0 4px 10px rgba(10, 10, 10, 0.08);
+
+  /* --- Motion -------------------------------------------------------------- */
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 600ms;
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);   /* expo-out: snappy entrances */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* --- Layout -------------------------------------------------------------- */
+  --layout-max:     1600px;  /* outer content cap */
+  --page-padding-x: var(--space-xl);
+  --sidenav-width:  220px;
+  --header-height:  4.5rem;
+
+  /* --- Z-index ------------------------------------------------------------- */
+  --z-base:    0;
+  --z-nav:     100;
+  --z-overlay: 200;  /* deck cards */
+  --z-sidenav: 250;  /* side nav — above the cards (so it can come up over them) */
+  --z-header:  300;  /* top nav — above everything */
+}
