@@ -57,7 +57,6 @@ export function initDeck(): void {
   const navLinks = Array.from(
     document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]"),
   );
-  const indicator = document.querySelector<HTMLElement>("[data-nav-indicator]");
   const sideNav = document.querySelector<HTMLElement>("[data-side-nav]");
 
   viewport.classList.add("is-ready");
@@ -137,19 +136,29 @@ export function initDeck(): void {
   }
 
   // Active section: About while we're still up in the hero, otherwise the card
-  // nearest the viewport centre.
+  // nearest the viewport centre. The nav adapts to avoid colliding with content:
+  //  • In the deck → the compact dash rail (always; it's slim + edge-hugging).
+  //  • On About, WIDE (>1024) → full labels (room beside the centred hero).
+  //  • On About, MEDIUM (≤1024) → dash rail (full labels would overlap the copy).
+  //  • On About, PHONE (≤760) → hidden entirely (CSS, via `.is-about`).
+  // 1024 matches the side-nav left-offset breakpoint, so the offset and the
+  // labels flip together.
   let lastSection = "";
+  const syncNav = () => {
+    const onAbout = lastSection === "about";
+    sideNav?.classList.toggle("is-about", onAbout);
+    sideNav?.classList.toggle("is-collapsed", !onAbout || window.innerWidth <= 1024);
+  };
   const setActive = (section: string) => {
     if (!section) return;
-    // Toggle collapsed/visible FIRST: on mobile the nav is display:none on About,
-    // so the indicator must be positioned AFTER the nav is shown — otherwise
-    // offsetTop reads 0 and the bar lands at the top, overlapping a tick.
-    sideNav?.classList.toggle("is-collapsed", section !== "about");
     if (section !== lastSection) {
       lastSection = section;
-      setActiveNav(section, navLinks, indicator);
+      setActiveNav(section, navLinks);
     }
+    syncNav();
   };
+  // Re-evaluate the width-dependent mode on resize.
+  window.addEventListener("resize", syncNav, { passive: true });
   // Document-absolute, untransformed top (avoids transform feedback).
   const absTop = (el: HTMLElement): number => {
     let y = 0;
@@ -222,20 +231,9 @@ export function initDeck(): void {
   ScrollTrigger.refresh();
 }
 
-function setActiveNav(
-  sectionId: string,
-  links: HTMLAnchorElement[],
-  indicator: HTMLElement | null,
-): void {
-  let active: HTMLElement | undefined;
+// Mark the active link; CSS emphasises its dash (the active marker).
+function setActiveNav(sectionId: string, links: HTMLAnchorElement[]): void {
   for (const link of links) {
-    const on = link.dataset.navLink === sectionId;
-    link.classList.toggle("is-active", on);
-    if (on) active = link;
+    link.classList.toggle("is-active", link.dataset.navLink === sectionId);
   }
-  if (!active || !indicator) return;
-
-  const mid = active.offsetTop + active.offsetHeight / 2 - indicator.offsetHeight / 2;
-  indicator.style.transform = `translateY(${mid}px)`;
-  indicator.classList.add("is-visible");
 }

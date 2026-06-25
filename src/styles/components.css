@@ -7,7 +7,6 @@
 /* --- App shell ------------------------------------------------------------ */
 .page {
   width: 100%;
-  max-width: var(--layout-max);
   margin-inline: auto;
   padding-inline: var(--page-padding-x);
 }
@@ -46,11 +45,71 @@
 .brand__role { color: var(--color-ink-muted); }
 
 .header-link {
+  padding: 0; /* also used on a <button> invoker — strip default button padding */
   font-weight: var(--weight-medium);
   color: var(--color-ink-muted);
   transition: color var(--duration-fast) var(--ease-out);
 }
 .header-link:hover { color: var(--color-ink); }
+
+/* --- Contact menu (popover under the top-nav "Contact" button) ------------
+   Native popover: top-layer, with built-in light-dismiss (click-away) + Esc.
+   Positioned fixed under the header, right-aligned with the button. */
+.contact-menu {
+  position: fixed;
+  top: calc(var(--header-height) - var(--space-sm));
+  right: var(--space-sm);
+  left: auto;
+  bottom: auto;
+  margin: 0;
+  min-width: 14rem;
+  padding: var(--space-2xs);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-bg) 50%, transparent);
+  backdrop-filter: blur(16px) saturate(160%);
+  box-shadow: var(--elevation-3);
+  color: var(--color-ink);
+  /* Closed → open fade + slide (popover is display:none when closed, so the
+     discrete display/overlay steps are allowed; degrades to an instant show). */
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out),
+              overlay var(--duration-fast) var(--ease-out) allow-discrete,
+              display var(--duration-fast) var(--ease-out) allow-discrete;
+}
+.contact-menu:popover-open {
+  opacity: 1;
+  transform: translateY(0);
+}
+@starting-style {
+  .contact-menu:popover-open {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+.contact-menu__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-end
+}
+.contact-menu__link {
+  display: block;
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  color: var(--color-ink-muted);
+  white-space: nowrap;
+  transition: background var(--duration-fast) var(--ease-out),
+              color var(--duration-fast) var(--ease-out);
+}
+.contact-menu__link:hover,
+.contact-menu__link:focus-visible {
+  background: color-mix(in srgb, var(--color-ink) 7%, transparent);
+  color: var(--color-ink);
+}
 
 /* --- Side navigation (fixed left, vertically centred) ---------------------
    Three states: full labels on About; collapses to dashes in the deck; comes
@@ -61,48 +120,32 @@
   top: 50%;
   translate: 0 -50%;
   z-index: var(--z-sidenav); /* above the cards, so it can come up over them */
-  /* Padding + matching negative margin: room for the panel without nudging the
-     content's resting x. Both shrink in the collapsed state (below) so the panel
-     hugs the slim dash rail; margin always = -padding so the dashes never move. */
+  /* Padding + matching negative HORIZONTAL margin: room for the panel without
+     nudging the dashes' resting x (margin-left = -padding-left). Only the side
+     padding shrinks when collapsed (slim rail); the vertical padding stays fixed
+     so the centred box never changes height — a vertical margin here would, with
+     `translate:-50%`, shift the content up/down as the padding changes on hover. */
   padding: var(--space-md);
-  margin: calc(-1 * var(--space-md));
+  margin-inline: calc(-1 * var(--space-md));
   border-radius: var(--radius-lg);
   background: transparent;
   transition: background var(--duration-base) var(--ease-out),
               backdrop-filter var(--duration-base) var(--ease-out),
               padding var(--duration-base) var(--ease-out),
-              margin var(--duration-base) var(--ease-out);
+              margin-inline var(--duration-base) var(--ease-out);
 }
-/* Minimized: tighter padding so the panel is a slim rail around the dashes. */
+/* Minimized: tighter SIDE padding so the panel is a slim rail around the dashes
+   (vertical padding unchanged → no vertical shift on reveal). */
 .side-nav.is-collapsed:not(.is-revealed) {
-  padding: var(--space-xs);
-  margin: calc(-1 * var(--space-xs));
+  padding-inline: var(--space-xs);
+  margin-inline: calc(-1 * var(--space-xs));
 }
-.side-nav__list {
-  position: relative;
-}
-/* Single tracker rectangle that SLIDES between the active links (label mode). */
-.side-nav__indicator {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 3px;
-  height: 1.1em;
-  border-radius: 2px;
-  background: var(--color-ink);
-  opacity: 0;
-  transform: translateY(0);
-  transition: transform var(--duration-base) var(--ease-out),
-              opacity var(--duration-base) var(--ease-out);
-  will-change: transform;
-}
-.side-nav__indicator.is-visible { opacity: 1; }
-
 .nav-link {
-  position: relative;
   display: flex;
   align-items: center;
-  padding: var(--space-2xs) 0;
+  /* Reserve a full text line so the row height is the SAME whether the label is
+     shown or hidden — otherwise revealing the text would grow the row. */
+  min-height: calc(var(--leading-normal) * 1em + var(--space-2xs));
   color: var(--color-ink-muted);
   transition: color var(--duration-fast) var(--ease-out);
 }
@@ -111,48 +154,40 @@
   color: var(--color-ink);
   font-weight: var(--weight-semibold);
 }
-/* The dash — a short VERTICAL bar, mirroring the resolved indicator. Height 0 in
-   label mode (no effect); grows when collapsed, taller + darker when active. */
-.nav-link::before {
-  content: "";
+/* Structural vertical dash — shown in EVERY state (the rail), all one size. The
+   active section's dash is full-strength (the marker); inactive ones are faint.
+   Same element + column + size everywhere, so it never shifts — only its opacity
+   changes between active/inactive. */
+.nav-link__dash {
   flex: none;
   width: 3px;
-  height: 0;
+  height: 0.9em;
   border-radius: 2px;
   background: currentColor;
-  opacity: 0;
-  transition: height var(--duration-base) var(--ease-out),
-              opacity var(--duration-base) var(--ease-out);
+  opacity: 0.35;
+  transition: opacity var(--duration-base) var(--ease-out);
 }
+.nav-link.is-active .nav-link__dash {
+  opacity: 1;
+}
+/* Label — just shown/hidden. Removing it from layout (display:none) lets the nav
+   shrink to the dash rail when minimized; it returns when expanded/revealed. */
 .nav-link__label {
-  /* Clears the shared marker column (dash/indicator live at the list's left
-     edge). Collapses to zero width when minimized (below) so the nav — and the
-     panel behind it — shrinks to a slim rail around the dashes, then expands to
-     fit the labels when revealed. */
-  margin-left: var(--space-sm);
+  margin-left: var(--space-sm); /* dash → label gap; collapses with the label */
   max-width: 12rem;
   overflow: hidden;
   white-space: nowrap;
+  line-height: var(--leading-normal); /* matches the row's reserved min-height */
   transition: max-width var(--duration-base) var(--ease-out),
               margin-left var(--duration-base) var(--ease-out),
               opacity var(--duration-base) var(--ease-out);
 }
-
-/* Collapsed (in the deck, idle): labels fade out; INACTIVE sections show a faint
-   tick. The ACTIVE section is marked by the shared `.side-nav__indicator` bar in
-   BOTH states (so its own tick stays hidden) — same element, same column, so the
-   active marker never jumps when toggling collapsed ↔ revealed; it just slides. */
+/* Minimized: the label animates AWAY (width + fade) rather than vanishing, so
+   revealing it on hover is a smooth grow/fade — not an instant pop. The dash rail
+   stays put; the panel grows/shrinks with the label (padding also transitions). */
 .side-nav.is-collapsed:not(.is-revealed) .nav-link__label {
   max-width: 0;
   margin-left: 0;
-  opacity: 0;
-}
-.side-nav.is-collapsed:not(.is-revealed) .nav-link::before {
-  height: 0.7em;
-  opacity: 0.4;
-}
-.side-nav.is-collapsed:not(.is-revealed) .nav-link.is-active::before {
-  height: 0;
   opacity: 0;
 }
 

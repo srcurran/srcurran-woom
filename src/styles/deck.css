@@ -196,6 +196,7 @@
   padding: 5cqw 6cqw;
 }
 .slide__mockup-heading {
+  display: none;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 2.5cqw;          /* smaller than the source's baked 68px header */

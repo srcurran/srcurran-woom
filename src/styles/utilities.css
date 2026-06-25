@@ -42,6 +42,7 @@
 }
 
 /* --- Gap (shared by flex + grid) ------------------------------------------ */
+.gap-4xs { gap: var(--space-4xs); }
 .gap-3xs { gap: var(--space-3xs); }
 .gap-2xs { gap: var(--space-2xs); }
 .gap-xs  { gap: var(--space-xs); }

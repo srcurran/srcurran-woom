@@ -8,7 +8,7 @@
   /* --- Raw palette ---------------------------------------------------------
      Primitive values. Prefer the *semantic* tokens below in actual CSS; only
      reach for these when defining a new semantic token. */
-  --gray-0:   #ffffff;
+  --gray-0:   #fffffd;
   --gray-50:  #f6f6f6;
   --gray-100: #ededed;
   --gray-200: #e2e2e2;
@@ -34,7 +34,7 @@
      frames; their media wells use --color-placeholder. Dark image cards
      (`.is-dark`) re-scope these tokens locally in deck.css so overlaid text
      flips light. */
-  --color-bg:           #e9e9ea;          /* light gallery stage */
+  --color-bg:           var(--gray-0);          /* light gallery stage */
   --color-surface:      #f4f4f5;          /* slightly raised panels */
   --color-surface-alt:  #ffffff;
   --color-ink:          #0d0d0f;           /* primary text */
@@ -92,15 +92,16 @@
   --measure: 64ch;
 
   /* --- Spacing scale ------------------------------------------------------- */
-  --space-3xs: 0.25rem;  /* 4  */
-  --space-2xs: 0.5rem;   /* 8  */
-  --space-xs:  0.75rem;  /* 12 */
-  --space-sm:  1rem;     /* 16 */
-  --space-md:  1.5rem;   /* 24 */
-  --space-lg:  2rem;     /* 32 */
-  --space-xl:  3rem;     /* 48 */
-  --space-2xl: 4.5rem;   /* 72 */
-  --space-3xl: 7rem;     /* 112 */
+  --space-4xs: 0.125rem;  /* 2  */
+  --space-3xs: 0.25rem;   /* 4  */
+  --space-2xs: 0.5rem;    /* 8  */
+  --space-xs:  0.75rem;   /* 12 */
+  --space-sm:  1rem;      /* 16 */
+  --space-md:  1.5rem;    /* 24 */
+  --space-lg:  2rem;      /* 32 */
+  --space-xl:  3rem;      /* 48 */
+  --space-2xl: 4.5rem;    /* 72 */
+  --space-3xl: 7rem;      /* 112 */
 
   /* --- Radii --------------------------------------------------------------- */
   --radius-sm:   4px;

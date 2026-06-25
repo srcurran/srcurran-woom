@@ -1,16 +1,42 @@
 ---
-import { site } from "../data/site";
+import { site, contactLinks } from "../data/site";
 ---
 
 <header class="site-header">
   <div class="page site-header__inner flex row">
     <a class="brand flex row" href="/" aria-label={site.name}>
       <span class="brand__name">{site.name}</span>
-      <span class="brand__role body-sm">{site.role}</span>
+      <span class="brand__role">{site.role}</span>
     </a>
 
     <nav aria-label="Contact">
-      <a class="header-link" href={`mailto:${site.email}`}>Contact</a>
+      <button
+        class="header-link"
+        type="button"
+        popovertarget="contact-menu"
+        aria-haspopup="menu"
+      >
+        Contact
+      </button>
+      <div id="contact-menu" class="contact-menu" popover="auto">
+        <ul class="contact-menu__list">
+          {
+            contactLinks.map((link) => (
+              <li>
+                <a
+                  class="contact-menu__link"
+                  href={link.href}
+                  {...(link.external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
     </nav>
   </div>
 </header>

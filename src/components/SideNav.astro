@@ -3,12 +3,12 @@ import { navSections } from "../data/site";
 ---
 
 <nav class="side-nav" aria-label="Sections" data-side-nav>
-  <ul class="side-nav__list stack gap-2xs">
-    <li class="side-nav__indicator" data-nav-indicator aria-hidden="true"></li>
+  <ul class="side-nav__list stack gap-3xs">
     {
       navSections.map((section) => (
         <li>
           <a class="nav-link" href={`#${section.id}`} data-nav-link={section.id}>
+            <span class="nav-link__dash" aria-hidden="true" />
             <span class="nav-link__label">{section.label}</span>
           </a>
         </li>

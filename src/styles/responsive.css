@@ -38,11 +38,10 @@
      active card plus a peek of each neighbour — so the active one is obvious. */
   .deck__viewport { gap: 22vh; }
 
-  /* The full-width About copy reaches the left edge, so the dash rail collides
-     with the bio text. Only surface the rail once we're in the deck (where the
-     cards are inset and clear of it) — i.e. when a section is active
-     (`.is-collapsed`), not on the hero. */
-  .side-nav:not(.is-collapsed) { display: none; }
+  /* The full-width About copy reaches the left edge, so even the dash rail
+     collides with the bio text on phones. Hide the nav on the About hero here
+     (it returns in the deck, where the cards are inset and clear of it). */
+  .side-nav.is-about { display: none; }
 }
 
 /* --- Phone ( <= 600px ) --------------------------------------------------- */

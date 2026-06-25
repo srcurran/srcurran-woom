@@ -76,7 +76,7 @@ export const slides: Slide[] = [
       "I joined Foyer, the 401(k) for homeownership, as the founding product designer in mid-2023.",
       "Over the last 3 years I have helped bring to life an app that helps members plan and save for their first home.",
     ],
-    media: [{ src: "/work/foyer-app.png", alt: "Foyer app on iPhone", bleed: true }],
+    media: [{ src: "/work/foyer-app.mov", alt: "Foyer app on iPhone", bleed: true, type: "video" }],
   },
   {
     id: "foyer-1", section: "foyer", kind: "mockup", heading: "Onboarding",
@@ -262,4 +262,20 @@ export const footerLinks: FooterLink[] = [
   { label: "LinkedIn", href: "#" },
   { label: "Read.cv", href: "#" },
   { label: "GitHub", href: "#" },
+];
+
+/** Contact methods shown in the top-nav "Contact" menu. */
+export interface ContactLink {
+  label: string;
+  href: string;
+  /** Opens in a new tab (off-site links, not mailto/tel). */
+  external?: boolean;
+}
+
+export const contactLinks: ContactLink[] = [
+  { label: "srcurran@gmail.com", href: `mailto:${site.email}` },
+  { label: "207-572-0916", href: "tel:+12075720916" },
+  { label: "linkedin.com/in/srcurran", href: "https://www.linkedin.com/in/srcurran", external: true },
+  { label: "github.com/srcurran", href: "https://github.com/srcurran", external: true },
+  { label: "are.na/sean-curran/channels", href: "https://www.are.na/sean-curran/channels", external: true },
 ];
