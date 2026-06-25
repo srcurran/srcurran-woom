@@ -90,7 +90,7 @@ export const slides: Slide[] = [
   {
     id: "foyer-2", section: "foyer", kind: "mockup", heading: "Foyer × Zillow",
     media: [
-      { src: "/work/foyer-2-a.mp4", alt: "Foyer × Zillow landing", type: "video" },
+      { src: "/work/foyer-zillow-square.mp4", alt: "Foyer × Zillow landing", type: "video" },
       { src: "/work/foyer-2-b.png", alt: "Foyer × Zillow on iPhone" },
     ],
   },
