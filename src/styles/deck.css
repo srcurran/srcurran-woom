@@ -167,9 +167,9 @@
 .slide__inner--intro .slide__text { max-width: 50cqw; }
 .slide__device {
   position: absolute;
-  top: -4cqw;              /* bleed off the top, per the source */
-  right: -3cqw;            /* bleed off the right edge */
-  height: 64cqw;           /* taller than the 56.25cqw card → bleeds top + bottom */
+  top: -5cqw;              /* bleed off the top, per the source */
+  right: 4cqw;            /* bleed off the right edge */
+  height: 72cqw;           /* taller than the 56.25cqw card → bleeds top + bottom */
   will-change: transform;
 }
 .slide__device :is(img, video) {

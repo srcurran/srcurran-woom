@@ -76,7 +76,7 @@ export const slides: Slide[] = [
       "I joined Foyer, the 401(k) for homeownership, as the founding product designer in mid-2023.",
       "Over the last 3 years I have helped bring to life an app that helps members plan and save for their first home.",
     ],
-    media: [{ src: "/work/foyer-app.mov", alt: "Foyer app on iPhone", bleed: true, type: "video" }],
+    media: [{ src: "/work/foyer-app.mp4", alt: "Foyer app on iPhone", bleed: true, type: "video" }],
   },
   {
     id: "foyer-1", section: "foyer", kind: "mockup", heading: "Onboarding",
@@ -90,7 +90,7 @@ export const slides: Slide[] = [
   {
     id: "foyer-2", section: "foyer", kind: "mockup", heading: "Foyer × Zillow",
     media: [
-      { src: "/work/foyer-2-a.png", alt: "Foyer × Zillow landing" },
+      { src: "/work/foyer-2-a.mp4", alt: "Foyer × Zillow landing", type: "video" },
       { src: "/work/foyer-2-b.png", alt: "Foyer × Zillow on iPhone" },
     ],
   },
@@ -130,7 +130,7 @@ export const slides: Slide[] = [
       "I was with Hawthorne, a D2C men's grooming startup, from 2020—2023. After nearly a decade of freelance agency/design firm work.",
       "It was exciting to unlock a new set of variables in the work: iterating on live design, managing internal bandwidth, & real time insights into customers/data.",
     ],
-    media: [{ src: "/work/hawthorne-video.png", alt: "Hawthorne quiz result", bleed: true }],
+    media: [{ src: "/work/hawthorne-video.mp4", alt: "Hawthorne quiz result", bleed: true, type: "video" }],
   },
   { id: "hawthorne-1", section: "hawthorne", kind: "mockup", heading: "Quiz result concept sketches", media: [{ src: "/work/hawthorne-1.png", alt: "Quiz result concept sketches" }] },
   { id: "hawthorne-2", section: "hawthorne", kind: "mockup", heading: "Revised quiz results", media: [{ src: "/work/hawthorne-2.png", alt: "Revised quiz results" }] },
@@ -176,7 +176,7 @@ export const slides: Slide[] = [
   {
     id: "app-omni-1", section: "app-omni", kind: "mockup", heading: "Multi-stage filtering",
     media: [
-      { src: "/work/app-omni-1-a.png", alt: "Filtering UI" },
+      { src: "/work/app-omni-1-a.mp4", alt: "Filtering UI", type: "video" },
       { src: "/work/app-omni-1-b.png", alt: "Filter detail" },
     ],
   },
@@ -205,7 +205,7 @@ export const slides: Slide[] = [
     ],
     media: [{ src: "/work/neiman-phone.png", alt: "Neiman Marcus checkout", bleed: true }],
   },
-  { id: "neiman-1", section: "neiman-marcus", kind: "mockup", heading: "Checkout design", media: [{ src: "/work/neiman-1.png", alt: "Neiman Marcus checkout design" }] },
+  { id: "neiman-1", section: "neiman-marcus", kind: "mockup", heading: "Checkout design", media: [{ src: "/work/neiman-1.mp4", alt: "Neiman Marcus checkout design", type: "video" }] },
   {
     id: "neiman-results",
     section: "neiman-marcus",
