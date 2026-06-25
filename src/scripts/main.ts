@@ -2,7 +2,9 @@
 import { initHeader } from "./header";
 import { initIntro } from "./intro";
 import { initDeck } from "./deck";
+import { initLenticular } from "./lenticular";
 
 initHeader();
 initIntro();
 initDeck();
+initLenticular();

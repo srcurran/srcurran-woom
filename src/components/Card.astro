@@ -42,15 +42,6 @@ function emphasize(text: string): string {
             {slide.paragraphs?.map((p) => <p set:html={emphasize(p)} />)}
           </div>
         </div>
-        {media && (
-          <div class="slide__device" data-parallax>
-            {media.type === "video" ? (
-              <video src={media.src} autoplay muted loop playsinline />
-            ) : (
-              <img src={media.src} alt={media.alt ?? ""} />
-            )}
-          </div>
-        )}
       </div>
     )
   }

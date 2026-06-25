@@ -251,6 +251,7 @@ export const slides: Slide[] = [
     ],
   },
   { id: "neiman-1", section: "neiman-marcus", kind: "mockup", heading: "Checkout design", media: [{ src: "/work/neiman-1.mp4", alt: "Neiman Marcus checkout design", type: "video" }] },
+  { id: "neiman-2", section: "neiman-marcus", kind: "mockup", heading: "Store finder design", media: [{ src: "/work/neiman-marcus-store.png", alt: "Neiman Marcus store detials" }] },
   {
     id: "neiman-results",
     section: "neiman-marcus",

@@ -162,10 +162,9 @@
   color: var(--color-ink);
   font-weight: var(--weight-semibold);
 }
-/* Structural vertical dash — shown in EVERY state (the rail), all one size. The
-   active section's dash is full-strength (the marker); inactive ones are faint.
-   Same element + column + size everywhere, so it never shifts — only its opacity
-   changes between active/inactive. */
+/* Structural vertical dash — a faint tick shown in EVERY state (the rail), all
+   one size + column, so it never shifts. The ACTIVE section is marked by the
+   sliding bar below, not by brightening a dash. */
 .nav-link__dash {
   flex: none;
   width: 3px;
@@ -173,10 +172,25 @@
   border-radius: 2px;
   background: currentColor;
   opacity: 0.35;
-  transition: opacity var(--duration-base) var(--ease-out);
 }
-.nav-link.is-active .nav-link__dash {
-  opacity: 1;
+/* Active marker — a single bar that SLIDES between rows as the active section
+   changes (the smooth motion), positioned by JS via --marker-y. The rows are
+   fixed-height, so it lands on the same spot whether collapsed or expanded and
+   never drifts. Overlays the active row's faint dash, so it reads as that dash
+   lighting up + gliding. */
+.side-nav__list { position: relative; }
+.side-nav__list::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 0.9em;
+  border-radius: 2px;
+  background: var(--color-ink);
+  transform: translateY(var(--marker-y, 0px));
+  transition: transform var(--duration-base) var(--ease-out);
+  pointer-events: none;
 }
 /* Label — just shown/hidden. Removing it from layout (display:none) lets the nav
    shrink to the dash rail when minimized; it returns when expanded/revealed. */

@@ -24,22 +24,37 @@ const STACK = {
   // into the centre over the same scroll span its predecessor SHRINKS off the top
   // — a balanced hand-off, so neither card resolves first to grab the eye, on any
   // viewport. (A fixed window can't: spacing changes with the vh-clamped gap.)
-  // Tune the timing via the exit window below; these are just the enter MAGNITUDES:
-  enterRot: 6, // deg, eases to 0 at centre
-  enterScale: 0.85, // grows to 1 at centre
+  // Tune the timing via the exit window below. Rotate / scale / translate are now
+  // randomised PER CARD (see RANDOM); these are the shared enter magnitudes:
   enterParallax: 12, // % inner-media drift, eases to 0 at centre
   enterDim: 0, // scrim coverage on the way in
-  enterX: 0, // horizontal offset on the way in (fraction of vw)
 
   // --- Exit: scrolling off the top ---
   exitStart: 0.1, // exit begins when the top hits this fraction
   exitEnd: -0.3, // exit completes by this fraction
-  exitRot: -3, // deg at full exit
-  exitScale: 0.85, // shrinks to this at full exit
   exitParallax: -12, // % inner-media drift at full exit
   exitDim: 0.55, // scrim coverage at full exit (a mix, not opacity)
-  exitX: 0.08, // horizontal slide at full exit (fraction of vw, + = right)
 };
+
+// Per-card jitter — each card gets its OWN random rotate / translate / scale for
+// its slide-in and slide-off, so the deck reads as hand-placed rather than
+// mechanical. Edit the ranges to taste; regenerated fresh on every load.
+const RANDOM = {
+  rotate: [1, 2.5] as const, // deg magnitude (sign randomised per card)
+  translate: [25, 75] as const, // px magnitude (sign randomised per card)
+  scale: [0.875, 0.925] as const, // enter/exit scale (1 = flat at centre)
+};
+const rand = (min: number, max: number) => min + Math.random() * (max - min);
+const randSigned = (min: number, max: number) =>
+  rand(min, max) * (Math.random() < 0.5 ? -1 : 1);
+const makeJitter = () => ({
+  enterRot: randSigned(...RANDOM.rotate),
+  exitRot: randSigned(...RANDOM.rotate),
+  enterX: randSigned(...RANDOM.translate),
+  exitX: randSigned(...RANDOM.translate),
+  enterScale: rand(...RANDOM.scale),
+  exitScale: rand(...RANDOM.scale),
+});
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 
@@ -86,6 +101,7 @@ export function initDeck(): void {
     for (const card of cards) {
       const inner = card.querySelector<HTMLElement>("[data-parallax]");
       const aperture = card.querySelector<HTMLElement>("[data-aperture]");
+      const j = makeJitter(); // this card's random enter/exit rotate, x, scale
       gsap.set(card, { transformOrigin: "center center" });
       if (aperture) gsap.set(aperture, { transformOrigin: "center center" });
 
@@ -120,15 +136,21 @@ export function initDeck(): void {
           );
 
           // Scale: enterScale → 1 (enter), then 1 → exitScale (exit shrink).
-          const enterPart = STACK.enterScale + (1 - STACK.enterScale) * inT;
-          const scale = enterPart - (1 - STACK.exitScale) * outT;
-          const rotation = STACK.enterRot * (1 - inT) + STACK.exitRot * outT;
-          const x =
-            (STACK.enterX * (1 - inT) + STACK.exitX * outT) * window.innerWidth;
+          // Rotate / scale / translate use this card's jitter; all resolve to
+          // 0 / 1 / 0 at centre (multiplied by 1-inT or outT) so the centred card
+          // stays flat regardless of its random values.
+          const enterPart = j.enterScale + (1 - j.enterScale) * inT;
+          const scale = enterPart - (1 - j.exitScale) * outT;
+          const rotation = j.enterRot * (1 - inT) + j.exitRot * outT;
+          const x = j.enterX * (1 - inT) + j.exitX * outT; // px, per-card
           const dim = STACK.enterDim * (1 - inT) + STACK.exitDim * outT;
           const drift = STACK.enterParallax * (1 - inT) + STACK.exitParallax * outT;
+          // Focus: 1 when centred (primary), → 0 as the card enters/exits. Drives
+          // --elev-k so a receding card's shadow eases down. Quantised to 0.01 so
+          // the box-shadow repaint is skipped on frames where it wouldn't change.
+          const focus = Math.round(inT * (1 - outT) * 100) / 100;
 
-          gsap.set(card, { scale, rotation, x, "--dim": dim });
+          gsap.set(card, { scale, rotation, x, "--dim": dim, "--focus": focus });
           if (inner) gsap.set(inner, { yPercent: drift });
           // Aperture: counter the FULL card scale so the content holds a fixed
           // size while the frame opens (enter) AND closes (exit) around it — the
@@ -247,9 +269,24 @@ export function initDeck(): void {
   ScrollTrigger.refresh();
 }
 
-// Mark the active link; CSS emphasises its dash (the active marker).
+// Mark the active link and slide the active marker (.side-nav__list::before) to
+// it via --marker-y — its centre (offsetTop, transform-independent) on the list.
 function setActiveNav(sectionId: string, links: HTMLAnchorElement[]): void {
+  let active: HTMLAnchorElement | null = null;
   for (const link of links) {
-    link.classList.toggle("is-active", link.dataset.navLink === sectionId);
+    const on = link.dataset.navLink === sectionId;
+    link.classList.toggle("is-active", on);
+    if (on) active = link;
+  }
+  if (active) {
+    const list = active.closest<HTMLElement>(".side-nav__list");
+    const dash = active.querySelector<HTMLElement>(".nav-link__dash");
+    const dashH = dash?.offsetHeight ?? 0;
+    // Marker TOP = the active dash's top, relative to the list (its offsetParent),
+    // so the bar overlays that dash exactly. Pure px → clean transform slide.
+    list?.style.setProperty(
+      "--marker-y",
+      `${active.offsetTop + (active.offsetHeight - dashH) / 2}px`,
+    );
   }
 }
