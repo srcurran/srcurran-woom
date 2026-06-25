@@ -70,17 +70,29 @@ function emphasize(text: string): string {
             {(slide.media ?? []).map((m) => (
               <figure class="slide__shot">
                 {m.type === "video" ? (
-                  <video src={m.src} autoplay muted loop playsinline />
+                  <video
+                    src={m.src}
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    class:list={[m.phoneBorder && "isPhoneBorder", m.rounded && "isRounded"]}
+                  />
                 ) : (
-                  <img src={m.src} alt={m.alt ?? ""} />
+                  <img src={m.src} alt={m.alt ?? ""} class:list={[m.rounded && "isRounded"]} />
                 )}
               </figure>
             ))}
           </div>
         </div>
       ) : (
-        /* Single asset → fills the whole card (cover), pinned centre or top. */
-        <div class:list={["slide__cover", `pin-${slide.pin ?? "center"}`]}>
+        /* Single asset → fills the whole card (cover), pinned centre or top.
+           data-aperture: counter-scaled through the zoom so the card frame opens
+           to reveal the full-size content (aperture effect), like the multi case. */
+        <div
+          class:list={["slide__cover", `pin-${slide.pin ?? "center"}`]}
+          data-aperture
+        >
           {media.type === "video" ? (
             <video src={media.src} autoplay muted loop playsinline />
           ) : (

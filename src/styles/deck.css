@@ -13,10 +13,11 @@
    motion-ok, so no-JS and reduced-motion render everything immediately. GSAP
    clears the opacity as it fades each one in. */
 @media (prefers-reduced-motion: no-preference) {
-  .js .hero__headline,
-  .js .hero__bio p,
+  .js [data-hero] .hero__headline,
+  .js [data-hero] .hero__bio p,
   .js .site-header,
-  .js .side-nav {
+  .js .side-nav,
+  .js [data-card][data-index="0"] {
     opacity: 0;
   }
 }
@@ -61,10 +62,38 @@
   line-height: var(--leading-relaxed);
 }
 
+/* Contact closer — reuses the .hero shell; the bio area becomes a list of
+   contact links (serif, to mirror the intro copy). */
+/* Pin the content block to the same width the About copy fills (its 56ch bio),
+   so the short contact links line up with the About text instead of the narrow
+   block centring itself further right. */
+.hero--end .hero__content { width: min(56ch, 100%); }
+.contact-end__list { list-style: none; }
+.contact-end__link {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+  color: var(--color-ink);
+  width: fit-content;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+.contact-end__link:hover { border-bottom-color: currentColor; }
+.contact-end__copy {
+  margin-top: var(--space-lg);
+  font-size: var(--text-sm);
+  color: var(--color-ink-subtle);
+}
+
 /* --- DECK (vertical column of spaced, tilting cards) ---------------------- */
 .deck {
   position: relative;
   background: var(--color-bg);
+  /* Pull the deck up under the full-height hero so the first card peeks into the
+     bottom of the opening view (the "there's more below" hint that beat 3 of the
+     intro pokes up). Seamless: hero + deck share --color-bg. */
+  margin-top: -9vh;
 }
 .deck__viewport {
   display: flex;
@@ -73,8 +102,8 @@
   /* Gap between cards — small enough that the neighbours peek into view when a
      card is centred (the "hint"), big enough they never collide. */
   gap: clamp(2.5rem, 7vh, 7rem);
-  /* No top room (first card peeks under the 70vh hero); tail room so the last
-     card can still reach the centre. */
+  /* No top room (the deck's negative margin already lifts the first card into a
+     peek under the hero); tail room so the last card can still reach the centre. */
   padding-block: 0 30vh;
 }
 
@@ -143,10 +172,14 @@
 .slide__heading {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 5.7cqw;        /* 109px */
+  font-size: 5.7cqw;        /* 109px — base; split per kind below */
   line-height: 1.15;
   letter-spacing: -0.1cqw;  /* ~-2px */
 }
+/* Heading sizes split by slide kind (cqw = container units, so they scale with
+   the card). Title/intro slides read big; results sit smaller above their list. */
+.slide--intro .slide__heading { font-size: 10cqw; }
+.slide--results .slide__heading { font-size: 4cqw; }
 .slide__prose {
   margin-top: 2.4cqw;
   max-width: 47cqw;         /* 889px */
@@ -186,12 +219,14 @@
    • MULTIPLE assets → a padded, gapped row that still fills the card but gives
      the assets room to breathe. `.slide__aperture` counter-scales this layout
      during the zoom so the content holds size while the frame opens. */
-.slide--mockup { background: #ffffff; }
 
-/* Single, full-bleed cover */
+
+/* Single, full-bleed cover (data-aperture: counter-scaled on enter so the frame
+   opens to reveal the full-size content). */
 .slide__cover {
   position: absolute;
   inset: 0;
+  transform-origin: center center;
 }
 .slide__cover :is(img, video) {
   display: block;
@@ -234,6 +269,16 @@
   border-radius: var(--radius-sm);
 }
 
+.slide__shot .isPhoneBorder{
+  /* Bezel sized in cqw so it scales with the card, like the type. */
+  border: .8cqw solid var(--color-ink);
+  border-radius: 3cqw;
+}
+.slide__shot .isRounded {
+  /* Phone-corner rounding in cqw so it scales with the card (≈44px). */
+  border-radius: 4cqw;
+}
+
 /* Results — heading + serif list (slightly larger, per the source). */
 .slide__results {
   margin-top: 2.4cqw;
@@ -244,7 +289,7 @@
 .slide__results li {
   font-family: var(--font-serif);
   font-weight: 300;
-  font-size: 2.5cqw;
+  font-size: 2.2cqw;
   line-height: 1.25;
   max-width: 82cqw;
 }

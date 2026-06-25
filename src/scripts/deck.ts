@@ -58,6 +58,9 @@ export function initDeck(): void {
     document.querySelectorAll<HTMLAnchorElement>("[data-nav-link]"),
   );
   const sideNav = document.querySelector<HTMLElement>("[data-side-nav]");
+  // The contact closer — a hero-shell section at the very bottom, not a deck
+  // card, so the scroll-spy + nav-click handlers below treat it as a special case.
+  const contact = document.querySelector<HTMLElement>("#contact");
 
   viewport.classList.add("is-ready");
 
@@ -127,9 +130,10 @@ export function initDeck(): void {
 
           gsap.set(card, { scale, rotation, x, "--dim": dim });
           if (inner) gsap.set(inner, { yPercent: drift });
-          // Aperture: counter ONLY the enter zoom so mockup content holds a fixed
-          // size on the way in; on exit it shrinks with the card.
-          if (aperture) gsap.set(aperture, { scale: 1 / enterPart });
+          // Aperture: counter the FULL card scale so the content holds a fixed
+          // size while the frame opens (enter) AND closes (exit) around it — the
+          // card is the window, the content stays put both ways.
+          if (aperture) gsap.set(aperture, { scale: 1 / scale });
         },
       });
     }
@@ -187,6 +191,14 @@ export function initDeck(): void {
         section = card.dataset.section ?? "";
       }
     }
+    // Contact closer (centred like the hero, but it's a section not a card).
+    if (contact) {
+      const dist = Math.abs(sy - snapScrollFor(contact));
+      if (dist < bestDist) {
+        bestDist = dist;
+        section = "contact";
+      }
+    }
     setActive(section);
   };
 
@@ -214,6 +226,10 @@ export function initDeck(): void {
       const id = link.dataset.navLink;
       if (id === "about") {
         glideTo(0);
+        return;
+      }
+      if (id === "contact") {
+        if (contact) glideTo(snapScrollFor(contact));
         return;
       }
       const target = cards.find((c) => c.dataset.section === id);

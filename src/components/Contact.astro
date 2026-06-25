@@ -1,0 +1,30 @@
+---
+import { site, contactLinks } from "../data/site";
+---
+
+{/* Mirrors the top hero/intro block (same .hero shell) — a full-height contact
+    closer at the end of the page. Not [data-hero], so the first-load intro
+    animation/guard leaves it alone. */}
+<section class="hero hero--end" id="contact" aria-label="Contact">
+  <div class="hero__content">
+    <h2 class="hero__headline">Thanks!</h2>
+    <ul class="hero__bio contact-end__list">
+      {
+        contactLinks.map((link) => (
+          <li>
+            <a
+              class="contact-end__link"
+              href={link.href}
+              {...(link.external
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {})}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="contact-end__copy">Built with Astro + GSAP.</p>
+  </div>
+</section>

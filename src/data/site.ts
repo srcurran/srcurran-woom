@@ -18,9 +18,9 @@ export const site = {
 
 /** About lives as page content (the hero), not as a deck slide. */
 export const about = {
-  heading: "How's it going?",
+  heading: "Hi, I'm Sean.",
   paragraphs: [
-    "I'm Sean. I come with 15 years of diverse design experience.",
+    "I come with 15 years of diverse design experience.",
     "I have designed at startups, design firms and digital agencies. I have worked on projects ranging from fashion to fintech, from 0→1 apps to landing pages.",
     "I live in beautiful Portland, Maine; by way of NYC, Chicago and SF.",
     "I am currently Staff Designer at Foyer Savings. Previously at Hawthorne, AKQA, Huge, Cuban Council.",
@@ -39,6 +39,7 @@ export const navSections: NavSection[] = [
   { id: "app-omni", label: "App Omni" },
   { id: "neiman-marcus", label: "Neiman Marcus" },
   { id: "salesforce", label: "Salesforce" },
+  { id: "contact", label: "Contact" },
 ];
 
 export type SlideKind = "bio" | "intro" | "mockup" | "results";
@@ -50,6 +51,10 @@ export interface SlideMedia {
   type?: "image" | "video";
   /** Bleed the device mockup off the right edge (project intros). */
   bleed?: boolean;
+  phoneBorder?: boolean;
+  /** Round the asset's corners (cqw, scales with the card) — e.g. a phone-screen
+   *  recording that needs its own rounding. */
+  rounded?: boolean;
 }
 
 export interface Slide {
@@ -85,7 +90,7 @@ export const slides: Slide[] = [
   },
   {
     id: "foyer-device", section: "foyer", kind: "mockup", fit: "contain",
-    media: [{ src: "/work/foyer-app.mp4", alt: "Foyer app", type: "video" }],
+    media: [{ src: "/work/foyer-app.mp4", alt: "Foyer app", type: "video", phoneBorder: true  }],
   },
   {
     id: "foyer-1", section: "foyer", kind: "mockup", heading: "Onboarding",
@@ -141,8 +146,8 @@ export const slides: Slide[] = [
     ],
   },
   {
-    id: "hawthorne-device", section: "hawthorne", kind: "mockup", fit: "contain",
-    media: [{ src: "/work/hawthorne-video.mp4", alt: "Hawthorne quiz result", type: "video" }],
+    id: "hawthorne-device", section: "hawthorne", kind: "mockup", theme: "dark", fit: "contain",
+    media: [{ src: "/work/hawthorne-video.mp4", alt: "Hawthorne quiz result", type: "video", rounded: true }],
   },
   { id: "hawthorne-1", section: "hawthorne", kind: "mockup", heading: "Quiz result concept sketches", media: [{ src: "/work/hawthorne-1.jpg", alt: "Quiz result concept sketches" }] },
   { id: "hawthorne-2", section: "hawthorne", kind: "mockup", heading: "Revised quiz results", media: [{ src: "/work/hawthorne-2.jpg", alt: "Revised quiz results" }] },
@@ -175,15 +180,13 @@ export const slides: Slide[] = [
       "Projects included application-wide audits and single-feature deep dives.",
       "With SaaS application security being a deeply complex product: I promoted consistent and adaptable solutions.",
     ],
-    media: [{ src: "/work/app-omni-intro.png", alt: "App Omni interface", bleed: true }],
   },
   // NOTE: Figma header here reads "Website and CMS design" — a copy-paste from
   // Hawthorne (wrong for App Omni). Corrected to match the actual content.
   {
     id: "app-omni-1", section: "app-omni", kind: "mockup", heading: "Multi-stage filtering",
     media: [
-      { src: "/work/app-omni-1-a.mp4", alt: "Filtering UI", type: "video" },
-      { src: "/work/app-omni-1-b.png", alt: "Filter detail" },
+      { src: "/work/app-omni-1-a.mp4", alt: "Filtering UI", type: "video" }
     ],
   },
   {
@@ -209,7 +212,6 @@ export const slides: Slide[] = [
     paragraphs: [
       "As part of a larger partnership between Said Differently and Neiman Marcus, I was tapped to redesign the checkout flow and store finder, as well as present high level recommendations for key pages (listings page, detail page).",
     ],
-    media: [{ src: "/work/neiman-phone.png", alt: "Neiman Marcus checkout", bleed: true }],
   },
   { id: "neiman-1", section: "neiman-marcus", kind: "mockup", heading: "Checkout design", media: [{ src: "/work/neiman-1.mp4", alt: "Neiman Marcus checkout design", type: "video" }] },
   {
@@ -237,10 +239,6 @@ export const slides: Slide[] = [
     paragraphs: [
       "An internal events application for Salesforce, built to the Lightning design system and localized for a global audience across seven languages.",
     ],
-  },
-  {
-    id: "salesforce-device", section: "salesforce", kind: "mockup", fit: "contain",
-    media: [{ src: "/work/salesforce-phone.png", alt: "Salesforce events app" }],
   },
   { id: "salesforce-1", section: "salesforce", kind: "mockup", heading: "Event calendar approaches", media: [{ src: "/work/salesforce-1.png", alt: "Event calendar approaches" }] },
   { id: "salesforce-2", section: "salesforce", kind: "mockup", heading: "Event calendar detail", media: [{ src: "/work/salesforce-2.png", alt: "Event calendar detail" }] },
