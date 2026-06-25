@@ -56,12 +56,14 @@ function emphasize(text: string): string {
   }
 
   {
-    slide.kind === "mockup" && media && (
-      <div class="slide__aperture" data-aperture>
-        <div class="slide__mockup">
-          {slide.heading && <p class="slide__mockup-heading">{slide.heading}</p>}
+    slide.kind === "mockup" &&
+      media &&
+      ((slide.media?.length ?? 0) > 1 ? (
+        /* Multiple assets → padded, gapped row that fills the card but lets the
+           assets breathe. Aperture counter-scales it through the zoom. */
+        <div class="slide__aperture" data-aperture>
           <div
-            class:list={["slide__shots", `count-${(slide.media ?? []).length}`]}
+            class:list={["slide__shots", `count-${slide.media?.length}`]}
             data-parallax
           >
             {(slide.media ?? []).map((m) => (
@@ -75,8 +77,16 @@ function emphasize(text: string): string {
             ))}
           </div>
         </div>
-      </div>
-    )
+      ) : (
+        /* Single asset → fills the whole card (cover), pinned centre or top. */
+        <div class:list={["slide__cover", `pin-${slide.pin ?? "center"}`]}>
+          {media.type === "video" ? (
+            <video src={media.src} autoplay muted loop playsinline />
+          ) : (
+            <img src={media.src} alt={media.alt ?? ""} />
+          )}
+        </div>
+      ))
   }
 
   {

@@ -178,40 +178,41 @@
   width: auto;
 }
 
-/* Mockup — a small HTML heading + the designed visual with its baked heading
-   cropped off. `.slide__aperture` is what the stack counter-scales (deck.ts), so
-   the content holds a fixed size while the card frame opens/closes around it. */
+/* Mockup — two presentations:
+   • SINGLE asset → fills the whole card (object-fit: cover), pinned centre or
+     top. Scales with the card (no aperture) so it always fills the frame.
+   • MULTIPLE assets → a padded, gapped row that still fills the card but gives
+     the assets room to breathe. `.slide__aperture` counter-scales this layout
+     during the zoom so the content holds size while the frame opens. */
 .slide--mockup { background: #ffffff; }
+
+/* Single, full-bleed cover */
+.slide__cover {
+  position: absolute;
+  inset: 0;
+}
+.slide__cover :is(img, video) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+.slide__cover.pin-top :is(img, video) { object-position: center top; }
+
+/* Multiple, padded + gapped */
 .slide__aperture {
   position: absolute;
   inset: 0;
   transform-origin: center center;
 }
-.slide__mockup {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 2cqw;
-  padding: 5cqw 6cqw;
-}
-.slide__mockup-heading {
-  display: none;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 2.5cqw;          /* smaller than the source's baked 68px header */
-  letter-spacing: -0.05cqw;
-  color: var(--gray-950);
-}
-/* One or more clean content images (titles already removed at export), laid out
-   in a centred row and contained to fit. */
 .slide__shots {
-  flex: 1;
-  min-height: 0;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2.5cqw;
+  gap: 3cqw;
+  padding: 4cqw;
 }
 .slide__shot {
   flex: 1 1 0;

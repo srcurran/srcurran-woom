@@ -62,6 +62,9 @@ export interface Slide {
   paragraphs?: string[];
   items?: string[];
   media?: SlideMedia[];
+  /** Single-image mockups fill the card (cover); pin the crop to "top" or
+   *  "center" (default). Ignored for multi-image mockups. */
+  pin?: "top" | "center";
 }
 
 export const slides: Slide[] = [
