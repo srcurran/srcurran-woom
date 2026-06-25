@@ -65,6 +65,9 @@ export interface Slide {
   /** Single-image mockups fill the card (cover); pin the crop to "top" or
    *  "center" (default). Ignored for multi-image mockups. */
   pin?: "top" | "center";
+  /** Force a single-image mockup to "contain" (centred + padded) instead of the
+   *  default cover-fill — e.g. a device shown on its own slide. */
+  fit?: "cover" | "contain";
 }
 
 export const slides: Slide[] = [
@@ -79,7 +82,10 @@ export const slides: Slide[] = [
       "I joined Foyer, the 401(k) for homeownership, as the founding product designer in mid-2023.",
       "Over the last 3 years I have helped bring to life an app that helps members plan and save for their first home.",
     ],
-    media: [{ src: "/work/foyer-app.mp4", alt: "Foyer app on iPhone", bleed: true, type: "video" }],
+  },
+  {
+    id: "foyer-device", section: "foyer", kind: "mockup", fit: "contain",
+    media: [{ src: "/work/foyer-app.mp4", alt: "Foyer app", type: "video" }],
   },
   {
     id: "foyer-1", section: "foyer", kind: "mockup", heading: "Onboarding",
@@ -133,7 +139,10 @@ export const slides: Slide[] = [
       "I was with Hawthorne, a D2C men's grooming startup, from 2020—2023. After nearly a decade of freelance agency/design firm work.",
       "It was exciting to unlock a new set of variables in the work: iterating on live design, managing internal bandwidth, & real time insights into customers/data.",
     ],
-    media: [{ src: "/work/hawthorne-video.mp4", alt: "Hawthorne quiz result", bleed: true, type: "video" }],
+  },
+  {
+    id: "hawthorne-device", section: "hawthorne", kind: "mockup", fit: "contain",
+    media: [{ src: "/work/hawthorne-video.mp4", alt: "Hawthorne quiz result", type: "video" }],
   },
   { id: "hawthorne-1", section: "hawthorne", kind: "mockup", heading: "Quiz result concept sketches", media: [{ src: "/work/hawthorne-1.jpg", alt: "Quiz result concept sketches" }] },
   { id: "hawthorne-2", section: "hawthorne", kind: "mockup", heading: "Revised quiz results", media: [{ src: "/work/hawthorne-2.jpg", alt: "Revised quiz results" }] },
@@ -228,7 +237,10 @@ export const slides: Slide[] = [
     paragraphs: [
       "An internal events application for Salesforce, built to the Lightning design system and localized for a global audience across seven languages.",
     ],
-    media: [{ src: "/work/salesforce-phone.png", alt: "Salesforce events app", bleed: true }],
+  },
+  {
+    id: "salesforce-device", section: "salesforce", kind: "mockup", fit: "contain",
+    media: [{ src: "/work/salesforce-phone.png", alt: "Salesforce events app" }],
   },
   { id: "salesforce-1", section: "salesforce", kind: "mockup", heading: "Event calendar approaches", media: [{ src: "/work/salesforce-1.png", alt: "Event calendar approaches" }] },
   { id: "salesforce-2", section: "salesforce", kind: "mockup", heading: "Event calendar detail", media: [{ src: "/work/salesforce-2.png", alt: "Event calendar detail" }] },

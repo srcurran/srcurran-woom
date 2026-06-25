@@ -165,6 +165,8 @@
 /* Project intro — text left, device mockup bleeding off the right. */
 .slide__inner--intro { position: relative; }
 .slide__inner--intro .slide__text { max-width: 50cqw; }
+/* No device on this intro → let the copy use the full width. */
+.slide__inner--intro.is-text-only .slide__text { max-width: 78cqw; }
 .slide__device {
   position: absolute;
   top: -5cqw;              /* bleed off the top, per the source */

@@ -35,7 +35,7 @@ function emphasize(text: string): string {
 
   {
     slide.kind === "intro" && (
-      <div class="slide__inner slide__inner--intro">
+      <div class:list={["slide__inner", "slide__inner--intro", !media && "is-text-only"]}>
         <div class="slide__text">
           <h2 class="slide__heading">{slide.heading}</h2>
           <div class="slide__prose">
@@ -58,8 +58,9 @@ function emphasize(text: string): string {
   {
     slide.kind === "mockup" &&
       media &&
-      ((slide.media?.length ?? 0) > 1 ? (
-        /* Multiple assets → padded, gapped row that fills the card but lets the
+      ((slide.media?.length ?? 0) > 1 || slide.fit === "contain" ? (
+        /* Multiple assets (or a single one forced to contain, e.g. a device on
+           its own slide) → padded, gapped layout that fills the card but lets the
            assets breathe. Aperture counter-scales it through the zoom. */
         <div class="slide__aperture" data-aperture>
           <div
