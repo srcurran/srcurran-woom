@@ -135,16 +135,10 @@ export const slides: Slide[] = [
     ],
     media: [{ src: "/work/hawthorne-video.mp4", alt: "Hawthorne quiz result", bleed: true, type: "video" }],
   },
-  { id: "hawthorne-1", section: "hawthorne", kind: "mockup", heading: "Quiz result concept sketches", media: [{ src: "/work/hawthorne-1.png", alt: "Quiz result concept sketches" }] },
-  { id: "hawthorne-2", section: "hawthorne", kind: "mockup", heading: "Revised quiz results", media: [{ src: "/work/hawthorne-2.png", alt: "Revised quiz results" }] },
-  { id: "hawthorne-3", section: "hawthorne", kind: "mockup", heading: "Website and CMS design", media: [{ src: "/work/hawthorne-3.png", alt: "Website and CMS design" }] },
-  {
-    id: "hawthorne-4", section: "hawthorne", kind: "mockup", heading: "Ecomm design",
-    media: [
-      { src: "/work/hawthorne-4-a.png", alt: "Ecomm mobile" },
-      { src: "/work/hawthorne-4-b.png", alt: "Ecomm desktop" },
-    ],
-  },
+  { id: "hawthorne-1", section: "hawthorne", kind: "mockup", heading: "Quiz result concept sketches", media: [{ src: "/work/hawthorne-1.jpg", alt: "Quiz result concept sketches" }] },
+  { id: "hawthorne-2", section: "hawthorne", kind: "mockup", heading: "Revised quiz results", media: [{ src: "/work/hawthorne-2.jpg", alt: "Revised quiz results" }] },
+  { id: "hawthorne-3", section: "hawthorne", kind: "mockup", heading: "Website and CMS design", media: [{ src: "/work/hawthorne-3.jpg", alt: "Website and CMS design" }] },
+  { id: "hawthorne-4", section: "hawthorne", kind: "mockup", heading: "Ecomm design", media: [{ src: "/work/hawthorne-4.jpg", alt: "Ecomm design" }] },
   {
     id: "hawthorne-results",
     section: "hawthorne",
