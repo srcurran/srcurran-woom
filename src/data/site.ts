@@ -35,6 +35,7 @@ export interface NavSection {
 export const navSections: NavSection[] = [
   { id: "about", label: "About" },
   { id: "foyer", label: "Foyer" },
+  { id: "ohsee", label: "Ohsee" },
   { id: "hawthorne", label: "Hawthorne" },
   { id: "app-omni", label: "App Omni" },
   { id: "neiman-marcus", label: "Neiman Marcus" },
@@ -132,7 +133,43 @@ export const slides: Slide[] = [
       "Helped __hundreds of members__ reach homeownership",
     ],
   },
+//--- Ohsee --------
+  {
+    id: "ohsee-intro",
+    section: "ohsee",
+    kind: "intro",
+    theme: "dark",
+    heading: "Ohsee QA",
+    paragraphs: [
+      "As I spent more time designing in code, it was clear I needed a way to regression test visual changes at scale. There was no app that did what I wanted.",
+      "So I made my own.",
+    ],
+  },
+  {
+    id: "ohsee-pages", section: "ohsee", kind: "mockup",
+    media: [{ src: "/work/ohsee-run.mp4", alt: "Ohsee Pages", type: "video"  }],
+  },
+  {
+    id: "ohsee-diff", section: "ohsee", kind: "mockup",
+    media: [{ src: "/work/ohsee-diff.mp4", alt: "Ohsee Diff", type: "video"  }],
+  },
+  {
+    id: "ohsee-screns", section: "ohsee", kind: "mockup",
+    media: [{ src: "/work/ohsee-screens2.mp4", alt: "Ohsee Screen Sizes", type: "video"  }],
+  },{
 
+    id: "ohsee-results",
+    section: "ohsee",
+    kind: "results",
+    theme: "light",
+    heading: "Ohsee results",
+    items: [
+      "Caught visual bugs faster with less effort",
+      "Able to test logged in states and with scripts",
+      "Captures history of app changes in screenshots",
+      "Agentic-first project with minimal design done in Figma",
+    ],
+  },
   // --- Hawthorne ---------------------------------------------------------
   {
     id: "hawthorne-intro",

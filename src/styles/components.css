@@ -95,6 +95,13 @@
   gap: 2px;
   align-items: flex-end
 }
+
+.contact-menu__list li{
+  display: flex;
+  width: 100%;
+  text-align: right;
+}
+
 .contact-menu__link {
   display: block;
   padding: var(--space-2xs) var(--space-sm);
@@ -102,6 +109,7 @@
   font-size: var(--text-sm);
   color: var(--color-ink-muted);
   white-space: nowrap;
+  width: 100%;
   transition: background var(--duration-fast) var(--ease-out),
               color var(--duration-fast) var(--ease-out);
 }
