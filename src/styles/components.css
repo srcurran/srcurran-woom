@@ -40,7 +40,7 @@
    .hero (pad outside, centre the inner) so the two left edges resolve equal. */
 .site-header__inner {
   max-width: var(--container-max);
-  padding-inline: 0;
+  padding-inline: 1cqw;
   min-height: var(--header-height);
   align-items: center;
   justify-content: space-between;
