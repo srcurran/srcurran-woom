@@ -298,7 +298,7 @@ export const slides: Slide[] = [
 ];
 //---Footer-----
 export const footerContent = {
-  heading: "Thanks",
+  heading: "Reach out",
   location: "Based in Portland, Maine 🦞",
   tech: "Built with Astro + GSAP.",
 } as const;
