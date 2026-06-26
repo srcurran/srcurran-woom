@@ -1,9 +1,10 @@
 /**
  * Lenticular cursor shader — renders an image through a WebGL fragment shader
  * that refracts it across angled "lens" strips with chromatic dispersion. The
- * distortion STRENGTH tracks the cursor's X over the image: left edge = -50,
- * centre = 0, right edge = +50 (eased via GSAP). Falls back to the plain <img>
- * if WebGL is unavailable or the image hasn't loaded.
+ * lens ANGLE tracks the cursor's X over the image (left edge = 0, right edge = π,
+ * a half-turn sweep), and the distortion STRENGTH tracks the cursor's Y: top
+ * edge = -50, centre = 0, bottom edge = +50 (both eased via GSAP). Falls back to
+ * the plain <img> if WebGL is unavailable or the image hasn't loaded.
  *
  * Markup: <figure data-lenticular><img …/><canvas/></figure>. The canvas mirrors
  * the <img>'s object-fit: cover via a UV transform, so it lines up exactly.
@@ -23,9 +24,9 @@ const FRAG = `
 precision highp float;
 varying vec2 vUv;
 uniform sampler2D uTex;
-uniform float uStrength;   // -1..1 (cursor X mapped from -50..50)
+uniform float uStrength;   // -1..1 (cursor Y mapped from -50..50)
 uniform float uFreq;       // lens strips along the axis
-uniform float uAngle;      // lens angle (radians)
+uniform float uAngle;      // lens angle in radians (cursor X: 0 left .. π right)
 uniform float uDisp;       // chromatic dispersion 0..1
 uniform float uAmp;        // base displacement amplitude
 uniform vec2  uUvScale;    // object-fit: cover transform
@@ -43,7 +44,7 @@ void main() {
 }`;
 
 // The lens look — tweak freely.
-const LENS = { freq: 14, angle: Math.PI / 4, disp: 0.35, amp: 0.06 };
+const LENS = { freq: 2, angle: Math.PI, disp: 0.35, amp: 0.06 };
 
 function compile(gl: WebGLRenderingContext, type: number, src: string) {
   const sh = gl.createShader(type);
@@ -107,16 +108,17 @@ function setup(figure: HTMLElement): void {
 
   const u = (name: string) => gl.getUniformLocation(prog, name);
   const uStrength = u("uStrength");
+  const uAngle = u("uAngle");
   const uUvScale = u("uUvScale");
   const uUvOffset = u("uUvOffset");
   gl.uniform1f(u("uFreq"), LENS.freq);
-  gl.uniform1f(u("uAngle"), LENS.angle);
   gl.uniform1f(u("uDisp"), LENS.disp);
   gl.uniform1f(u("uAmp"), LENS.amp);
 
-  const state = { strength: 0 };
+  const state = { strength: 0, angle: LENS.angle };
   const render = () => {
     gl.uniform1f(uStrength, state.strength / 50);
+    gl.uniform1f(uAngle, state.angle);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   };
 
@@ -162,12 +164,22 @@ function setup(figure: HTMLElement): void {
     ease: "power2.out",
     onUpdate: render,
   });
+  const setAngle = gsap.quickTo(state, "angle", {
+    duration: 0.3,
+    ease: "power2.out",
+    onUpdate: render,
+  });
   figure.addEventListener("pointermove", (e) => {
     const rect = canvas.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width; // 0 (left) .. 1 (right)
-    setStrength(Math.min(1, Math.max(0, x)) * 100 - 50); // -50 .. 50
+    const y = (e.clientY - rect.top) / rect.height; // 0 (top) .. 1 (bottom)
+    setStrength(Math.min(1, Math.max(0, y)) * 100); // -50 (top) .. 50 (bottom)
+    setAngle(Math.min(1, Math.max(0, x))); // 0 (left) .. π (right)
   });
-  figure.addEventListener("pointerleave", () => setStrength(0));
+  figure.addEventListener("pointerleave", () => {
+    setStrength(0);
+    setAngle(LENS.angle);
+  });
 }
 
 export function initLenticular(): void {
