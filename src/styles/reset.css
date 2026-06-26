@@ -62,10 +62,16 @@ ol {
   padding: 0;
 }
 
+/* Heading TAGS carry no look of their own — they're for document structure only.
+   All visual sizing/weight comes from a class (.h1–.h4, .hero__headline,
+   .slide__heading). So an h2 can be styled like a display heading, or vice
+   versa, purely by semantics. */
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5,
+h6 {
   font-size: inherit;
   font-weight: inherit;
   line-height: var(--leading-tight);
