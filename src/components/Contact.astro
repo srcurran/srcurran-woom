@@ -7,30 +7,32 @@ import {footerContent} from "../data/site.ts";
     closer at the end of the page. Not [data-hero], so the first-load intro
     animation/guard leaves it alone. */}
 <section class="hero hero--end" id="contact" aria-label="Contact">
-  <div class="hero__content">
-    <h2 class="hero__headline">{footerContent.heading}</h2>
-    <ul class="hero__bio contact-end__list">
-      {
-        contactLinks.map((link) => (
-          <li>
-            <a
-              class="contact-end__link"
-              href={link.href}
-              {...(link.external
-                ? { target: "_blank", rel: "noopener noreferrer" }
-                : {})}
-            >
-              {link.label}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-    <p class="contact-end__copy">{footerContent.location}</p>
-    <p class="contact-end__copy caption">{footerContent.tech}</p>
+  <div class="hero__inner">
+    <div class="hero__content">
+      <h2 class="hero__headline">{footerContent.heading}</h2>
+      <ul class="hero__bio contact-end__list">
+        {
+          contactLinks.map((link) => (
+            <li>
+              <a
+                class="contact-end__link"
+                href={link.href}
+                {...(link.external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="contact-end__copy">{footerContent.location}</p>
+      <p class="contact-end__copy caption">{footerContent.tech}</p>
+    </div>
+    <figure class="contact-end__peace" data-lenticular>
+      <img src="/work/peace-out.jpg" alt="Sean throwing up a peace sign in the snow" loading="lazy" />
+      <canvas aria-hidden="true"></canvas>
+    </figure>
   </div>
-  <figure class="contact-end__peace" data-lenticular>
-    <img src="/work/peace-out.jpg" alt="Sean throwing up a peace sign in the snow" loading="lazy" />
-    <canvas aria-hidden="true"></canvas>
-  </figure>
 </section>

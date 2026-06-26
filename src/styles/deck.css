@@ -29,9 +29,16 @@
   min-height: 100svh;
   display: flex;
   align-items: center;
-  justify-content: center;
   padding-inline: var(--page-padding-x);
   background: var(--color-bg);
+}
+/* Shared inner container — a consistent, centred width that both the About hero
+   and the Contact closer sit inside, so their headlines/copy line up on the same
+   left edge (the Contact's two-column group no longer shifts its text inward). */
+.hero__inner {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
 }
 .hero__content {
   display: flex;
@@ -40,6 +47,7 @@
   gap: var(--space-md);
   max-width: 62ch;
   text-align: left;
+  padding: 2cqw;
 }
 .hero__eyebrow { color: var(--color-ink-muted); }
 .hero__headline {
@@ -59,6 +67,11 @@
   font-size: var(--text-md);
   line-height: var(--leading-relaxed);
 }
+/* Index-only sign-off; set apart from the notes above it. */
+.hero__aside {
+  margin-top: var(--space-xs);
+  font-style: italic;
+}
 
 /* Contact closer — reuses the .hero shell; the bio area becomes a list of
    contact links (serif, to mirror the intro copy). */
@@ -66,11 +79,15 @@
    so the short contact links line up with the About text instead of the narrow
    block centring itself further right. */
 /* Contact closer is two columns on wide screens (copy | photo); flex-wrap drops
-   the photo below the copy once they no longer fit side by side. */
-.hero--end {
+   the photo below the copy once they no longer fit side by side. The two-column
+   layout lives on the shared inner container so the copy aligns with the About
+   hero's left edge. */
+.hero--end .hero__inner {
+  display: flex;
   flex-wrap: wrap-reverse;
   gap: var(--space-2xl);
-  align-content: center;
+  align-items: center;
+  justify-content: space-between;
 }
 .contact-end__list { list-style: none; }
 .contact-end__link {

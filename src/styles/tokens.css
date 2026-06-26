@@ -125,6 +125,9 @@
 
   /* --- Layout -------------------------------------------------------------- */
   --layout-max:     1600px;  /* outer content cap */
+  /* Shared inner container — the SAME width formula the deck cards use, so the
+     hero + contact copy line up with the centred cards, not just each other. */
+  --container-max:  min(90vw, 1180px, calc(54svh * 16 / 9));
   --page-padding-x: var(--space-xl);
   --sidenav-width:  220px;
   --header-height:  4.5rem;
