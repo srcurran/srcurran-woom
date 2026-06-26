@@ -74,6 +74,7 @@
   --text-3xl:     3rem;      /* 48 */
   --text-display: clamp(3rem, 6vw, 4.75rem); /* fluid hero headline */
 
+  --weight-light:   300;   /* serif body (Merriweather Light) */
   --weight-regular: 400;
   --weight-medium:  500;
   --weight-semibold:600;

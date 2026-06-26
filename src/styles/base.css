@@ -11,6 +11,16 @@ body {
   background-color: var(--color-bg);
 }
 
+/* Prose is the editorial serif everywhere on the site (the bio, slide copy,
+   contact closer), so paragraphs default to it — only UI chrome (nav, buttons,
+   labels) stays sans via the body default. A rare sans paragraph can opt back
+   out with a utility/component class. */
+p {
+  font-family: var(--font-serif);
+  font-weight: var(--weight-light);
+  line-height: var(--leading-relaxed);
+}
+
 /* Inline links inside prose. Standalone nav/button links opt out via class. */
 .prose a,
 a.link {
