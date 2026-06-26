@@ -20,10 +20,12 @@ export const site = {
 export const about = {
   heading: "Hi, I'm Sean.",
   paragraphs: [
-    "I come with 15 years of diverse design experience.",
-    "I have designed at startups, design firms and digital agencies. I have worked on projects ranging from fashion to fintech, from 0→1 apps to landing pages.",
-    "I live in beautiful Portland, Maine; by way of NYC, Chicago and SF.",
-    "I am currently Staff Designer at Foyer Savings. Previously at Hawthorne, AKQA, Huge, Cuban Council.",
+    "Agency hustle, start-up grit. A designers eye and developers mind.",
+    "I have many years of diverse experience. I have worked at small startups and global agencies; in fashion and fintech; on 0-to-1 apps, product implementation, and landing pages; roles in design, engineering, and product.",
+  ],
+  notes: [
+    "Currently Staff Designer at Foyer.",
+    "Previously at: AKQA · Huge · R/GA · Hawthorne · Cuban Council · &c",
   ],
 };
 
@@ -86,7 +88,7 @@ export const slides: Slide[] = [
     heading: "Foyer",
     paragraphs: [
       "I joined Foyer, the 401(k) for homeownership, as the founding product designer in mid-2023.",
-      "Over the last 3 years I have helped bring to life an app that helps members plan and save for their first home.",
+      "As the founding designer I brought the app to life. As a design-engineer I work in code and Figma. As the de facto product owner I prioritized features and drove outcomes. As the sole designer I have owned design end-to-end.",
     ],
   },
   {
@@ -127,10 +129,11 @@ export const slides: Slide[] = [
     items: [
       "0→1 product launch",
       "$6M seed round completed",
-      "Optimized paid-tier conversion from 6% to 64%",
       "Optimized onboarding conversion from 21% to 39%",
-      "Managed large projects: oversaw freelance copywriter, brand design, and a $300k engagement with Metalab",
-      "Helped __hundreds of members__ reach homeownership",
+      "Increased paid-tier conversion from 6% at launch, to 64% of depositors",
+      "De facto product owner with engineering partner",
+      "Managed large projects: oversaw freelance copywriter, brand design, and an engagement with Metalab",
+      "Helped <i>hundreds of members</i> reach homeownership",
     ],
   },
 //--- Ohsee --------
@@ -141,8 +144,9 @@ export const slides: Slide[] = [
     theme: "dark",
     heading: "Ohsee QA",
     paragraphs: [
-      "As I spent more time designing in code, it was clear I needed a way to regression test visual changes at scale. There was no app that did what I wanted.",
+      "Designing in code increases the risk of introducing visual bugs. I looked for a product for visual regression testing, but nothing that existed did what I needed.",
       "So I made my own.",
+      "Working code-first, I built and refined a visual QA tool.",
     ],
   },
   {
@@ -165,8 +169,8 @@ export const slides: Slide[] = [
     heading: "Ohsee results",
     items: [
       "Caught visual bugs faster with less effort",
-      "Able to test logged in states and with scripts",
-      "Captures history of app changes in screenshots",
+      "Features include: Playwright scripting, logged-in states, screenshot and code diff detection",
+      "Archived screenshots of app changes maintain a visual history",
       "Agentic-first project with minimal design done in Figma",
     ],
   },
@@ -178,8 +182,8 @@ export const slides: Slide[] = [
     theme: "dark",
     heading: "Hawthorne",
     paragraphs: [
-      "I was with Hawthorne, a D2C men's grooming startup, from 2020—2023. After nearly a decade of freelance agency/design firm work.",
-      "It was exciting to unlock a new set of variables in the work: iterating on live design, managing internal bandwidth, & real time insights into customers/data.",
+      "I joined Hawthorne, a D2C men's grooming startup, to work product-side after decade+ of working at agencies and design firms.",
+      "With a derth of e-commerce epxerience, it was a natural fit that unlocked new ways of working: iterating on live design, managing internal bandwidth, and real time insights into customers/data.",
     ],
   },
   {
@@ -197,11 +201,11 @@ export const slides: Slide[] = [
     theme: "light",
     heading: "Hawthorne results",
     items: [
-      "Launch of direct-buy experience, creating an entirely new surface for consumers to buy products",
-      "Redesigned the core quiz product recommendation experience",
-      "Defined key site metric of “average session value” which analyzed basket size and conversion rates across all sessions",
-      "Supported launches of new product lines and offerings; many selling out within days",
-      "Co-led a re-platforming move to headless Shopify with the lead engineer",
+      "Launched direct-buy experience, creating a new channel for consumers to buy products",
+      "Redesigned and optimized the core feature, a shoppable product recommendation quiz results page",
+      "Defined, and worked against, key site metric of “average session value” which analyzed basket size and conversion rates across all sessions",
+      "Supported launches of new products with one-off digital experiences. Most launches sold out within days",
+      "Co-led effort to move to headless Shopify with the lead engineer",
     ],
   },
 
@@ -213,9 +217,8 @@ export const slides: Slide[] = [
     theme: "dark",
     heading: "App Omni",
     paragraphs: [
-      "I have had several short consulting engagements with App Omni (via Savage Bureau) to provide support and thought-partnership to their design team.",
+      "Consulted with App Omni (via Savage Bureau) across several small projects, to provide product thinking and guidance",
       "Projects included application-wide audits and single-feature deep dives.",
-      "With SaaS application security being a deeply complex product: I promoted consistent and adaptable solutions.",
     ],
   },
   // NOTE: Figma header here reads "Website and CMS design" — a copy-paste from
@@ -233,9 +236,8 @@ export const slides: Slide[] = [
     theme: "light",
     heading: "App Omni results",
     items: [
-      "Provided a recommended multi-stage filtering system built on top of work done by the in-house product team",
+      "Desinged an advanced multi-stage filtering system, extending work started by the in-house product team",
       "Clarified technical constraints of un-nested and-or statements, using pet types and colors to illustrate the ambiguity",
-      "Supported the in-house team with several site-wide audits on topics like: table design, search and filtering",
     ],
   },
 
@@ -247,7 +249,7 @@ export const slides: Slide[] = [
     theme: "dark",
     heading: "Neiman Marcus",
     paragraphs: [
-      "As part of a larger partnership between Said Differently and Neiman Marcus, I was tapped to redesign the checkout flow and store finder, as well as present high level recommendations for key pages (listings page, detail page).",
+      "As part of a larger partnership between Said Differently and Neiman Marcus, I was tapped to redesign the checkout flow and store finder.",
     ],
   },
   { id: "neiman-1", section: "neiman-marcus", kind: "mockup", heading: "Checkout design", media: [{ src: "/work/neiman-1.mp4", alt: "Neiman Marcus checkout design", type: "video" }] },
@@ -259,8 +261,8 @@ export const slides: Slide[] = [
     theme: "light",
     heading: "Neiman Marcus results",
     items: [
-      "Design launched after out-performing the existing checkout flow in performance testing",
-      "Discovery and research led to a store finder experience that went beyond a simple map with pins, celebrating what makes each location unique",
+      "Checkout experience launched after out-performing the existing flow in performance testing",
+      "Created a store finder experience that celebrated the unique aspects of each location",
     ],
   },
 
@@ -271,11 +273,9 @@ export const slides: Slide[] = [
     kind: "intro",
     theme: "dark",
     heading: "Salesforce",
-    // NOTE: the Figma intro slide reuses the Neiman Marcus paragraph (a
-    // copy-paste placeholder). Below is interim copy derived from the results —
-    // replace with the real Salesforce intro.
     paragraphs: [
-      "An internal events application for Salesforce, built to the Lightning design system and localized for a global audience across seven languages.",
+      "Worked with Salesforce on several projects, including: developer documentation design, sites for various verticals, and an events application.",
+      "The customer success calendar was initiated in 2020 as the company pivoted to online events.",
     ],
   },
   { id: "salesforce-1", section: "salesforce", kind: "mockup", heading: "Event calendar approaches", media: [{ src: "/work/salesforce-1.png", alt: "Event calendar approaches" }] },
@@ -289,18 +289,25 @@ export const slides: Slide[] = [
     heading: "Salesforce results",
     items: [
       "Got quick alignment on shape of project through “Land Rover” vs. “Winnebago” concepts",
+      "Ran customer interview sessions, to help understand needs in a rapidly evolving time",
       "Built to the SF Lightning design system specifications",
       "Engagement was extended an additional year: allowing us to continue working on this app to refine and add features",
       "Designed for internationalization, with the events and UI available in seven different languages (including Japanese and German)",
-      "Customer interviews helped us understand needs in a rapidly changing time (mid-2020)",
     ],
   },
 ];
+//---Footer-----
+export const footerContent = {
+  heading: "Thanks",
+  location: "Based in Portland, Maine 🦞",
+  tech: "Built with Astro + GSAP.",
+} as const;
 
 export interface FooterLink {
   label: string;
   href: string;
 }
+
 
 export const footerLinks: FooterLink[] = [
   { label: "Email", href: `mailto:${site.email}` },

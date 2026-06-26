@@ -52,10 +52,8 @@
 .hero__bio {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-xs);
   max-width: 56ch;
-}
-.hero__bio p {
   font-family: var(--font-serif);
   font-weight: 300;
   font-size: var(--text-md);
@@ -87,8 +85,6 @@
 }
 .contact-end__link:hover { border-bottom-color: currentColor; }
 .contact-end__copy {
-  margin-top: var(--space-lg);
-  font-size: var(--text-sm);
   color: var(--color-ink-subtle);
 }
 /* Peace-out photo — a rounded sign-off below the contact links. */
