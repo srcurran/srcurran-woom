@@ -19,6 +19,14 @@ p {
   font-family: var(--font-serif);
   font-weight: var(--weight-light);
   line-height: var(--leading-relaxed);
+  /* Tidy the rag — pull down single-word orphans on the last line. */
+  text-wrap: pretty;
+}
+
+/* Balance headline line breaks so they don't leave a lone word stranded on the
+   last line (browsers cap this at a few lines, which is all a headline needs). */
+:is(h1, h2, h3, h4, h5, h6) {
+  text-wrap: balance;
 }
 
 /* Inline links inside prose. Standalone nav/button links opt out via class. */

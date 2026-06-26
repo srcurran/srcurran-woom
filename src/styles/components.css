@@ -20,6 +20,10 @@
   color: var(--color-ink);
   background: transparent;
   border-bottom: 1px solid transparent;
+  /* Pad the OUTER bar so the tint/border still span full width, but the inner
+     row mirrors the hero's padding model (padding outside, content inside) — see
+     below. */
+  padding-inline: var(--page-padding-x);
   transition: background var(--duration-base) var(--ease-out),
               border-color var(--duration-base) var(--ease-out);
 }
@@ -28,7 +32,15 @@
   backdrop-filter: saturate(160%) blur(14px);
   border-bottom-color: var(--color-border);
 }
+/* Constrain the brand + Contact to the SAME centred column as the hero/cards
+   (`--container-max`), so the brand's left edge lines up with the headline and
+   the content below it — instead of the brand hugging the page padding while the
+   centred content sits indented (the misalignment in the ~760–890px band). The
+   .page padding is dropped here; the outer .site-header pads instead, matching
+   .hero (pad outside, centre the inner) so the two left edges resolve equal. */
 .site-header__inner {
+  max-width: var(--container-max);
+  padding-inline: 0;
   min-height: var(--header-height);
   align-items: center;
   justify-content: space-between;

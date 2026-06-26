@@ -168,18 +168,29 @@ export function initDeck(): void {
   }
 
   // Active section: About while we're still up in the hero, otherwise the card
-  // nearest the viewport centre. The nav adapts to avoid colliding with content:
-  //  • In the deck → the compact dash rail (always; it's slim + edge-hugging).
-  //  • On About, WIDE (>1024) → full labels (room beside the centred hero).
-  //  • On About, MEDIUM (≤1024) → dash rail (full labels would overlap the copy).
-  //  • On About, PHONE (≤760) → hidden entirely (CSS, via `.is-about`).
-  // 1024 matches the side-nav left-offset breakpoint, so the offset and the
-  // labels flip together.
+  // nearest the viewport centre. The nav only shows when the centred content
+  // leaves a wide enough left gutter for it. The content/card width grows with
+  // viewport HEIGHT (--container-max → 54svh·16/9), so a tall window crowds the
+  // nav even on a wide screen — width breakpoints can't capture that. Instead we
+  // measure the gutter directly (the shared container's left edge) and:
+  //  • gutter < RAIL_GUTTER  → hidden entirely (no room for even the dash rail).
+  //  • on About, gutter ≥ LABEL_GUTTER → full labels; otherwise the slim rail.
+  //  • in the deck → always the slim rail (when shown at all).
+  const RAIL_GUTTER = 64; // px of clearance the edge-hugging dash rail needs
+  const LABEL_GUTTER = 180; // px of clearance the expanded labels need
+  const heroInner = document.querySelector<HTMLElement>(".hero__inner");
+  let gutter = window.innerWidth;
+  const measureGutter = () => {
+    gutter = heroInner ? heroInner.getBoundingClientRect().left : window.innerWidth;
+  };
+  measureGutter();
   let lastSection = "";
   const syncNav = () => {
+    if (!sideNav) return;
     const onAbout = lastSection === "about";
-    sideNav?.classList.toggle("is-about", onAbout);
-    sideNav?.classList.toggle("is-collapsed", !onAbout || window.innerWidth <= 1024);
+    sideNav.classList.toggle("is-hidden", gutter < RAIL_GUTTER);
+    sideNav.classList.toggle("is-about", onAbout);
+    sideNav.classList.toggle("is-collapsed", !onAbout || gutter < LABEL_GUTTER);
   };
   const setActive = (section: string) => {
     if (!section) return;
@@ -189,8 +200,12 @@ export function initDeck(): void {
     }
     syncNav();
   };
-  // Re-evaluate the width-dependent mode on resize.
-  window.addEventListener("resize", syncNav, { passive: true });
+  // Re-evaluate the gutter-dependent mode on resize (the container width tracks
+  // both viewport width and height, so re-measure before syncing).
+  window.addEventListener("resize", () => {
+    measureGutter();
+    syncNav();
+  }, { passive: true });
   // Document-absolute, untransformed top (avoids transform feedback).
   const absTop = (el: HTMLElement): number => {
     let y = 0;

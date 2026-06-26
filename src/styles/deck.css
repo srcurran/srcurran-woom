@@ -47,7 +47,7 @@
   gap: var(--space-md);
   max-width: 62ch;
   text-align: left;
-  padding: 2cqw;
+  padding: 1cqw;
 }
 .hero__eyebrow { color: var(--color-ink-muted); }
 .hero__headline {
