@@ -92,10 +92,16 @@ export function initDeck(): void {
   computeSpacing();
   window.addEventListener("resize", computeSpacing);
 
-  // Animate at every width — the centred + scaled active card (with dimmed,
-  // shrunk neighbours) is exactly what makes the deck legible on mobile too. It
-  // falls back to a plain static list only when the user prefers reduced motion.
-  const animate = !prefersReduced();
+  // The coverflow is a desktop experience: on tablet/phone (<= 960px) — and when
+  // the user prefers reduced motion — the deck falls back to a plain static list
+  // (no per-card transforms, no snap; see responsive.css). Scroll-driven scrubbed
+  // transforms feel janky under touch, and a tight static stack reads cleaner.
+  const animate = !prefersReduced() && window.innerWidth > 960;
+  // The decision is made once here, so crossing the breakpoint needs a reload to
+  // re-wire (or tear down) the per-card ScrollTriggers.
+  window
+    .matchMedia("(min-width: 961px)")
+    .addEventListener("change", () => location.reload());
 
   if (animate) {
     for (const card of cards) {
@@ -242,28 +248,43 @@ export function initDeck(): void {
       onComplete: () => root.style.removeProperty("scroll-snap-type"),
     });
   };
+  // Hover devices reveal the collapsed rail's labels on hover. Touch can't hover
+  // reliably (a tap fires hover + click at once), so there the rail is tap-to-open:
+  // the first tap reveals the labels, the next tap on a link navigates, and a tap
+  // anywhere else collapses it again.
+  const canHover = window.matchMedia("(hover: hover)").matches;
+
   for (const link of navLinks) {
     link.addEventListener("click", (event) => {
       event.preventDefault();
+      // Touch: the first tap only opens the rail — don't navigate until revealed.
+      if (!canHover && sideNav && !sideNav.classList.contains("is-revealed")) {
+        sideNav.classList.add("is-revealed");
+        return;
+      }
       const id = link.dataset.navLink;
-      if (id === "about") {
-        glideTo(0);
-        return;
+      let y: number | null = null;
+      if (id === "about") y = 0;
+      else if (id === "contact") y = contact ? snapScrollFor(contact) : null;
+      else {
+        const target = cards.find((c) => c.dataset.section === id);
+        y = target ? snapScrollFor(target) : null;
       }
-      if (id === "contact") {
-        if (contact) glideTo(snapScrollFor(contact));
-        return;
-      }
-      const target = cards.find((c) => c.dataset.section === id);
-      if (target) glideTo(snapScrollFor(target));
+      if (y !== null) glideTo(y);
+      if (!canHover) sideNav?.classList.remove("is-revealed"); // collapse after the jump
     });
   }
 
-  // Hovering the nav itself brings the collapsed labels back up — only the nav,
-  // not the deck (hovering a card shouldn't reveal it).
-  if (sideNav) {
+  if (sideNav && canHover) {
+    // Hover-reveal (desktop) — only the nav, not the deck (hovering a card
+    // shouldn't reveal it).
     sideNav.addEventListener("pointerenter", () => sideNav.classList.add("is-revealed"));
     sideNav.addEventListener("pointerleave", () => sideNav.classList.remove("is-revealed"));
+  } else if (sideNav) {
+    // Touch: a tap outside the rail collapses it again.
+    document.addEventListener("click", (e) => {
+      if (!sideNav.contains(e.target as Node)) sideNav.classList.remove("is-revealed");
+    });
   }
 
   ScrollTrigger.refresh();

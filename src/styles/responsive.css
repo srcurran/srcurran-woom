@@ -11,13 +11,21 @@
   .side-nav { left: var(--space-2xs); }
 }
 
-/* --- Tablet ( <= 960px ) -------------------------------------------------- */
+/* --- Tablet / phone ( <= 960px ): static deck ----------------------------
+   No coverflow transforms or snap here (see deck.ts), so the cards are a plain
+   vertical list. Drop the big animated-view gap for a tight stack + small tail. */
 @media (max-width: 960px) {
   :root {
     --page-padding-x: var(--space-lg);
     --space-3xl: 5rem;
   }
   .deck__card { width: 78vw; }
+  /* Keep the deck's negative margin (the first-card peek) so the intro still
+     pokes the first card up from the bottom of the hero on mobile. */
+  .deck__viewport {
+    gap: clamp(1.25rem, 4vh, 2.5rem);
+    padding-block: 0 clamp(1.5rem, 6vh, 3rem);
+  }
 }
 
 /* Cards (width-driven for a true 16:9) need to widen on small screens. */
@@ -32,11 +40,6 @@
     padding-top: calc(var(--header-height) + var(--space-md));
     padding-bottom: var(--space-xl);
   }
-
-  /* A 16:9 card at 90vw is short, so 4 stack into view at once. A big,
-     vh-proportional gap keeps the count to ~3 — the centred (scaled, undimmed)
-     active card plus a peek of each neighbour — so the active one is obvious. */
-  .deck__viewport { gap: 22vh; }
 
   /* The full-width About copy reaches the left edge, so even the dash rail
      collides with the bio text on phones. Hide the nav on the About hero here

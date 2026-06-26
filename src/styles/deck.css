@@ -142,7 +142,7 @@
    Native mandatory snap: the scroll rests on a card and resists until you flick
    past it. `scroll-snap-stop: always` makes that a deliberate, one-card move.
    scroll-padding:0 so a centred card lands with its centre at 50vh. */
-@media (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) and (min-width: 961px) {
   html {
     scroll-snap-type: y mandatory;
     scroll-padding: 0;
