@@ -87,7 +87,6 @@
   flex-wrap: wrap-reverse;
   gap: var(--space-2xl);
   align-items: center;
-  justify-content: space-between;
 }
 .contact-end__list { list-style: none; }
 .contact-end__link {
@@ -108,7 +107,15 @@
 .contact-end__peace {
   position: relative; /* canvas overlays the <img> */
   display: block;
-  width: min(400px, 100%);
+  /* Grow to fill the space left of the copy (gap is the inner's 2xl); the copy
+     column keeps its content width and doesn't grow. The min-width floor keeps
+     the photo usable — once it can't fit beside the copy at that size, the row
+     wraps (photo above copy, via wrap-reverse) instead of collapsing to a sliver.
+     Capped so a wrapped, full-width photo (and its square height) stays sane. */
+  flex: 1 1 360px;
+  width: auto;
+  min-width: 280px;
+  max-width: 640px;
   aspect-ratio: 1;
   border-radius: var(--radius-lg);
   overflow: hidden; /* round the canvas + img */
