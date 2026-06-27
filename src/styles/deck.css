@@ -345,6 +345,45 @@
   border-radius: 4cqw;
 }
 
+/* Phone frame — raw screen guts (a video, or a bezel-less screenshot) shown
+   through the transparent glass of phone-mask.png, which overlays the metallic
+   bezel + dynamic island on top. Same asset baked into the static foyer
+   screenshots, so framed media matches them exactly. */
+.slide__shot .phone {
+  /* Stack the screen + bezel in one grid cell. The bezel <img> is in-flow and
+     contain-fits the cell (same rules as the bezel-baked screenshots), so it
+     sizes the box and the 377/772 ratio is never distorted; the screen fills
+     behind it. */
+  display: grid;
+  place-items: center;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
+.slide__shot .phone > * {
+  grid-area: 1 / 1;
+  min-width: 0;
+  min-height: 0;
+}
+.slide__shot .phone__frame {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.slide__shot .phone__screen {
+  /* Native ratio (width follows height) so the full screen shows uncropped, like
+     the screenshots; 85% height insets it slightly inside the glass. */
+  width: auto;
+  height: 85%;
+  object-fit: cover;
+  border-radius: 14% / 6.8%; /* round the corners to match the phone's glass */
+}
+
 /* Results — heading + serif list (slightly larger, per the source). */
 .slide__results {
   margin-top: 2.4cqw;

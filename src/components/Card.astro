@@ -60,7 +60,16 @@ function emphasize(text: string): string {
           >
             {(slide.media ?? []).map((m) => (
               <figure class="slide__shot">
-                {m.type === "video" ? (
+                {m.phoneFrame ? (
+                  <div class="phone">
+                    {m.type === "video" ? (
+                      <video src={m.src} autoplay muted loop playsinline class="phone__screen" />
+                    ) : (
+                      <img src={m.src} alt={m.alt ?? ""} class="phone__screen" />
+                    )}
+                    <img class="phone__frame" src="/work/phone-mask.png" alt="" aria-hidden="true" />
+                  </div>
+                ) : m.type === "video" ? (
                   <video
                     src={m.src}
                     autoplay

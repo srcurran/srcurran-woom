@@ -58,6 +58,10 @@ export interface SlideMedia {
   /** Round the asset's corners (cqw, scales with the card) — e.g. a phone-screen
    *  recording that needs its own rounding. */
   rounded?: boolean;
+  /** Overlay the iPhone bezel (public/work/phone-mask.png) on top of the asset so
+   *  raw screen guts (a video, or a bezel-less screenshot) match the screenshots
+   *  that have the frame baked in. The asset shows through the transparent glass. */
+  phoneFrame?: boolean;
 }
 
 export interface Slide {
@@ -99,9 +103,9 @@ export const slides: Slide[] = [
     id: "foyer-1", section: "foyer", kind: "mockup", heading: "Onboarding",
     media: [
       { src: "/work/foyer-1-a.png", alt: "Where" },
-      { src: "/work/foyer-1-b.png", alt: "When" },
       { src: "/work/foyer-1-c.png", alt: "Price" },
       { src: "/work/foyer-1-d.png", alt: "Concerns" },
+      { src: "/work/foyer-home-goal.mp4", alt: "Homegoal", type: "video", phoneFrame: true },
     ],
   },
   {
