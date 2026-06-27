@@ -1,10 +1,12 @@
 /**
  * Lenticular cursor shader — renders an image through a WebGL fragment shader
  * that refracts it across angled "lens" strips with chromatic dispersion. The
- * lens ANGLE tracks the cursor's X over the image (left edge = 0, right edge = π,
- * a half-turn sweep), and the distortion STRENGTH tracks the cursor's Y: top
- * edge = -50, centre = 0, bottom edge = +50 (both eased via GSAP). Falls back to
- * the plain <img> if WebGL is unavailable or the image hasn't loaded.
+ * lens ANGLE tracks the cursor's X over the image (centre = 0/no tilt, left edge =
+ * +π/2 counterclockwise, right edge = −π/2 clockwise), and the distortion
+ * STRENGTH peaks dead-centre and falls to
+ * 0 at every edge — a per-axis triangular falloff (1 at centre, 0 at either edge)
+ * multiplied together (both eased via GSAP). Falls back to the plain <img> if
+ * WebGL is unavailable or the image hasn't loaded.
  *
  * Markup: <figure data-lenticular><img …/><canvas/></figure>. The canvas mirrors
  * the <img>'s object-fit: cover via a UV transform, so it lines up exactly.
@@ -24,9 +26,9 @@ const FRAG = `
 precision highp float;
 varying vec2 vUv;
 uniform sampler2D uTex;
-uniform float uStrength;   // -1..1 (cursor Y mapped from -50..50)
+uniform float uStrength;   // 0..2 (0 at the edges, peaks dead-centre)
 uniform float uFreq;       // lens strips along the axis
-uniform float uAngle;      // lens angle in radians (cursor X: 0 left .. π right)
+uniform float uAngle;      // lens angle in radians (cursor X: +π/2 left .. 0 centre .. −π/2 right)
 uniform float uDisp;       // chromatic dispersion 0..1
 uniform float uAmp;        // base displacement amplitude
 uniform vec2  uUvScale;    // object-fit: cover transform
@@ -44,7 +46,7 @@ void main() {
 }`;
 
 // The lens look — tweak freely.
-const LENS = { freq: 2, angle: Math.PI, disp: 0.35, amp: 0.06 };
+const LENS = { freq: 3, angle: 0, disp: .1, amp: .1 };
 
 function compile(gl: WebGLRenderingContext, type: number, src: string) {
   const sh = gl.createShader(type);
@@ -173,8 +175,14 @@ function setup(figure: HTMLElement): void {
     const rect = canvas.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width; // 0 (left) .. 1 (right)
     const y = (e.clientY - rect.top) / rect.height; // 0 (top) .. 1 (bottom)
-    setStrength(Math.min(1, Math.max(0, y)) * 100); // -50 (top) .. 50 (bottom)
-    setAngle(Math.min(1, Math.max(0, x))); // 0 (left) .. π (right)
+    // Triangular falloff per axis: 1 at the centre, 0 at either edge. Multiplied
+    // so strength is 100 dead-centre and 0 along every edge (both directions).
+    const cx = Math.min(1, Math.max(0, x));
+    const cy = Math.min(1, Math.max(0, y));
+    const fx = 1 - Math.abs(cx * 2 - 1);
+    const fy = 1 - Math.abs(cy * 2 - 1);
+    setStrength(fx * fy * 100); // 0 on the edges .. 100 in the middle
+    setAngle((0.5 - cx) * Math.PI); // +π/2 left (CCW) .. 0 centre .. −π/2 right (CW)
   });
   figure.addEventListener("pointerleave", () => {
     setStrength(0);

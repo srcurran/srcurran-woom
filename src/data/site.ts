@@ -20,8 +20,8 @@ export const site = {
 export const about = {
   heading: "Hi, I'm Sean.",
   paragraphs: [
-    "Agency hustle, start-up grit. A designers eye and developers mind.",
     "I have many years of diverse experience. I have worked at small startups and global agencies; in fashion and fintech; on 0-to-1 apps, product implementation, and landing pages; roles in design, engineering, and product.",
+    "Agency hustle, start-up grit. A designers eye and developers mind.",
   ],
   notes: [
     "Currently Staff Designer at Foyer.",
