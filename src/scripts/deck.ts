@@ -302,6 +302,84 @@ export function initDeck(): void {
     });
   }
 
+  // --- Keyboard navigation -------------------------------------------------
+  // Up/Down → previous/next SLIDE; Left/Right → previous/next PROJECT. Both reuse
+  // the same centred-scroll glide as a nav click. Slides step through the full
+  // sequence (hero, every card, contact) by the snap point nearest the current
+  // scroll; projects step section-to-section from the active section, landing on
+  // each project's intro card — with the hero + contact closer as the end stops.
+  const slideYs = (): number[] => {
+    const ys = [0, ...cards.map((c) => snapScrollFor(c))];
+    if (contact) ys.push(snapScrollFor(contact));
+    return ys;
+  };
+  const projectKeys = (): string[] => {
+    const keys = ["about"];
+    const seen = new Set<string>();
+    for (const c of cards) {
+      const s = c.dataset.section ?? "";
+      if (s && !seen.has(s)) {
+        seen.add(s);
+        keys.push(s);
+      }
+    }
+    if (contact) keys.push("contact");
+    return keys;
+  };
+  const yForKey = (key: string): number => {
+    if (key === "about") return 0;
+    if (key === "contact") return contact ? snapScrollFor(contact) : 0;
+    const c = cards.find((card) => card.dataset.section === key);
+    return c ? snapScrollFor(c) : 0;
+  };
+  const stepSlide = (dir: number) => {
+    const ys = slideYs();
+    const sy = window.scrollY;
+    let i = 0;
+    let best = Infinity;
+    ys.forEach((y, idx) => {
+      const d = Math.abs(sy - y);
+      if (d < best) {
+        best = d;
+        i = idx;
+      }
+    });
+    const next = Math.min(ys.length - 1, Math.max(0, i + dir));
+    if (next !== i) glideTo(ys[next]);
+  };
+  const stepProject = (dir: number) => {
+    const keys = projectKeys();
+    let i = keys.indexOf(lastSection);
+    if (i === -1) i = 0;
+    const next = Math.min(keys.length - 1, Math.max(0, i + dir));
+    if (next !== i) glideTo(yForKey(keys[next]));
+  };
+  window.addEventListener("keydown", (event) => {
+    // Discrete presses only; let shortcuts (⌘/Ctrl/Alt) and typing through.
+    if (event.repeat || event.metaKey || event.ctrlKey || event.altKey) return;
+    const t = event.target as HTMLElement | null;
+    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+    if (document.querySelector(".contact-menu:popover-open")) return; // don't hijack the open menu
+    switch (event.key) {
+      case "ArrowDown":
+        event.preventDefault();
+        stepSlide(1);
+        break;
+      case "ArrowUp":
+        event.preventDefault();
+        stepSlide(-1);
+        break;
+      case "ArrowRight":
+        event.preventDefault();
+        stepProject(1);
+        break;
+      case "ArrowLeft":
+        event.preventDefault();
+        stepProject(-1);
+        break;
+    }
+  });
+
   ScrollTrigger.refresh();
 }
 
