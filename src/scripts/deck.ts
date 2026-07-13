@@ -77,6 +77,11 @@ export function initDeck(): void {
   // card, so the scroll-spy + nav-click handlers below treat it as a special case.
   const contact = document.querySelector<HTMLElement>("#contact");
 
+  // Deep-link target (e.g. /work#ohsee), captured now — before the scroll-spy
+  // rewrites the hash to the focused section — and applied once the card
+  // positions are known (end of initDeck).
+  const initialHash = location.hash.slice(1);
+
   viewport.classList.add("is-ready");
 
   // Card-to-card spacing in viewport heights (card height + the deck gap). The
@@ -200,6 +205,11 @@ export function initDeck(): void {
       document.dispatchEvent(
         new CustomEvent("section:change", { detail: { section } }),
       );
+      // Keep the URL in sync so any project is directly linkable (replaceState
+      // updates the address bar without scrolling or adding history entries).
+      // About is the top of the page, so it clears back to a bare /work.
+      const url = section === "about" ? location.pathname + location.search : `#${section}`;
+      history.replaceState(null, "", url);
     }
     syncNav();
   };
@@ -384,6 +394,14 @@ export function initDeck(): void {
   });
 
   ScrollTrigger.refresh();
+
+  // Deep link: /work#ohsee (or any project / #contact) lands directly on that
+  // section on load. Positions are known now that the deck has laid out and
+  // refreshed. `about` is the top, so nothing to do there. Instant jump to the
+  // section's snap point; the scroll-spy then syncs the nav + hash.
+  if (initialHash && initialHash !== "about" && projectKeys().includes(initialHash)) {
+    window.scrollTo(0, yForKey(initialHash));
+  }
 }
 
 // Mark the active link and slide the active marker (.side-nav__list::before) to
