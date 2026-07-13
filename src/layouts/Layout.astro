@@ -34,6 +34,21 @@ const {
     <script is:inline>
       document.documentElement.classList.add("js");
     </script>
+
+    {/* Google tag (gtag.js) */}
+    <script
+      is:inline
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-RDJ51M99TB"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-RDJ51M99TB");
+    </script>
   </head>
   <body>
     <slot />
