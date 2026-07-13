@@ -197,6 +197,9 @@ export function initDeck(): void {
     if (section !== lastSection) {
       lastSection = section;
       setActiveNav(section, navLinks);
+      document.dispatchEvent(
+        new CustomEvent("section:change", { detail: { section } }),
+      );
     }
     syncNav();
   };
