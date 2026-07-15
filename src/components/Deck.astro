@@ -1,10 +1,41 @@
 ---
 import Card from "./Card.astro";
-import { slides } from "../data/site";
+import { slides, showsOnIndex, indexAnchorIds, type Slide } from "../data/site";
+
+interface Props {
+  /** Home-page deck: only the slides flagged for the index (mockups by default).
+   *  The full /work deck shows every slide. */
+  index?: boolean;
+}
+
+const { index = false } = Astro.props;
+
+// The full /work deck shows every non-index-only slide in authored order. The
+// home deck leads with the "Latest Work" opener, then the anchored slides in a
+// fixed order, then everything else — which deck.ts shuffles on each load.
+// `pinCount` (opener + anchors) tells the shuffle how many leading cards to leave
+// in place.
+let shown: Slide[] = slides.filter((s) => !s.indexOnly);
+let pinCount = 0;
+if (index) {
+  const indexSlides = slides.filter(showsOnIndex);
+  const opener = indexSlides.filter((s) => s.indexOnly);
+  const anchored = indexAnchorIds
+    .map((id) => indexSlides.find((s) => s.id === id))
+    .filter((s): s is Slide => s !== undefined);
+  const pinned = [...opener, ...anchored];
+  const pinnedIds = new Set(pinned.map((s) => s.id));
+  shown = [...pinned, ...indexSlides.filter((s) => !pinnedIds.has(s.id))];
+  pinCount = pinned.length;
+}
 ---
 
 <section class="deck" data-deck aria-label="Selected work">
-  <div class="deck__viewport" data-deck-viewport>
-    {slides.map((slide, i) => <Card slide={slide} index={i} />)}
+  <div
+    class="deck__viewport"
+    data-deck-viewport
+    data-shuffle-after={index ? String(pinCount) : undefined}
+  >
+    {shown.map((slide, i) => <Card slide={slide} index={i} />)}
   </div>
 </section>

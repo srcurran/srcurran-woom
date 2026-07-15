@@ -18,6 +18,7 @@ function emphasize(text: string): string {
 
 <article
   class:list={["deck__card", "slide", `slide--${slide.kind}`, `slide--${theme}`]}
+  style={slide.background ? `background: ${slide.background}` : undefined}
   data-card
   data-index={index}
   data-section={slide.section}
