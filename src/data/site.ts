@@ -80,9 +80,48 @@ export interface Slide {
   /** Force a single-image mockup to "contain" (centred + padded) instead of the
    *  default cover-fill — e.g. a device shown on its own slide. */
   fit?: "cover" | "contain";
+  /** Any CSS `background` value painted behind the card content, overriding the
+   *  default light/dark fill — e.g. a gradient behind a contained device mockup. */
+  background?: string;
+  /** Whether this slide also appears on the home (index) page deck. Defaults to
+   *  true for `mockup` slides and false for everything else (intro titles,
+   *  results, bio) — set explicitly to override that default per slide. */
+  onIndex?: boolean;
+  /** Show this slide ONLY on the home (index) page, never in the full /work deck
+   *  (e.g. the index-only "Latest Work" opener). Implies it's excluded from /work. */
+  indexOnly?: boolean;
 }
 
+/** Does a slide belong in the home-page deck? Mockups by default; anything can
+ *  opt in or out via its `onIndex` flag. */
+export const showsOnIndex = (slide: Slide): boolean =>
+  slide.onIndex ?? slide.kind === "mockup";
+
+/** Slides (by id) anchored to the front of the home-page deck, in this order —
+ *  they sit right after the "Latest Work" opener and are NOT shuffled. Every
+ *  other index slide is shuffled in after them (see deck.ts). */
+export const indexAnchorIds: string[] = [
+  "foyer-device", // Foyer slide 1 — app device video
+  "ohsee-diff", // Ohsee slide 2 — Ohsee Diff
+  "hawthorne-device", // Hawthorne slide 1 — quiz result video
+  "foyer-1", // Foyer slide 2 — Onboarding
+  "salesforce-3", // Salesforce slide 3 — Event calendar index
+];
+
 export const slides: Slide[] = [
+  // --- Index opener (home page only) -------------------------------------
+  // A title card that leads the shuffled home-page deck. `indexOnly` keeps it
+  // out of the full /work deck; being first, it's data-index 0 — so it owns the
+  // first-load intro animation and stays pinned ahead of the shuffle.
+  {
+    id: "index-latest",
+    section: "latest",
+    kind: "intro",
+    theme: "dark",
+    heading: "Latest Work",
+    onIndex: true,
+    indexOnly: true,
+  },
   // --- Foyer -------------------------------------------------------------
   {
     id: "foyer-intro",
@@ -97,6 +136,8 @@ export const slides: Slide[] = [
   },
   {
     id: "foyer-device", section: "foyer", kind: "mockup", fit: "contain",
+    // Soft lavender→peach gradient (from the Figma frame) behind the device.
+    background: "linear-gradient(to top right, #f2ebf5, #f9f0eb 55%, #fbefe9)",
     media: [{ src: "/work/foyer-app.mp4", alt: "Foyer app", type: "video", phoneBorder: true  }],
   },
   {

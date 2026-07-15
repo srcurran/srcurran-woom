@@ -66,6 +66,26 @@ export function initDeck(): void {
   const viewport = document.querySelector<HTMLElement>("[data-deck-viewport]");
   if (!deck || !viewport) return;
 
+  // Home deck ([data-shuffle-after]): reorder the cards on each load so repeat
+  // visitors get a fresh sequence. The leading block — the "Latest Work" opener
+  // (data-index 0, which owns the first-load intro and reads as the header) plus
+  // the anchored slides after it — is pinned; its size is the attribute value, so
+  // only cards from that index onward are Fisher–Yates shuffled. Done before
+  // `cards` is read (and before any ScrollTrigger wiring) so the rest of initDeck
+  // sees final DOM order; the shuffled cards live below the fold, so the reorder
+  // is never seen.
+  if (viewport.dataset.shuffleAfter !== undefined) {
+    const pin = Number(viewport.dataset.shuffleAfter) || 0;
+    const rest = Array.from(
+      viewport.querySelectorAll<HTMLElement>("[data-card]"),
+    ).filter((c) => Number(c.dataset.index) >= pin);
+    for (let i = rest.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [rest[i], rest[j]] = [rest[j], rest[i]];
+    }
+    for (const c of rest) viewport.appendChild(c);
+  }
+
   const cards = Array.from(viewport.querySelectorAll<HTMLElement>("[data-card]"));
   if (cards.length === 0) return;
 
