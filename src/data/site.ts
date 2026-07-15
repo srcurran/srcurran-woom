@@ -104,6 +104,10 @@ export const slides: Slide[] = [
     kind: "intro",
     theme: "dark",
     heading: "Latest Work",
+    paragraphs: [
+      "A potpourri of recent work that I have designed, animated and developed (or at least helped develop).",
+      "Full portfolio available upon request.",
+    ],
     onIndex: 1,
     indexOnly: true,
   },
