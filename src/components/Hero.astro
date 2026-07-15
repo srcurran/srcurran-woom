@@ -1,12 +1,5 @@
 ---
 import { about } from "../data/site";
-
-interface Props {
-  /** The index page is About-only; show the "available upon request" line there
-   *  but not on the work page, which carries the full deck. */
-  isIndex?: boolean;
-}
-const { isIndex = false } = Astro.props;
 ---
 
 <section class="hero" data-hero id="about">
@@ -16,7 +9,6 @@ const { isIndex = false } = Astro.props;
       <div class="hero__bio">
         {about.paragraphs.map((p) => <p>{p}</p>)}
         {about.notes.map((p) => <p class="body-sm">{p}</p>)}
-        {isIndex && <p class="hero__aside">Full portfolio available upon request.</p>}
       </div>
     </div>
   </div>
