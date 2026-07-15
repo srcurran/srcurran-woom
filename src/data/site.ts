@@ -83,43 +83,28 @@ export interface Slide {
   /** Any CSS `background` value painted behind the card content, overriding the
    *  default light/dark fill — e.g. a gradient behind a contained device mockup. */
   background?: string;
-  /** Whether this slide also appears on the home (index) page deck. Defaults to
-   *  true for `mockup` slides and false for everything else (intro titles,
-   *  results, bio) — set explicitly to override that default per slide. */
-  onIndex?: boolean;
+  /** Position of this slide on the home (index) page deck, 1-based. Absent → the
+   *  slide does NOT appear on the home deck. Present slides render in ascending
+   *  `onIndex` order (so 1 leads, then 2, …). Duplicate numbers aren't guarded
+   *  against — just don't reuse one. */
+  onIndex?: number;
   /** Show this slide ONLY on the home (index) page, never in the full /work deck
    *  (e.g. the index-only "Latest Work" opener). Implies it's excluded from /work. */
   indexOnly?: boolean;
 }
 
-/** Does a slide belong in the home-page deck? Mockups by default; anything can
- *  opt in or out via its `onIndex` flag. */
-export const showsOnIndex = (slide: Slide): boolean =>
-  slide.onIndex ?? slide.kind === "mockup";
-
-/** Slides (by id) anchored to the front of the home-page deck, in this order —
- *  they sit right after the "Latest Work" opener and are NOT shuffled. Every
- *  other index slide is shuffled in after them (see deck.ts). */
-export const indexAnchorIds: string[] = [
-  "foyer-device", // Foyer slide 1 — app device video
-  "ohsee-diff", // Ohsee slide 2 — Ohsee Diff
-  "hawthorne-device", // Hawthorne slide 1 — quiz result video
-  "foyer-1", // Foyer slide 2 — Onboarding
-  "salesforce-3", // Salesforce slide 3 — Event calendar index
-];
-
 export const slides: Slide[] = [
   // --- Index opener (home page only) -------------------------------------
-  // A title card that leads the shuffled home-page deck. `indexOnly` keeps it
+  // A title card that leads the home-page deck (onIndex: 1). `indexOnly` keeps it
   // out of the full /work deck; being first, it's data-index 0 — so it owns the
-  // first-load intro animation and stays pinned ahead of the shuffle.
+  // first-load intro animation.
   {
     id: "index-latest",
     section: "latest",
     kind: "intro",
     theme: "dark",
     heading: "Latest Work",
-    onIndex: true,
+    onIndex: 1,
     indexOnly: true,
   },
   // --- Foyer -------------------------------------------------------------
@@ -135,13 +120,13 @@ export const slides: Slide[] = [
     ],
   },
   {
-    id: "foyer-device", section: "foyer", kind: "mockup", fit: "contain",
+    id: "foyer-device", section: "foyer", kind: "mockup", fit: "contain", onIndex: 2,
     // Soft lavender→peach gradient (from the Figma frame) behind the device.
     background: "linear-gradient(to top right, #f2ebf5, #f9f0eb 55%, #fbefe9)",
     media: [{ src: "/work/foyer-app.mp4", alt: "Foyer app", type: "video", phoneBorder: true  }],
   },
   {
-    id: "foyer-1", section: "foyer", kind: "mockup", heading: "Onboarding",
+    id: "foyer-1", section: "foyer", kind: "mockup", heading: "Onboarding", onIndex: 5,
     media: [
       { src: "/work/foyer-1-a.png", alt: "Where" },
       { src: "/work/foyer-1-c.png", alt: "Price" },
@@ -199,7 +184,7 @@ export const slides: Slide[] = [
     media: [{ src: "/work/ohsee-run.mp4", alt: "Ohsee Pages", type: "video"  }],
   },
   {
-    id: "ohsee-diff", section: "ohsee", kind: "mockup",
+    id: "ohsee-diff", section: "ohsee", kind: "mockup", onIndex: 3,
     media: [{ src: "/work/ohsee-diff.mp4", alt: "Ohsee Diff", type: "video"  }],
   },
   {
@@ -232,7 +217,7 @@ export const slides: Slide[] = [
     ],
   },
   {
-    id: "hawthorne-device", section: "hawthorne", kind: "mockup", theme: "dark", fit: "contain",
+    id: "hawthorne-device", section: "hawthorne", kind: "mockup", theme: "dark", fit: "contain", onIndex: 4,
     media: [{ src: "/work/hawthorne-video.mp4", alt: "Hawthorne quiz result", type: "video", rounded: true }],
   },
   { id: "hawthorne-1", section: "hawthorne", kind: "mockup", heading: "Quiz result concept sketches", media: [{ src: "/work/hawthorne-1.jpg", alt: "Quiz result concept sketches" }] },
@@ -325,7 +310,7 @@ export const slides: Slide[] = [
   },
   { id: "salesforce-1", section: "salesforce", kind: "mockup", heading: "Event calendar approaches", media: [{ src: "/work/salesforce-1.png", alt: "Event calendar approaches" }] },
   { id: "salesforce-2", section: "salesforce", kind: "mockup", heading: "Event calendar detail", media: [{ src: "/work/salesforce-2.png", alt: "Event calendar detail" }] },
-  { id: "salesforce-3", section: "salesforce", kind: "mockup", heading: "Event calendar index", media: [{ src: "/work/salesforce-3.png", alt: "Event calendar index" }] },
+  { id: "salesforce-3", section: "salesforce", kind: "mockup", heading: "Event calendar index", onIndex: 6, media: [{ src: "/work/salesforce-3.png", alt: "Event calendar index" }] },
   {
     id: "salesforce-results",
     section: "salesforce",
