@@ -1,5 +1,5 @@
 ---
-import type { Slide } from "../data/site";
+import { logoWall, type Slide } from "../data/site";
 
 interface Props {
   slide: Slide;
@@ -101,6 +101,30 @@ function emphasize(text: string): string {
           )}
         </div>
       ))
+  }
+
+  {
+    slide.kind === "logos" && (
+      /* The logo wall — individual marks, not a flattened image. Aperture
+         counter-scales it through the zoom like the shot layouts above. */
+      <div class="slide__aperture" data-aperture>
+        <div class="logo-wall" data-parallax>
+          {logoWall.map((row) => (
+            <div class="logo-wall__row" style={`gap: ${row.gap}cqw`}>
+              {row.marks.map((mark) => (
+                <img
+                  class="logo-wall__mark"
+                  src={mark.src}
+                  alt={mark.alt}
+                  style={`width: ${mark.w}cqw`}
+                  loading="lazy"
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    )
   }
 
   {

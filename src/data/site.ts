@@ -20,8 +20,8 @@ export const site = {
 export const about = {
   heading: "Hi, I'm Sean.",
   paragraphs: [
-    "I have many years of diverse experience. I have worked at small startups and global agencies; in fashion and fintech; on 0-to-1 apps, product implementation, and landing pages; roles in design, engineering, and product.",
-    "Agency hustle, start-up grit. A designers eye and developers mind.",
+    "Full stack designer with nearly two decades of diverse experience. Working on projects from checkout optimization to 0-to-1 app creation, in fashion and fintech, for startups and design firms.",
+    "Agency hustle, start-up grit. A designer's eye and developer's mind.",
   ],
   notes: [
     "Currently Staff Designer at Foyer.",
@@ -45,8 +45,66 @@ export const navSections: NavSection[] = [
   { id: "contact", label: "Contact" },
 ];
 
-export type SlideKind = "bio" | "intro" | "mockup" | "results";
+export type SlideKind = "bio" | "intro" | "mockup" | "results" | "logos";
 export type SlideTheme = "dark" | "light";
+
+/** One mark on the logo wall (the `logos` slide). Every asset is the logo alone —
+ *  full-strength black artwork, no background and no baked-in opacity — so the
+ *  card paints the backdrop and .logo-wall__mark knocks them all back to 50%
+ *  together. SVG where the source is vector, PNG for the few marks that only
+ *  exist as raster. */
+export interface Logo {
+  src: string;
+  alt: string;
+  /** Width as a % of the card width, taken from the Figma frame so each mark
+   *  keeps its designed size relative to the others. Height follows the aspect. */
+  w: number;
+}
+
+export interface LogoRow {
+  /** Gap between this row's marks, as a % of the card width. Each row holds a
+   *  different number of marks, so a per-row gap is what makes every row span
+   *  the same ~67% of the card that the Figma frame does. */
+  gap: number;
+  marks: Logo[];
+}
+
+/** The logo wall, row by row (mirrors the Figma layout). */
+export const logoWall: LogoRow[] = [
+  {
+    gap: 7.5,
+    marks: [
+      { src: "/work/logos/foyer.svg", alt: "Foyer", w: 23.26 },
+      { src: "/work/logos/hawthorne.svg", alt: "Hawthorne", w: 36.44 },
+    ],
+  },
+  {
+    gap: 3.67,
+    marks: [
+      { src: "/work/logos/huge.svg", alt: "Huge", w: 9.91 },
+      { src: "/work/logos/akqa.png", alt: "AKQA", w: 13.58 },
+      { src: "/work/logos/rga.svg", alt: "R/GA", w: 23.26 },
+      { src: "/work/logos/cuban-council.png", alt: "Cuban Council", w: 9.44 },
+    ],
+  },
+  {
+    gap: 5.12,
+    marks: [
+      { src: "/work/logos/publicis-sapient.svg", alt: "Publicis Sapient", w: 8.84 },
+      { src: "/work/logos/said-differently.svg", alt: "Said Differently", w: 28.66 },
+      { src: "/work/logos/savage-bureau.svg", alt: "Savage Bureau", w: 3.31 },
+      { src: "/work/logos/greenstone.svg", alt: "Greenstone", w: 11.03 },
+    ],
+  },
+  {
+    gap: 6.62,
+    marks: [
+      { src: "/work/logos/grow.svg", alt: "GROW", w: 19.49 },
+      { src: "/work/logos/ia-collaborative.svg", alt: "IA Collaborative", w: 26.29 },
+      { src: "/work/logos/vsa.svg", alt: "VSA", w: 8.19 },
+    ],
+  },
+];
 
 export interface SlideMedia {
   src: string;
@@ -103,7 +161,7 @@ export const slides: Slide[] = [
     section: "latest",
     kind: "intro",
     theme: "dark",
-    heading: "Latest Work",
+    heading: "Latest work",
     paragraphs: [
       "A potpourri of recent work that I have designed, animated and developed (or at least helped develop).",
       "Full portfolio available upon request.",
@@ -217,14 +275,14 @@ export const slides: Slide[] = [
     heading: "Hawthorne",
     paragraphs: [
       "I joined Hawthorne, a D2C men's grooming startup, to work product-side after decade+ of working at agencies and design firms.",
-      "With a derth of e-commerce epxerience, it was a natural fit that unlocked new ways of working: iterating on live design, managing internal bandwidth, and real time insights into customers/data.",
+      "With a wealth of e-commerce experience, it was a natural fit that unlocked new ways of working: iterating on live design, managing internal bandwidth, and real time insights into customers/data.",
     ],
   },
   {
     id: "hawthorne-device", section: "hawthorne", kind: "mockup", theme: "dark", fit: "contain", onIndex: 4,
     media: [{ src: "/work/hawthorne-video.mp4", alt: "Hawthorne quiz result", type: "video", rounded: true }],
   },
-  { id: "hawthorne-1", section: "hawthorne", kind: "mockup", heading: "Quiz result concept sketches", media: [{ src: "/work/hawthorne-1.jpg", alt: "Quiz result concept sketches" }] },
+  { id: "hawthorne-1", section: "hawthorne", kind: "mockup", heading: "Quiz result concept sketches", onIndex: 7, media: [{ src: "/work/hawthorne-1.jpg", alt: "Quiz result concept sketches" }] },
   { id: "hawthorne-2", section: "hawthorne", kind: "mockup", heading: "Revised quiz results", media: [{ src: "/work/hawthorne-2.jpg", alt: "Revised quiz results" }] },
   { id: "hawthorne-3", section: "hawthorne", kind: "mockup", heading: "Website and CMS design", media: [{ src: "/work/hawthorne-3.jpg", alt: "Website and CMS design" }] },
   { id: "hawthorne-4", section: "hawthorne", kind: "mockup", heading: "Ecomm design", media: [{ src: "/work/hawthorne-4.jpg", alt: "Ecomm design" }] },
@@ -270,7 +328,7 @@ export const slides: Slide[] = [
     theme: "light",
     heading: "App Omni results",
     items: [
-      "Desinged an advanced multi-stage filtering system, extending work started by the in-house product team",
+      "Designed an advanced multi-stage filtering system, extending work started by the in-house product team",
       "Clarified technical constraints of un-nested and-or statements, using pet types and colors to illustrate the ambiguity",
     ],
   },
@@ -314,7 +372,7 @@ export const slides: Slide[] = [
   },
   { id: "salesforce-1", section: "salesforce", kind: "mockup", heading: "Event calendar approaches", media: [{ src: "/work/salesforce-1.png", alt: "Event calendar approaches" }] },
   { id: "salesforce-2", section: "salesforce", kind: "mockup", heading: "Event calendar detail", media: [{ src: "/work/salesforce-2.png", alt: "Event calendar detail" }] },
-  { id: "salesforce-3", section: "salesforce", kind: "mockup", heading: "Event calendar index", onIndex: 7, media: [{ src: "/work/salesforce-3.png", alt: "Event calendar index" }] },
+  { id: "salesforce-3", section: "salesforce", kind: "mockup", heading: "Event calendar index", onIndex: 8, media: [{ src: "/work/salesforce-3.png", alt: "Event calendar index" }] },
   {
     id: "salesforce-results",
     section: "salesforce",
@@ -328,6 +386,18 @@ export const slides: Slide[] = [
       "Engagement was extended an additional year: allowing us to continue working on this app to refine and add features",
       "Designed for internationalization, with the events and UI available in seven different languages (including Japanese and German)",
     ],
+  },
+
+  // --- Logos -------------------------------------------------------------
+  // Closes both decks: last in this array (so it ends /work) and the highest
+  // onIndex (so it ends the home deck). The wall itself is `logoWall` above.
+  {
+    id: "logos",
+    section: "logos",
+    kind: "logos",
+    heading: "Where I've worked",
+    onIndex: 9,
+    background: "var(--color-logo-wall)",
   },
 ];
 //---Footer-----
