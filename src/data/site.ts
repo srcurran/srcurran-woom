@@ -286,7 +286,7 @@ export const slides: Slide[] = [
       "As part of a larger partnership between Said Differently and Neiman Marcus, I was tapped to redesign the checkout flow and store finder.",
     ],
   },
-  { id: "neiman-1", section: "neiman-marcus", kind: "mockup", heading: "Checkout design", media: [{ src: "/work/neiman-1.mp4", alt: "Neiman Marcus checkout design", type: "video" }] },
+  { id: "neiman-1", section: "neiman-marcus", kind: "mockup", heading: "Checkout design", onIndex: 6, media: [{ src: "/work/neiman-1.mp4", alt: "Neiman Marcus checkout design", type: "video" }] },
   { id: "neiman-2", section: "neiman-marcus", kind: "mockup", heading: "Store finder design", media: [{ src: "/work/neiman-marcus-store.png", alt: "Neiman Marcus store detials" }] },
   {
     id: "neiman-results",
@@ -314,7 +314,7 @@ export const slides: Slide[] = [
   },
   { id: "salesforce-1", section: "salesforce", kind: "mockup", heading: "Event calendar approaches", media: [{ src: "/work/salesforce-1.png", alt: "Event calendar approaches" }] },
   { id: "salesforce-2", section: "salesforce", kind: "mockup", heading: "Event calendar detail", media: [{ src: "/work/salesforce-2.png", alt: "Event calendar detail" }] },
-  { id: "salesforce-3", section: "salesforce", kind: "mockup", heading: "Event calendar index", onIndex: 6, media: [{ src: "/work/salesforce-3.png", alt: "Event calendar index" }] },
+  { id: "salesforce-3", section: "salesforce", kind: "mockup", heading: "Event calendar index", onIndex: 7, media: [{ src: "/work/salesforce-3.png", alt: "Event calendar index" }] },
   {
     id: "salesforce-results",
     section: "salesforce",
