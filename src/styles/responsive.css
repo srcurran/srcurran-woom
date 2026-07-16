@@ -31,6 +31,13 @@
      so they stay in sync when the width changes per breakpoint. */
   .deck__viewport { --card-w: 78vw; }
   .deck__card { width: var(--card-w); }
+  /* The contact row wraps at these widths (photo above the copy, via
+     wrap-reverse). Once the photo is on its own row it should read as the deck's
+     closing card, so let it fill the container and land on the card's width
+     exactly. The desktop 640px cap otherwise stops it ~40px short of the card's
+     right edge — aligned on the left but not the right, which reads as a mistake
+     rather than a choice. */
+  .contact-end__peace { max-width: none; }
   /* Keep the deck's negative margin (the first-card peek) so the intro still
      pokes the first card up from the bottom of the hero on mobile. */
   .deck__viewport {

@@ -111,7 +111,10 @@
      column keeps its content width and doesn't grow. The min-width floor keeps
      the photo usable — once it can't fit beside the copy at that size, the row
      wraps (photo above copy, via wrap-reverse) instead of collapsing to a sliver.
-     Capped so a wrapped, full-width photo (and its square height) stays sane. */
+     The cap keeps the photo from dominating beside the copy (and its square
+     height from running away) on a wide desktop container. It's lifted at <=960px
+     (responsive.css), where the row wraps and the photo should match the card
+     width instead of stopping short of it. */
   flex: 1 1 360px;
   width: auto;
   min-width: 280px;
