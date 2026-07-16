@@ -44,6 +44,7 @@
   --color-border-strong:rgba(0, 0, 0, 0.22);
   --color-placeholder:  #d2d2d4;           /* gray media stand-ins */
   --color-notblack:     #1a1919;           /* dark slide background (Figma token) */
+  --color-logo-wall:    #efefed;           /* logo-wall slide background */
   --color-accent:       var(--accent-500);
   --color-accent-hover: var(--accent-600);
   --color-warning:      var(--warning-500);
