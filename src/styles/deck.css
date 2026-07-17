@@ -264,6 +264,33 @@
 /* Bio — wider measure for the longer paragraphs. */
 .slide--bio .slide__prose { max-width: 68cqw; }
 
+/* Project credits pinned to the bottom-left of a title card — a row of credit
+   columns under the intro copy, each a muted label above its value (Role · Agency
+   · …). margin-top:auto pushes it to the card floor. All sizes in cqw so it scales
+   with the card like the heading + prose. */
+.slide__meta {
+  margin-top: auto;        /* pin to the bottom of the flex column */
+  padding-top: 3cqw;
+  display: flex;
+  flex-direction: row;
+  gap: 3.2cqw;             /* between the credit columns (Role ↔ Agency) */
+}
+.slide__meta-row {
+  display: flex;
+  flex-direction: column;  /* label stacked above its value */
+  gap: 0.2cqw;             /* label ↔ its value */
+  font-size: 1.5cqw;       /* ~29px on the 1920px source */
+  line-height: 1.3;
+}
+.slide__meta-label {
+  font-weight: var(--weight-semibold);
+  color: rgba(255, 255, 255, 0.55);
+}
+.slide__meta-value {
+  margin: 0;
+  color: #ffffff;
+}
+
 /* Project intro — text left, device mockup bleeding off the right. */
 .slide__inner--intro { position: relative; }
 .slide__inner--intro .slide__text { max-width: 50cqw; }
