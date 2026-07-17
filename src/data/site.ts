@@ -122,6 +122,12 @@ export interface SlideMedia {
   phoneFrame?: boolean;
 }
 
+/** One credit row on a project title card — a label and its value. */
+export interface SlideMetaRow {
+  label: string;
+  value: string;
+}
+
 export interface Slide {
   id: string;
   section: string;
@@ -130,6 +136,9 @@ export interface Slide {
   heading?: string;
   /** Serif copy. Wrap a phrase in __underscores__ to emphasise it. */
   paragraphs?: string[];
+  /** Credits pinned to the bottom of a title card (role / responsibilities /
+   *  team). Omit and the card renders as before. */
+  meta?: SlideMetaRow[];
   items?: string[];
   media?: SlideMedia[];
   /** Single-image mockups fill the card (cover); pin the crop to "top" or
@@ -176,6 +185,7 @@ export const slides: Slide[] = [
     kind: "intro",
     theme: "dark",
     heading: "Foyer",
+    meta: [{ label: "Role", value: "Staff (Founding) Product Designer" }],
     paragraphs: [
       "I joined Foyer, the 401(k) for homeownership, as the founding product designer in mid-2023.",
       "As the founding designer I brought the app to life. As a design-engineer I work in code and Figma. As the de facto product owner I prioritized features and drove outcomes. As the sole designer I have owned design end-to-end.",
@@ -235,6 +245,7 @@ export const slides: Slide[] = [
     kind: "intro",
     theme: "dark",
     heading: "Ohsee QA",
+    meta: [{ label: "Role", value: "Personal Project (Designed & Developed)" }],
     paragraphs: [
       "Designing in code increases the risk of introducing visual bugs. I looked for a product for visual regression testing, but nothing that existed did what I needed.",
       "So I made my own.",
@@ -273,6 +284,7 @@ export const slides: Slide[] = [
     kind: "intro",
     theme: "dark",
     heading: "Hawthorne",
+    meta: [{ label: "Role", value: "Product Designer" }],
     paragraphs: [
       "I joined Hawthorne, a D2C men's grooming startup, to work product-side after decade+ of working at agencies and design firms.",
       "With a wealth of e-commerce experience, it was a natural fit that unlocked new ways of working: iterating on live design, managing internal bandwidth, and real time insights into customers/data.",
@@ -308,6 +320,10 @@ export const slides: Slide[] = [
     kind: "intro",
     theme: "dark",
     heading: "App Omni",
+    meta: [
+      { label: "Role", value: "Product Design Consultant" },
+      { label: "Agency", value: "Savage Bureau" },
+    ],
     paragraphs: [
       "Consulted with App Omni (via Savage Bureau) across several small projects, to provide product thinking and guidance",
       "Projects included application-wide audits and single-feature deep dives.",
@@ -340,6 +356,10 @@ export const slides: Slide[] = [
     kind: "intro",
     theme: "dark",
     heading: "Neiman Marcus",
+    meta: [
+      { label: "Role", value: "Product/UX Design Freelance" },
+      { label: "Agency", value: "Said Differently" },
+    ],
     paragraphs: [
       "As part of a larger partnership between Said Differently and Neiman Marcus, I was tapped to redesign the checkout flow and store finder.",
     ],
@@ -365,6 +385,10 @@ export const slides: Slide[] = [
     kind: "intro",
     theme: "dark",
     heading: "Salesforce",
+    meta: [
+      { label: "Role", value: "Product/UX Design Freelance" },
+      { label: "Agency", value: "Savage Bureau" },
+    ],
     paragraphs: [
       "Worked with Salesforce on several projects, including: developer documentation design, sites for various verticals, and an events application.",
       "The customer success calendar was initiated in 2020 as the company pivoted to online events.",

@@ -43,6 +43,16 @@ function emphasize(text: string): string {
             {slide.paragraphs?.map((p) => <p set:html={emphasize(p)} />)}
           </div>
         </div>
+        {slide.meta && slide.meta.length > 0 && (
+          <dl class="slide__meta">
+            {slide.meta.map((row) => (
+              <div class="slide__meta-row">
+                <dt class="slide__meta-label">{row.label}</dt>
+                <dd class="slide__meta-value">{row.value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
       </div>
     )
   }
