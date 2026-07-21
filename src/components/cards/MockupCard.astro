@@ -1,0 +1,79 @@
+---
+import type { Slide } from "../../data/slides";
+import { navSections } from "../../data/navigation";
+
+interface Props {
+  slide: Slide;
+  /** On the home deck, prefix the chin title with the project name (Foyer • …),
+   *  since cards there jump between projects. The /work deck is grouped by project,
+   *  so the prefix would be redundant. */
+  home?: boolean;
+}
+
+const { slide, home = false } = Astro.props;
+const media = slide.media?.[0];
+
+const project = home ? navSections.find((s) => s.id === slide.section)?.label : undefined;
+const chinTitle = project && slide.heading ? `${project} • ${slide.heading}` : slide.heading;
+---
+
+{
+  media && (
+    /* The image, at the original card dimensions. Multiple assets (or a single one
+       forced to contain, e.g. a device on its own slide) get the padded, gapped
+       aperture; a lone asset covers the frame. The per-slide tint/gradient lives on
+       the frame (not the card) so the white notch + chin stay white. */
+    <div class="slide__frame" style={slide.background ? `background: ${slide.background}` : undefined}>
+      {(slide.media?.length ?? 0) > 1 || slide.fit === "contain" ? (
+        <div class="slide__aperture" data-aperture>
+          <div class:list={["slide__shots", `count-${slide.media?.length}`]} data-parallax>
+            {(slide.media ?? []).map((m) => (
+              <figure class="slide__shot">
+                {m.phoneFrame ? (
+                  <div class="phone">
+                    {m.type === "video" ? (
+                      <video src={m.src} autoplay muted loop playsinline class="phone__screen" />
+                    ) : (
+                      <img src={m.src} alt={m.alt ?? ""} class="phone__screen" />
+                    )}
+                    <img class="phone__frame" src="/work/phone-mask.png" alt="" aria-hidden="true" />
+                  </div>
+                ) : m.type === "video" ? (
+                  <video
+                    src={m.src}
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    class:list={[m.phoneBorder && "isPhoneBorder", m.rounded && "isRounded"]}
+                  />
+                ) : (
+                  <img src={m.src} alt={m.alt ?? ""} class:list={[m.rounded && "isRounded"]} />
+                )}
+              </figure>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div class:list={["slide__cover", `pin-${slide.pin ?? "center"}`]} data-aperture>
+          {media.type === "video" ? (
+            <video src={media.src} autoplay muted loop playsinline />
+          ) : (
+            <img src={media.src} alt={media.alt ?? ""} />
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+{
+  (slide.heading || slide.tasks) && (
+    /* Caption chin — title bottom-left, tasks bottom-right (wraps to its own line
+       when the pair is too long; see .slide__chin in deck.css). */
+    <div class="slide__chin">
+      {slide.heading && <p class="slide__chin-title body-xs">{chinTitle}</p>}
+      {slide.tasks && <p class="slide__chin-tasks body-xs">{slide.tasks}</p>}
+    </div>
+  )
+}

@@ -62,6 +62,11 @@
   line-height: var(--leading-normal);
 }
 
+.body-xs {
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+}
+
 .caption {
   font-size: var(--text-xs);
   line-height: var(--leading-normal);

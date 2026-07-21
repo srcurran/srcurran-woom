@@ -1,0 +1,23 @@
+---
+/* The logo wall — individual marks, not a flattened image. Aperture counter-scales
+   it through the zoom like the mockup shot layouts. Data lives in ../../data/logos. */
+import { logoWall } from "../../data/logos";
+---
+
+<div class="slide__aperture" data-aperture>
+  <div class="logo-wall" data-parallax>
+    {logoWall.map((row) => (
+      <div class="logo-wall__row" style={`gap: ${row.gap}cqw`}>
+        {row.marks.map((mark) => (
+          <img
+            class="logo-wall__mark"
+            src={mark.src}
+            alt={mark.alt}
+            style={`width: ${mark.w}cqw`}
+            loading="lazy"
+          />
+        ))}
+      </div>
+    ))}
+  </div>
+</div>
