@@ -19,6 +19,6 @@ const shown = index
 
 <section class="deck" data-deck aria-label="Selected work">
   <div class="deck__viewport" data-deck-viewport>
-    {shown.map((slide, i) => <Card slide={slide} index={i} />)}
+    {shown.map((slide, i) => <Card slide={slide} index={i} home={index} />)}
   </div>
 </section>

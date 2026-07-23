@@ -1,0 +1,17 @@
+---
+import type { Slide } from "../../data/slides";
+import { emphasize } from "../../lib/emphasize";
+
+interface Props {
+  slide: Slide;
+}
+
+const { slide } = Astro.props;
+---
+
+<div class="slide__inner">
+  <h2 class="slide__heading">{slide.heading}</h2>
+  <div class="slide__prose">
+    {slide.paragraphs?.map((p) => <p set:html={emphasize(p)} />)}
+  </div>
+</div>

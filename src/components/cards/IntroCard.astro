@@ -1,0 +1,30 @@
+---
+import type { Slide } from "../../data/slides";
+import { emphasize } from "../../lib/emphasize";
+
+interface Props {
+  slide: Slide;
+}
+
+const { slide } = Astro.props;
+const media = slide.media?.[0];
+---
+
+<div class:list={["slide__inner", "slide__inner--intro", !media && "is-text-only"]}>
+  <div class="slide__text">
+    <h2 class="slide__heading">{slide.heading}</h2>
+    <div class="slide__prose">
+      {slide.paragraphs?.map((p) => <p set:html={emphasize(p)} />)}
+    </div>
+  </div>
+  {slide.meta && slide.meta.length > 0 && (
+    <dl class="slide__meta">
+      {slide.meta.map((row) => (
+        <div class="slide__meta-row">
+          <dt class="slide__meta-label">{row.label}</dt>
+          <dd class="slide__meta-value">{row.value}</dd>
+        </div>
+      ))}
+    </dl>
+  )}
+</div>
