@@ -220,7 +220,7 @@ export function initDeck(): void {
     sideNav.classList.toggle("is-about", onAbout);
     sideNav.classList.toggle("is-collapsed", !onAbout || gutter < LABEL_GUTTER);
   };
-  const setActive = (section: string) => {
+  const setActive = (section: string, fromClick = false) => {
     if (!section) return;
     if (section !== lastSection) {
       lastSection = section;
@@ -238,11 +238,12 @@ export function initDeck(): void {
           );
         }
       }
-      // Keep the URL in sync so any project is directly linkable (replaceState
-      // updates the address bar without scrolling or adding history entries).
-      // About is the top of the page, so it clears back to a bare /work.
-      const url = section === "about" ? location.pathname + location.search : `#${section}`;
-      history.replaceState(null, "", url);
+      // Only update URL hash on explicit navigation clicks, not on scroll.
+      // This keeps Umami's page view tracking clean (only actual page navigations).
+      if (fromClick) {
+        const url = section === "about" ? location.pathname + location.search : `#${section}`;
+        history.replaceState(null, "", url);
+      }
     }
     syncNav();
   };
@@ -331,7 +332,11 @@ export function initDeck(): void {
         const target = cards.find((c) => c.dataset.section === id);
         y = target ? snapScrollFor(target) : null;
       }
-      if (y !== null) glideTo(y);
+      if (y !== null) {
+        glideTo(y);
+        // Update URL on explicit nav click
+        if (id) setActive(id, true);
+      }
       if (!canHover) sideNav?.classList.remove("is-revealed"); // collapse after the jump
     });
   }

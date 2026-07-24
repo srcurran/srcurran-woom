@@ -94,13 +94,7 @@ function trackBrandClick(): void {
   });
 }
 
-function trackPageView(): void {
-  const umami = (window as unknown as { umami?: Umami }).umami;
-  if (umami?.track) umami.track("pageview");
-}
-
 export function initAnalytics(): void {
-  trackPageView();
   trackContactClicks();
   trackProjectViews();
   trackExternalLinks();
