@@ -5,9 +5,10 @@
  *   2. once it has settled, the top nav + side nav ease in;
  *   3. then the first deck card pokes up from the bottom of the viewport.
  *
- * No-FOUC: a `.js` + motion-ok CSS guard (deck.css) hides the targets before
- * paint; this clears them as it animates. Reduced motion / no-JS shows
- * everything immediately (the guard never hides them), so we just bail.
+ * No-FOUC: a `.play-intro` + motion-ok CSS guard (deck.css) hides the targets
+ * before paint; this clears them as it animates. `.play-intro` is only set on the
+ * first load of a session (see Layout), so reduced motion, no-JS, AND reloads/HMR
+ * leave the targets visible — we just bail and let them render as-is.
  */
 import { gsap } from "gsap";
 
@@ -16,6 +17,9 @@ const prefersReduced = () =>
 
 export function initIntro(): void {
   if (prefersReduced()) return;
+  // Only run when this session's first load asked for it. On reloads the targets
+  // were never hidden, so there's nothing to animate — bail.
+  if (!document.documentElement.classList.contains("play-intro")) return;
 
   // Scope to the top hero only ([data-hero]) — the contact closer reuses the
   // same .hero classes but should not be animated/hidden on first load.

@@ -9,15 +9,16 @@
 
 /* --- First-load intro guard ----------------------------------------------
    Hide the targets the intro timeline (intro.ts) animates in, BEFORE paint, so
-   they don't pop in then jump. Gated on `.js` (set pre-paint in Layout) +
-   motion-ok, so no-JS and reduced-motion render everything immediately. GSAP
-   clears the opacity as it fades each one in. */
+   they don't pop in then jump. Gated on `.play-intro` (set pre-paint in Layout
+   ONLY on the first load of a session) + motion-ok — so no-JS, reduced-motion,
+   AND reloads/HMR render everything immediately (nothing to hide → no late pop).
+   GSAP clears the opacity as it fades each one in. */
 @media (prefers-reduced-motion: no-preference) {
-  .js [data-hero] .hero__headline,
-  .js [data-hero] .hero__bio p,
-  .js .site-header,
-  .js .side-nav,
-  .js [data-card][data-index="0"] {
+  .play-intro [data-hero] .hero__headline,
+  .play-intro [data-hero] .hero__bio p,
+  .play-intro .site-header,
+  .play-intro .side-nav,
+  .play-intro [data-card][data-index="0"] {
     opacity: 0;
   }
 }
@@ -153,6 +154,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* Card width, shared by the card frame and its caption wrapper so the caption
+     aligns to the card and its text can't widen the group. Height-capped so a card
+     never exceeds ~54svh (see .deck__card). Overridden to a flat 78vw on mobile. */
+  --card-w: min(90vw, 1180px, calc(54svh * 16 / 9));
   /* Gap between cards — small enough that the neighbours peek into view when a
      card is centred (the "hint"), big enough they never collide. */
   gap: clamp(2.5rem, 7vh, 7rem);
@@ -165,8 +170,19 @@
    group. Every project opens with an intro slide, so push it down from the
    prior project's results card (this margin stacks on top of the viewport gap).
    The first intro is skipped: it peeks up under the hero. */
-.deck__card.slide--intro:not(:first-child) {
+.deck__slide--intro:not(:first-child) {
   margin-top: clamp(2.5rem, 7vh, 6rem);
+}
+
+/* Each card + its caption grouped as one flex item, so the caption tucks directly
+   under the card (small gap) while the viewport gap still spaces one group from the
+   next. Width matches the card so the caption aligns to its left edge and the
+   caption text can never widen the group. The snap + scroll transforms still target
+   the .deck__card inside — this wrapper is layout only. */
+.deck__slide {
+  display: flex;
+  flex-direction: column;
+  width: var(--card-w);
 }
 
 /* --- Sticky scroll-snap (desktop, motion-ok) -----------------------------
@@ -193,10 +209,10 @@
    1920px wide), so the layout matches the source at any card size. */
 .deck__card {
   position: relative;
-  /* Width-driven for a true 16:9, but ALSO capped by height (the calc term) so a
-     card never exceeds ~54svh — it always fits the viewport with room for the
+  /* Width-driven for a true 16:9, but ALSO capped by height (--card-w's calc term)
+     so a card never exceeds ~54svh — it always fits the viewport with room for the
      neighbours to peek, and a centred card's top stays below the exit line. */
-  width: min(90vw, 1180px, calc(54svh * 16 / 9));
+  width: var(--card-w);
   aspect-ratio: 16 / 9;
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -442,6 +458,56 @@
   height: 85%;
   object-fit: cover;
   border-radius: 14% / 6.8%; /* round the corners to match the phone's glass */
+}
+
+/* Work cards carry a caption chin, so they grow past 16:9: a 16:9 image FRAME plus
+   the CHIN beneath it, together as one rounded, shadowed unit. .deck__card keeps
+   the shadow, dim scrim, and scroll transform, so the image + caption move and
+   elevate as one. The card fill is ALWAYS white so the image's rounded bottom
+   corners and the chin read white — any per-slide tint/dark lives on the frame. */
+.deck__card.slide--mockup {
+  aspect-ratio: auto;          /* grow past 16:9 to seat the chin */
+  container-type: inline-size; /* width-based cqw still resolves to the card */
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+}
+/* The image, kept at the original card dimensions (16:9) and rounded on every
+   corner; overflow clips the media to that radius. The frame — not the card —
+   carries the tint (foyer's gradient, set inline) or the dark fill, so it stays
+   contained to the image and never bleeds into the white notch/chin. */
+.slide__frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-surface-alt);
+}
+.slide--dark .slide__frame { background: var(--color-notblack); }
+/* The chin — the tasks in an always-white note below the image (so it reads the
+   same on tinted or dark cards); the card's overflow + radius round its bottom
+   corners. */
+/* Title bottom-left, tasks bottom-right. flex-wrap makes it content-aware: if the
+   title + the tasks' one-line width fit, they share a row (space-between); if not,
+   the whole tasks block drops to its own line. Left-aligned, so a wrapped tasks
+   line reads from the left rather than staying pinned right. */
+.slide__chin {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  column-gap: var(--radius-lg);
+  padding: var(--radius-md) var(--radius-lg);
+  background: var(--color-surface);
+  color: var(--color-ink-muted);
+  letter-spacing: 0.01em;
+}
+/* Title reads as the primary label (bottom-left); tasks stay muted (bottom-right,
+   or bottom-left once wrapped to their own line). */
+.slide__chin-title {
+  color: var(--color-ink);
+  font-weight: var(--weight-medium);
 }
 
 /* Results — heading + serif list (slightly larger, per the source). */

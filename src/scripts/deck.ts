@@ -82,6 +82,29 @@ export function initDeck(): void {
   // positions are known (end of initDeck).
   const initialHash = location.hash.slice(1);
 
+  // Precise scroll restore: since we own scroll restoration (`manual`, set in
+  // Layout), persist the exact position and put it back on RELOAD — more reliable
+  // than the section-only deep-link, which can't fire once the spy has cleared the
+  // hash to `about`. Fresh navigations / deep links fall through to the hash below.
+  const scrollKey = `deck-scroll:${location.pathname}`;
+  const navType = (
+    performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined
+  )?.type;
+  // Restore on reload AND on back/forward — `manual` restoration (Layout) suppresses
+  // the browser's native restore for both, so we hand the position back ourselves.
+  const shouldRestore = navType === "reload" || navType === "back_forward";
+  const saveScroll = () => {
+    try {
+      sessionStorage.setItem(scrollKey, String(window.scrollY));
+    } catch {
+      /* storage blocked — restore is best-effort */
+    }
+  };
+  window.addEventListener("pagehide", saveScroll);
+  window.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") saveScroll();
+  });
+
   viewport.classList.add("is-ready");
 
   // Card-to-card spacing in viewport heights (card height + the deck gap). The
@@ -395,11 +418,21 @@ export function initDeck(): void {
 
   ScrollTrigger.refresh();
 
-  // Deep link: /work#ohsee (or any project / #contact) lands directly on that
-  // section on load. Positions are known now that the deck has laid out and
-  // refreshed. `about` is the top, so nothing to do there. Instant jump to the
-  // section's snap point; the scroll-spy then syncs the nav + hash.
-  if (initialHash && initialHash !== "about" && projectKeys().includes(initialHash)) {
+  // Position on load. Positions are known now that the deck has laid out + refreshed.
+  //  • RELOAD → put back the exact scroll we saved, so you stay where you were
+  //    (survives the spy having cleared the hash).
+  //  • otherwise a deep link (/work#ohsee, #contact, …) lands on that section; the
+  //    scroll-spy then syncs the nav + hash. `about` / no hash → top, nothing to do.
+  const savedScroll = (() => {
+    try {
+      return sessionStorage.getItem(scrollKey);
+    } catch {
+      return null;
+    }
+  })();
+  if (shouldRestore && savedScroll !== null) {
+    window.scrollTo(0, parseFloat(savedScroll));
+  } else if (initialHash && initialHash !== "about" && projectKeys().includes(initialHash)) {
     window.scrollTo(0, yForKey(initialHash));
   }
 }

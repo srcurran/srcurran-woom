@@ -30,9 +30,28 @@ const {
       href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400&family=Poppins:wght@600;700&display=swap"
       rel="stylesheet"
     />
-    {/* Flag JS as available before paint so reveal elements hide without a flash. */}
+    {/* Flag JS as available before paint so reveal elements hide without a flash.
+        `play-intro` is added only on the first load of a browser session (a new
+        hard visit); the CSS guard (deck.css) hides the intro targets ONLY under it.
+        Reloads, HMR rebuilds, and reloading while scrolled all skip it — so the
+        title card never gets hidden and re-popped-in late. sessionStorage survives
+        reloads within a tab but resets when the tab/session ends. */}
     <script is:inline>
       document.documentElement.classList.add("js");
+      // Own scroll restoration: the deck deep-links to the hash's section on load
+      // (deck.ts). Left on the browser's default `auto`, that native restore races
+      // the deep-link and both get clobbered to the top — landing on the first card
+      // in its off-screen peek/enter state. `manual` makes the deep-link the sole
+      // authority, so reloads land the section centred.
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+      try {
+        if (!sessionStorage.getItem("intro-seen")) {
+          document.documentElement.classList.add("play-intro");
+          sessionStorage.setItem("intro-seen", "1");
+        }
+      } catch (_) {
+        document.documentElement.classList.add("play-intro");
+      }
     </script>
 
     <script

@@ -35,7 +35,7 @@
      (`.is-dark`) re-scope these tokens locally in deck.css so overlaid text
      flips light. */
   --color-bg:           var(--gray-0);          /* light gallery stage */
-  --color-surface:      #f4f4f5;          /* slightly raised panels */
+  --color-surface:      #FCFCFA;          /* slightly raised panels */
   --color-surface-alt:  #ffffff;
   --color-ink:          #0d0d0f;           /* primary text */
   --color-ink-muted:    #5c5c63;           /* secondary text */
