@@ -77,6 +77,23 @@ function trackDeckInteractions(): void {
   });
 }
 
+function trackNavigation(): void {
+  document.addEventListener("click", (e) => {
+    const link = (e.target as Element | null)?.closest<HTMLAnchorElement>("[data-nav-link]");
+    if (!link) return;
+    const section = link.getAttribute("data-nav-link") ?? "";
+    track("nav_click", { section });
+  });
+}
+
+function trackBrandClick(): void {
+  document.addEventListener("click", (e) => {
+    const link = (e.target as Element | null)?.closest<HTMLAnchorElement>(".brand");
+    if (!link) return;
+    track("brand_click");
+  });
+}
+
 function trackPageView(): void {
   const umami = (window as unknown as { umami?: Umami }).umami;
   if (umami?.track) umami.track("pageview");
@@ -88,4 +105,6 @@ export function initAnalytics(): void {
   trackProjectViews();
   trackExternalLinks();
   trackDeckInteractions();
+  trackNavigation();
+  trackBrandClick();
 }
