@@ -32,6 +32,7 @@ const cardBackground =
     data-card
     data-index={index}
     data-section={slide.section}
+    data-card-title={slide.section ?? slide.kind}
   >
     {slide.kind === "bio" && <BioCard slide={slide} />}
     {slide.kind === "intro" && <IntroCard slide={slide} />}
