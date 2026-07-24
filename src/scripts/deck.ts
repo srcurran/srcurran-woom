@@ -228,6 +228,16 @@ export function initDeck(): void {
       document.dispatchEvent(
         new CustomEvent("section:change", { detail: { section } }),
       );
+      // Dispatch event for analytics when a card becomes visible
+      if (section !== "about" && section !== "contact") {
+        const card = cards.find((c) => c.dataset.section === section);
+        if (card) {
+          const index = parseInt(card.dataset.index ?? "0");
+          document.dispatchEvent(
+            new CustomEvent("card:view", { detail: { index, section } }),
+          );
+        }
+      }
       // Keep the URL in sync so any project is directly linkable (replaceState
       // updates the address bar without scrolling or adding history entries).
       // About is the top of the page, so it clears back to a bare /work.

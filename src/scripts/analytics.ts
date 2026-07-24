@@ -1,8 +1,12 @@
 type Gtag = (...args: unknown[]) => void;
+type Umami = { track: (name: string, data?: Record<string, unknown>) => void };
 
 function track(event: string, params?: Record<string, unknown>): void {
   const gtag = (window as unknown as { gtag?: Gtag }).gtag;
   if (typeof gtag === "function") gtag("event", event, params);
+
+  const umami = (window as unknown as { umami?: Umami }).umami;
+  if (umami?.track) umami.track(event, params);
 }
 
 function channelFor(href: string): string {
@@ -40,7 +44,42 @@ function trackProjectViews(): void {
   });
 }
 
+function trackExternalLinks(): void {
+  document.addEventListener("click", (e) => {
+    const link = (e.target as Element | null)?.closest<HTMLAnchorElement>("a[href]");
+    if (!link) return;
+    const href = link.getAttribute("href") ?? "";
+    if (!href.startsWith("http")) return;
+
+    const url = new URL(href);
+    track("external_link_click", {
+      domain: url.hostname,
+      url: href,
+    });
+  });
+}
+
+function trackDeckInteractions(): void {
+  document.addEventListener("card:view", (e) => {
+    const detail = (e as CustomEvent<{ index: number; section?: string }>).detail;
+    track("project_slide_viewed", {
+      index: detail.index,
+      project: detail.section,
+    });
+  });
+
+  document.addEventListener("card:click", (e) => {
+    const detail = (e as CustomEvent<{ index: number; section?: string }>).detail;
+    track("project_slide_clicked", {
+      index: detail.index,
+      project: detail.section,
+    });
+  });
+}
+
 export function initAnalytics(): void {
   trackContactClicks();
   trackProjectViews();
+  trackExternalLinks();
+  trackDeckInteractions();
 }
