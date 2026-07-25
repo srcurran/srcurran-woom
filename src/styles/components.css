@@ -66,12 +66,10 @@
 }
 .header-link:hover { color: var(--color-ink); }
 
-/* --- Header menus (popovers under the top-nav buttons) --------------------
+/* --- Contact menu (popover under the top-nav "Contact" button) ------------
    Native popover: top-layer, with built-in light-dismiss (click-away) + Esc.
-   Positioned fixed under the header, right-aligned with the button. Two of
-   them share this chrome — Contact, and the mobile Sections menu below. */
-.contact-menu,
-.section-menu {
+   Positioned fixed under the header, right-aligned with the button. */
+.contact-menu {
   position: fixed;
   top: calc(var(--header-height) - var(--space-sm));
   right: var(--space-sm);
@@ -95,35 +93,30 @@
               overlay var(--duration-fast) var(--ease-out) allow-discrete,
               display var(--duration-fast) var(--ease-out) allow-discrete;
 }
-.contact-menu:popover-open,
-.section-menu:popover-open {
+.contact-menu:popover-open {
   opacity: 1;
   transform: translateY(0);
 }
 @starting-style {
-  .contact-menu:popover-open,
-  .section-menu:popover-open {
+  .contact-menu:popover-open {
     opacity: 0;
     transform: translateY(-6px);
   }
 }
-.contact-menu__list,
-.section-menu__list {
+.contact-menu__list {
   display: flex;
   flex-direction: column;
   gap: 2px;
   align-items: flex-end
 }
 
-.contact-menu__list li,
-.section-menu__list li {
+.contact-menu__list li{
   display: flex;
   width: 100%;
   text-align: right;
 }
 
-.contact-menu__link,
-.section-menu__link {
+.contact-menu__link {
   display: block;
   padding: var(--space-2xs) var(--space-sm);
   border-radius: var(--radius-sm);
@@ -135,9 +128,7 @@
               color var(--duration-fast) var(--ease-out);
 }
 .contact-menu__link:hover,
-.contact-menu__link:focus-visible,
-.section-menu__link:hover,
-.section-menu__link:focus-visible {
+.contact-menu__link:focus-visible {
   background: color-mix(in srgb, var(--color-ink) 7%, transparent);
   color: var(--color-ink);
 }
@@ -151,8 +142,7 @@
    own, so the two can never both show or both vanish. Default-hidden, so it
    never flashes on a desktop first paint.
 
-   The panel itself reuses the header-menu chrome above; only what differs from
-   the contact menu is set here. */
+   What it opens is the full-viewport sheet further down, not a dropdown. */
 .menu-toggle { display: none; }
 :root.nav-rail-hidden .menu-toggle {
   display: inline-flex;
@@ -189,19 +179,150 @@
 .menu-toggle__bars::before { top: -6px; }
 .menu-toggle__bars::after  { top: 6px; }
 
+/* --- Sections sheet (what the hamburger opens) ----------------------------
+   A full-viewport panel rather than a dropdown: at these widths the sections
+   ARE the navigation, so they get the whole screen and display-sized type.
+   Still a native popover, so Esc and click-away still close it for free, and
+   it sits in the top layer — above the fixed header, which is why it carries
+   its own close button.
+
+   The open/close is transitioned, which for a popover means two extras: the
+   discrete display/overlay steps need `allow-discrete` to be animatable at
+   all, and @starting-style supplies the "before open" values (without it the
+   panel would appear already-open and only animate on the way out). */
 .section-menu {
-  min-width: 11rem;
-  /* Eight sections is taller than a short landscape viewport, so cap + scroll. */
-  max-height: calc(100svh - var(--header-height) - var(--space-lg));
-  overflow-y: auto;
-  /* Denser than the contact menu's 50%: this panel is twice as tall, so it sits
-     over body copy rather than empty hero, and the blur alone doesn't carry it. */
-  background: color-mix(in srgb, var(--color-bg) 84%, transparent);
-}
-/* The active section is marked by deck.ts (.is-active, shared with the rail). */
-.section-menu__link.is-active {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  /* Solid, not frosted like the contact dropdown: at full-viewport size the
+     deck behind ghosts through a translucent fill and muddies the type. */
+  background: var(--color-bg);
   color: var(--color-ink);
-  font-weight: var(--weight-semibold);
+  overflow-y: auto;
+  /* Don't hand the scroll on to the page behind once the sheet hits its end. */
+  overscroll-behavior: contain;
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out),
+              overlay var(--duration-base) var(--ease-out) allow-discrete,
+              display var(--duration-base) var(--ease-out) allow-discrete;
+}
+.section-menu:popover-open { opacity: 1; }
+@starting-style {
+  .section-menu:popover-open { opacity: 0; }
+}
+.section-menu__inner {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding-inline: var(--page-padding-x);
+}
+/* Same height + container as .site-header__inner, so the X sits exactly where
+   the hamburger was and the sheet reads as that button flipping open. */
+.section-menu__bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: var(--container-max);
+  min-height: var(--header-height);
+  margin-inline: auto;
+  padding-inline: 1cqw;
+}
+.section-menu__close {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-2xs);
+  margin-right: calc(-1 * var(--space-2xs));
+  color: var(--color-ink-muted);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.section-menu__close:hover { color: var(--color-ink); }
+/* Two bars crossed — same 18px glyph box as the hamburger it replaces. */
+.section-menu__close-glyph {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+.section-menu__close-glyph::before,
+.section-menu__close-glyph::after {
+  content: "";
+  position: absolute;
+  top: calc(50% - 1px);
+  left: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+}
+.section-menu__close-glyph::before { rotate: 45deg; }
+.section-menu__close-glyph::after  { rotate: -45deg; }
+
+.section-menu__list {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--space-2xs);
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: 1cqw;
+  padding-block: var(--space-2xl);
+}
+/* Rows rise in one after another (--i, set per item in TopNav). The delay lives
+   in the open rule only, so closing collapses them together instead of
+   replaying the stagger in reverse. */
+.section-menu__item {
+  opacity: 0;
+  translate: 0 14px;
+  transition: opacity var(--duration-base) var(--ease-out),
+              translate var(--duration-base) var(--ease-out);
+}
+.section-menu:popover-open .section-menu__item {
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: calc(var(--i) * 35ms);
+}
+@starting-style {
+  .section-menu:popover-open .section-menu__item {
+    opacity: 0;
+    translate: 0 14px;
+  }
+}
+.section-menu__link {
+  display: block;
+  padding-block: var(--space-3xs);
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 9vw, 3rem);
+  font-weight: var(--weight-bold);
+  line-height: 1.15;
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-ink-muted);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.section-menu__link:hover,
+.section-menu__link:focus-visible { color: var(--color-ink); }
+/* The active section is marked by deck.ts (.is-active, shared with the rail).
+   The type is already bold here, so colour alone carries it. */
+.section-menu__link.is-active { color: var(--color-ink); }
+
+/* Motion off → no slide or stagger; the sheet just appears. */
+@media (prefers-reduced-motion: reduce) {
+  .section-menu,
+  .section-menu__item {
+    transition-duration: 1ms;
+    transition-delay: 0ms;
+  }
+  .section-menu__item { translate: none; }
 }
 
 /* --- Side navigation (fixed left, vertically centred) ---------------------
