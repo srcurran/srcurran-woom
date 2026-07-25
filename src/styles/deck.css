@@ -201,6 +201,12 @@
     scroll-snap-align: center;
     scroll-snap-stop: always;
   }
+  /* The logo strip sits between the last card and the contact closer. Mandatory
+     snap would otherwise skip straight past it (it isn't a card), so give it its
+     own resting point. */
+  .logo-strip {
+    scroll-snap-align: center;
+  }
 }
 
 /* --- CARD / SLIDE --------------------------------------------------------
@@ -389,36 +395,6 @@
 .slide__shot .isRounded {
   /* Phone-corner rounding in cqw so it scales with the card (≈44px). */
   border-radius: 4cqw;
-}
-
-/* --- Logo wall (the closing "where I've worked" card) ---------------------
-   Individual logo assets rather than one flattened image. Every asset — SVG or
-   PNG — is full-strength black artwork with no background of its own, so the
-   card's own fill shows through and the 50% knock-back is applied once here
-   rather than baked per-asset. Rows are centred and every mark is sized in cqw —
-   its designed width as a % of the card — so the wall scales with the card
-   exactly like the type and shots do, and the marks keep their relative sizes.
-   Row gap is in cqh for the same reason. */
-.logo-wall {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5.5cqh;
-  padding: 4cqw;
-}
-.logo-wall__row {
-  /* Column gap is set per row inline (see logoWall in site.ts). */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.logo-wall__mark {
-  /* Width is set per mark inline (see logoWall in site.ts). */
-  display: block;
-  height: auto;
-  opacity: 0.5;
 }
 
 /* Phone frame — raw screen guts (a video, or a bezel-less screenshot) shown

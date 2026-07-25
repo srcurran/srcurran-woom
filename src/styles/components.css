@@ -283,3 +283,52 @@
   transition: color var(--duration-fast) var(--ease-out);
 }
 .footer-link:hover { color: var(--color-ink); }
+
+/* --- Logo strip ("where I've worked") -------------------------------------
+   The logos as marks on the page — an "as seen in" strip between the deck and
+   the contact closer — rather than a deck card. Every asset is full-strength
+   black artwork with no background of its own, so the page shows through and
+   the knock-back is applied once here rather than baked per-asset.
+
+   Sizing: the inner block is the query container, and each mark's designed
+   width (its % of the Figma frame, set inline as --mark-w) is multiplied by one
+   shared --logo-strip-scale. So the marks keep their relative sizes — a wordmark
+   reads wider than an icon — and the whole set resizes from a single number.
+   The row simply wraps: how many marks fit a line is a function of the width. */
+.logo-strip {
+  --logo-strip-scale: 0.6;
+  padding-block: var(--space-3xl);
+  padding-inline: var(--page-padding-x);
+  background: var(--color-bg);
+}
+.logo-strip__inner {
+  container-type: inline-size;
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+}
+.logo-strip__label {
+  margin-bottom: var(--space-xl);
+  text-align: center;
+  color: var(--color-ink-subtle);
+}
+.logo-strip__marks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  /* Gaps track the container like the marks do, with a floor so the strip still
+     breathes once the page is narrow enough that 4cqw is only a few pixels. */
+  column-gap: max(var(--space-md), 4cqw);
+  row-gap: max(var(--space-md), 3.5cqw);
+}
+.logo-strip__item {
+  /* Designed width (--mark-w, inline) knocked down by the shared scale. */
+  width: calc(var(--mark-w) * var(--logo-strip-scale) * 1cqw);
+}
+.logo-strip__mark {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0.5;
+}

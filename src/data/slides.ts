@@ -8,10 +8,12 @@
  *   intro    — project heading + serif paragraphs, device mockup bleeding right
  *   mockup   — full-bleed image of a designed slide (the visual case-study pages)
  *   results  — heading + serif list (use __like this__ for emphasis)
- *   logos    — the closing logo wall (data lives in ./logos)
+ *
+ * The logos aren't a slide — they sit on the page below the deck as an "as seen
+ * in" strip (see components/LogoStrip.astro, data in ./logos).
  */
 
-export type SlideKind = "bio" | "intro" | "mockup" | "results" | "logos";
+export type SlideKind = "bio" | "intro" | "mockup" | "results";
 export type SlideTheme = "dark" | "light";
 
 export interface SlideMedia {
@@ -331,17 +333,5 @@ export const slides: Slide[] = [
       "Engagement was extended an additional year: allowing us to continue working on this app to refine and add features",
       "Designed for internationalization, with the events and UI available in seven different languages (including Japanese and German)",
     ],
-  },
-
-  // --- Logos -------------------------------------------------------------
-  // Closes both decks: last in this array (so it ends /work) and the highest
-  // onIndex (so it ends the home deck). The wall itself is `logoWall` (./logos).
-  {
-    id: "logos",
-    section: "logos",
-    kind: "logos",
-    heading: "Where I've worked",
-    onIndex: 9,
-    background: "var(--color-logo-wall)",
   },
 ];

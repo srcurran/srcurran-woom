@@ -6,7 +6,7 @@
  *
  *   meta        — site identity + About hero copy   (site, about)
  *   navigation  — side-nav sections                 (navSections)
- *   logos       — the closing logo wall             (logoWall)
+ *   logos       — the "where I've worked" strip     (logos)
  *   slides      — the deck: slide types + slides     (Slide, slides, …)
  *   contact     — footer + contact links            (footerContent, contactLinks, …)
  */

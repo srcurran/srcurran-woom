@@ -112,6 +112,11 @@
 /* Cards (width-driven for a true 16:9) need to widen on small screens. The
    text-card width + 16:9 min-height both follow --card-w. */
 @media (max-width: 760px) {
+  /* The strip's marks are sized in cqw, so a narrower page shrinks them past
+     legibility. Bump the shared scale so they hold their size (and simply wrap
+     onto more rows) instead. */
+  .logo-strip { --logo-strip-scale: 0.95; }
+
   .deck__viewport { --card-w: 90vw; }
   /* Card widens to 90vw here — keep the hero/header column matched to it. */
   :root { --container-max: 90vw; }
@@ -149,6 +154,11 @@
   :root {
     --page-padding-x: var(--space-md);
     --header-height: 3.75rem;
+  }
+
+  .logo-strip {
+    --logo-strip-scale: 1.35;
+    padding-block: var(--space-2xl);
   }
 
   .brand {
