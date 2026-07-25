@@ -27,6 +27,17 @@
        right edge, instead of the column overshooting the narrower cards. */
     --container-max: 78vw;
   }
+  /* The hero is a scroll-snap target only above 960px; here it's just the top of
+     a document, and its copy is short — so holding a full viewport left a dead
+     tail below the copy (259px on a phone) and put ~4.5x more air above the logo
+     strip than below it. Hug the content instead, with no bottom padding, so the
+     strip's own symmetric padding sets the space on both sides. Scoped to the
+     About hero — the contact closer reuses .hero and keeps its full height. */
+  [data-hero].hero {
+    min-height: 0;
+    padding-bottom: 0;
+  }
+
   /* --card-w drives both the card width AND the text-card 16:9 min-height below,
      so they stay in sync when the width changes per breakpoint. */
   .deck__viewport { --card-w: 78vw; }

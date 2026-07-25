@@ -1,14 +1,14 @@
 ---
 /* The "as seen in" strip — the logos as marks on the page itself, between the
-   deck and the contact closer, rather than inside a deck card. A label and one
-   centred row of logos; no frame, no fill. Data (order + which get top billing)
-   lives in ../data/logos. */
+   hero and the deck, rather than inside a deck card. One centred row; no label,
+   no frame, no fill. The marks say what it is, so the name is carried by
+   aria-label for anyone who can't see them. Data (order + which get top
+   billing) lives in ../data/logos. */
 import { logos } from "../data/site";
 ---
 
-<section class="logo-strip" aria-labelledby="logo-strip-label">
+<section class="logo-strip" aria-label="Where I've worked">
   <div class="logo-strip__inner">
-    <h2 class="eyebrow logo-strip__label" id="logo-strip-label">Where I've worked</h2>
     <ul class="logo-strip__marks">
       {logos.map((logo) => (
         <li class:list={["logo-strip__item", logo.lead && "is-lead"]} style={`--mark-w: ${logo.w}`}>

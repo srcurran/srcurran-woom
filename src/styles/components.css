@@ -512,11 +512,6 @@
   max-width: var(--container-max);
   margin-inline: auto;
 }
-.logo-strip__label {
-  margin-bottom: var(--space-xl);
-  text-align: center;
-  color: var(--color-ink-subtle);
-}
 .logo-strip__marks {
   display: flex;
   flex-wrap: nowrap;
