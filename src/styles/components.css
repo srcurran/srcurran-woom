@@ -46,6 +46,8 @@
   justify-content: space-between;
 }
 
+.site-header__actions { gap: var(--space-md); }
+
 .brand {
   align-items: baseline;
   gap: var(--space-sm);
@@ -64,10 +66,12 @@
 }
 .header-link:hover { color: var(--color-ink); }
 
-/* --- Contact menu (popover under the top-nav "Contact" button) ------------
+/* --- Header menus (popovers under the top-nav buttons) --------------------
    Native popover: top-layer, with built-in light-dismiss (click-away) + Esc.
-   Positioned fixed under the header, right-aligned with the button. */
-.contact-menu {
+   Positioned fixed under the header, right-aligned with the button. Two of
+   them share this chrome — Contact, and the mobile Sections menu below. */
+.contact-menu,
+.section-menu {
   position: fixed;
   top: calc(var(--header-height) - var(--space-sm));
   right: var(--space-sm);
@@ -91,30 +95,35 @@
               overlay var(--duration-fast) var(--ease-out) allow-discrete,
               display var(--duration-fast) var(--ease-out) allow-discrete;
 }
-.contact-menu:popover-open {
+.contact-menu:popover-open,
+.section-menu:popover-open {
   opacity: 1;
   transform: translateY(0);
 }
 @starting-style {
-  .contact-menu:popover-open {
+  .contact-menu:popover-open,
+  .section-menu:popover-open {
     opacity: 0;
     transform: translateY(-6px);
   }
 }
-.contact-menu__list {
+.contact-menu__list,
+.section-menu__list {
   display: flex;
   flex-direction: column;
   gap: 2px;
   align-items: flex-end
 }
 
-.contact-menu__list li{
+.contact-menu__list li,
+.section-menu__list li {
   display: flex;
   width: 100%;
   text-align: right;
 }
 
-.contact-menu__link {
+.contact-menu__link,
+.section-menu__link {
   display: block;
   padding: var(--space-2xs) var(--space-sm);
   border-radius: var(--radius-sm);
@@ -126,9 +135,66 @@
               color var(--duration-fast) var(--ease-out);
 }
 .contact-menu__link:hover,
-.contact-menu__link:focus-visible {
+.contact-menu__link:focus-visible,
+.section-menu__link:hover,
+.section-menu__link:focus-visible {
   background: color-mix(in srgb, var(--color-ink) 7%, transparent);
   color: var(--color-ink);
+}
+
+/* --- Mobile sections menu (the hamburger) ---------------------------------
+   The side rail is the desktop way into the sections, but it needs a left
+   gutter to live in, and deck.ts hides it once the centred cards leave too
+   little. In practice that hands over at the 760px breakpoint, where the cards
+   widen to 90vw and the gutter collapses — but the button keys off deck.ts's
+   measurement (the root gets `nav-rail-hidden`) rather than a breakpoint of its
+   own, so the two can never both show or both vanish. Default-hidden, so it
+   never flashes on a desktop first paint.
+
+   The panel itself reuses the header-menu chrome above; only what differs from
+   the contact menu is set here. */
+.menu-toggle { display: none; }
+:root.nav-rail-hidden .menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  /* Tap target around the 18px glyph, with the right edge pulled flush to the
+     header's padding so the bars line up with the content edge. */
+  padding: var(--space-2xs);
+  margin-right: calc(-1 * var(--space-2xs));
+}
+/* Three bars: the middle one is the element, the outer two its pseudos. */
+.menu-toggle__bars,
+.menu-toggle__bars::before,
+.menu-toggle__bars::after {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+}
+.menu-toggle__bars { position: relative; }
+.menu-toggle__bars::before,
+.menu-toggle__bars::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+.menu-toggle__bars::before { top: -6px; }
+.menu-toggle__bars::after  { top: 6px; }
+
+.section-menu {
+  min-width: 11rem;
+  /* Eight sections is taller than a short landscape viewport, so cap + scroll. */
+  max-height: calc(100svh - var(--header-height) - var(--space-lg));
+  overflow-y: auto;
+  /* Denser than the contact menu's 50%: this panel is twice as tall, so it sits
+     over body copy rather than empty hero, and the blur alone doesn't carry it. */
+  background: color-mix(in srgb, var(--color-bg) 84%, transparent);
+}
+/* The active section is marked by deck.ts (.is-active, shared with the rail). */
+.section-menu__link.is-active {
+  color: var(--color-ink);
+  font-weight: var(--weight-semibold);
 }
 
 /* --- Side navigation (fixed left, vertically centred) ---------------------

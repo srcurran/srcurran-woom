@@ -1,5 +1,16 @@
 ---
 import { site, contactLinks } from "../data/site";
+import type { NavSection } from "../data/navigation";
+
+interface Props {
+  /** Section links for the mobile menu. The side rail is the desktop way in;
+   *  below the width where it fits (see .menu-toggle in components.css) this
+   *  hamburger is the only section navigation there is. Omit on decks that
+   *  aren't sectioned — no sections, no button. */
+  sections?: NavSection[];
+}
+
+const { sections = [] } = Astro.props;
 ---
 
 <header class="site-header">
@@ -9,34 +20,69 @@ import { site, contactLinks } from "../data/site";
       <span class="brand__role">{site.role}</span>
     </a>
 
-    <nav aria-label="Contact">
-      <button
-        class="header-link"
-        type="button"
-        popovertarget="contact-menu"
-        aria-haspopup="menu"
-      >
-        Contact
-      </button>
-      <div id="contact-menu" class="contact-menu" popover="auto">
-        <ul class="contact-menu__list">
-          {
-            contactLinks.map((link) => (
-              <li>
-                <a
-                  class="contact-menu__link"
-                  href={link.href}
-                  {...(link.external
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-    </nav>
+    <div class="site-header__actions flex row items-center">
+      <nav aria-label="Contact">
+        <button
+          class="header-link"
+          type="button"
+          popovertarget="contact-menu"
+          aria-haspopup="menu"
+        >
+          Contact
+        </button>
+        <div id="contact-menu" class="contact-menu" popover="auto">
+          <ul class="contact-menu__list">
+            {
+              contactLinks.map((link) => (
+                <li>
+                  <a
+                    class="contact-menu__link"
+                    href={link.href}
+                    {...(link.external
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </nav>
+
+      {
+        sections.length > 0 && (
+          <nav aria-label="Sections">
+            <button
+              class="header-link menu-toggle"
+              type="button"
+              popovertarget="section-menu"
+              aria-label="Sections"
+              aria-haspopup="menu"
+            >
+              <span class="menu-toggle__bars" aria-hidden="true" />
+            </button>
+            {/* Same data-nav-link hook the side rail uses, so deck.ts gives these
+                links the identical glide-to-section + active-state behaviour. */}
+            <div id="section-menu" class="section-menu" popover="auto">
+              <ul class="section-menu__list">
+                {sections.map((section) => (
+                  <li>
+                    <a
+                      class="section-menu__link"
+                      href={`#${section.id}`}
+                      data-nav-link={section.id}
+                    >
+                      {section.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </nav>
+        )
+      }
+    </div>
   </div>
 </header>

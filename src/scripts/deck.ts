@@ -214,12 +214,18 @@ export function initDeck(): void {
   measureGutter();
   let lastSection = "";
   const syncNav = () => {
+    // No room for the rail → the header hamburger takes over as the way into
+    // the sections (see .menu-toggle in components.css). Same signal drives
+    // both, so exactly one of them is ever on screen.
+    const railHidden = gutter < RAIL_GUTTER;
+    document.documentElement.classList.toggle("nav-rail-hidden", railHidden);
     if (!sideNav) return;
     const onAbout = lastSection === "about";
-    sideNav.classList.toggle("is-hidden", gutter < RAIL_GUTTER);
+    sideNav.classList.toggle("is-hidden", railHidden);
     sideNav.classList.toggle("is-about", onAbout);
     sideNav.classList.toggle("is-collapsed", !onAbout || gutter < LABEL_GUTTER);
   };
+  syncNav();
   const setActive = (section: string, fromClick = false) => {
     if (!section) return;
     if (section !== lastSection) {
@@ -319,11 +325,16 @@ export function initDeck(): void {
   for (const link of navLinks) {
     link.addEventListener("click", (event) => {
       event.preventDefault();
-      // Touch: the first tap only opens the rail — don't navigate until revealed.
-      if (!canHover && sideNav && !sideNav.classList.contains("is-revealed")) {
-        sideNav.classList.add("is-revealed");
+      // Touch: the first tap only opens the RAIL — don't navigate until revealed.
+      // Scoped to the rail's own links: the header menu's links are already in an
+      // open popover, so a tap there should navigate straight away.
+      const inRail = sideNav?.contains(link) ?? false;
+      if (!canHover && inRail && !sideNav!.classList.contains("is-revealed")) {
+        sideNav!.classList.add("is-revealed");
         return;
       }
+      // Close the header menu behind the jump, if that's where the tap came from.
+      link.closest<HTMLElement & { hidePopover(): void }>("[popover]")?.hidePopover();
       const id = link.dataset.navLink;
       let y: number | null = null;
       if (id === "about") y = 0;
@@ -455,11 +466,14 @@ export function initDeck(): void {
 // Mark the active link and slide the active marker (.side-nav__list::before) to
 // it via --marker-y — its centre (offsetTop, transform-independent) on the list.
 function setActiveNav(sectionId: string, links: HTMLAnchorElement[]): void {
+  // Every link for the section gets .is-active (the rail's and the header
+  // menu's), but only the RAIL's carries the sliding marker — so pin the marker
+  // to that one rather than to whichever matched last.
   let active: HTMLAnchorElement | null = null;
   for (const link of links) {
     const on = link.dataset.navLink === sectionId;
     link.classList.toggle("is-active", on);
-    if (on) active = link;
+    if (on && !active && link.closest(".side-nav__list")) active = link;
   }
   if (active) {
     const list = active.closest<HTMLElement>(".side-nav__list");
