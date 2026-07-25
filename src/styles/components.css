@@ -484,12 +484,14 @@
    black artwork with no background of its own, so the page shows through and
    the knock-back is applied once here rather than baked per-asset.
 
+   Marks are sized by HEIGHT, not width: --logo-strip-height is the base, each
+   mark's --mark-h (inline, from data/logos.ts) steps off it, and width follows
+   from the asset's own aspect. That's what keeps the row level — sizing on
+   width let a 1:1 square mark run three times the height of a 7:1 wordmark.
+
    ONE row, and it fits by construction: the inner block is the query container
-   and every width here is a multiple of --logo-strip-unit, so the marks + gaps
-   always sum to ~96% of the container whatever its width. Each mark's designed
-   width (its % of the Figma frame, set inline as --mark-w) times the shared
-   --logo-strip-scale keeps the set in its designed proportions — a wordmark
-   reads wider than an icon — and resizes the whole row from a single number.
+   and every length here is a multiple of --logo-strip-unit, so the marks + gaps
+   always sum to ~92% of the container whatever its width.
 
    The unit has a px floor so the marks stop shrinking on a narrow page; past
    that point the row outgrows the container and scrolls sideways instead of
@@ -498,7 +500,10 @@
    the right answer). `safe center` keeps the overflow reachable — plain
    `center` would push the first marks off the un-scrollable left edge. */
 .logo-strip {
-  --logo-strip-scale: 0.34;
+  /* Base mark height, in --logo-strip-unit. The one number that resizes the
+     whole row; raising it past ~1.5 overflows the container and starts the row
+     scrolling on desktop too. */
+  --logo-strip-height: 1.45;
   /* Top billing (see `lead` in data/logos.ts) — a step larger than the rest. */
   --logo-strip-lead: 1.3;
   --logo-strip-unit: max(1cqw, 7px);
@@ -518,26 +523,24 @@
   align-items: center;
   justify-content: center;
   justify-content: safe center;
-  gap: calc(1.3 * var(--logo-strip-unit));
+  gap: calc(1.6 * var(--logo-strip-unit));
   overflow-x: auto;
   scrollbar-width: none;
 }
 .logo-strip__marks::-webkit-scrollbar { display: none; }
-.logo-strip__item {
-  /* Designed width (--mark-w, inline) at the shared scale. Never shrink — the
-     row is sized to fit, and a flex shrink would distort the proportions. */
-  flex: none;
-  width: calc(var(--mark-w) * var(--logo-strip-scale) * var(--logo-strip-unit));
-}
-.logo-strip__item.is-lead {
-  width: calc(var(--mark-w) * var(--logo-strip-scale) * var(--logo-strip-lead)
-              * var(--logo-strip-unit));
-}
+/* Never shrink — the row is sized to fit, and a flex shrink would squash the
+   marks out of their aspect. */
+.logo-strip__item { flex: none; }
+/* Height drives; width comes from the asset's intrinsic aspect. */
 .logo-strip__mark {
   display: block;
-  width: 100%;
-  height: auto;
+  width: auto;
+  height: calc(var(--mark-h) * var(--logo-strip-height) * var(--logo-strip-unit));
   opacity: 0.48;
+}
+.logo-strip__item.is-lead .logo-strip__mark {
+  height: calc(var(--mark-h) * var(--logo-strip-height) * var(--logo-strip-lead)
+               * var(--logo-strip-unit));
 }
 /* Leads also sit a little stronger than the rest. */
 .logo-strip__item.is-lead .logo-strip__mark { opacity: 0.7; }

@@ -11,7 +11,7 @@ import { logos } from "../data/site";
   <div class="logo-strip__inner">
     <ul class="logo-strip__marks">
       {logos.map((logo) => (
-        <li class:list={["logo-strip__item", logo.lead && "is-lead"]} style={`--mark-w: ${logo.w}`}>
+        <li class:list={["logo-strip__item", logo.lead && "is-lead"]} style={`--mark-h: ${logo.h}`}>
           <img class="logo-strip__mark" src={logo.src} alt={logo.alt} loading="lazy" />
         </li>
       ))}
