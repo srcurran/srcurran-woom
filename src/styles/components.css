@@ -162,6 +162,13 @@
   padding: var(--space-2xs);
   margin-right: calc(-1 * var(--space-2xs));
 }
+/* Contact is one of the sections, so once the menu is up it's in the bar twice.
+   The menu keeps it; the standalone button steps aside. Gated on the header
+   carrying a menu at all (`has-section-menu`, set by TopNav) — the home page
+   has no hamburger, so its Contact button must stay at every width. */
+:root.nav-rail-hidden .site-header.has-section-menu .header-contact {
+  display: none;
+}
 /* Three bars: the middle one is the element, the outer two its pseudos. */
 .menu-toggle__bars,
 .menu-toggle__bars::before,

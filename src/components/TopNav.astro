@@ -11,12 +11,14 @@ interface Props {
 }
 
 const { sections = [] } = Astro.props;
-// Contact has its own button right beside this menu, so drop it from the list
-// rather than showing the word twice in one header.
-const menuSections = sections.filter((section) => section.id !== "contact");
+// Contact is one of the sections, so with the menu up it would be in the bar
+// twice. The menu keeps it and the standalone button steps aside — see
+// .header-contact in components.css, which needs this flag to know the menu
+// exists at all (the home page has no hamburger and must keep its button).
+const hasMenu = sections.length > 0;
 ---
 
-<header class="site-header">
+<header class:list={["site-header", hasMenu && "has-section-menu"]}>
   <div class="page site-header__inner flex row">
     <a class="brand flex row" href="/" aria-label={site.name}>
       <span class="brand__name">{site.name}</span>
@@ -24,7 +26,7 @@ const menuSections = sections.filter((section) => section.id !== "contact");
     </a>
 
     <div class="site-header__actions flex row items-center">
-      <nav aria-label="Contact">
+      <nav class="header-contact" aria-label="Contact">
         <button
           class="header-link"
           type="button"
@@ -55,7 +57,7 @@ const menuSections = sections.filter((section) => section.id !== "contact");
       </nav>
 
       {
-        menuSections.length > 0 && (
+        hasMenu && (
           <nav aria-label="Sections">
             <button
               class="header-link menu-toggle"
@@ -70,7 +72,7 @@ const menuSections = sections.filter((section) => section.id !== "contact");
                 links the identical glide-to-section + active-state behaviour. */}
             <div id="section-menu" class="section-menu" popover="auto">
               <ul class="section-menu__list">
-                {menuSections.map((section) => (
+                {sections.map((section) => (
                   <li>
                     <a
                       class="section-menu__link"
