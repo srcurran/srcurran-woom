@@ -38,8 +38,8 @@
      right edge — aligned on the left but not the right, which reads as a mistake
      rather than a choice. */
   .contact-end__peace { max-width: none; }
-  /* Keep the deck's negative margin (the first-card peek) so the intro still
-     pokes the first card up from the bottom of the hero on mobile. */
+  /* Tighter stack + a small tail; the logo strip above the deck supplies the
+     space between the hero and the first card. */
   .deck__viewport {
     gap: clamp(1.25rem, 4vh, 2.5rem);
     padding-block: 0 clamp(1.5rem, 6vh, 3rem);

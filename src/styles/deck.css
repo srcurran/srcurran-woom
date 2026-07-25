@@ -145,10 +145,11 @@
 .deck {
   position: relative;
   background: var(--color-bg);
-  /* Pull the deck up under the full-height hero so the first card peeks into the
-     bottom of the opening view (the "there's more below" hint that beat 3 of the
-     intro pokes up). Seamless: hero + deck share --color-bg. */
-  margin-top: -9vh;
+  /* No negative top margin: the logo strip now sits between the hero and the
+     deck, so there's nothing to pull up under. (It used to lift the first card
+     into the bottom of the opening view as a "there's more below" hint; with a
+     band in between, that margin only ate the strip's bottom padding.) The
+     strip's own padding spaces the deck off it. */
 }
 .deck__viewport {
   display: flex;
@@ -161,15 +162,15 @@
   /* Gap between cards — small enough that the neighbours peek into view when a
      card is centred (the "hint"), big enough they never collide. */
   gap: clamp(2.5rem, 7vh, 7rem);
-  /* No top room (the deck's negative margin already lifts the first card into a
-     peek under the hero); tail room so the last card can still reach the centre. */
+  /* No top room (the logo strip's bottom padding already spaces the first card
+     off it); tail room so the last card can still reach the centre. */
   padding-block: 0 30vh;
 }
 
 /* Project boundary — extra breathing room so each project reads as its own
    group. Every project opens with an intro slide, so push it down from the
    prior project's results card (this margin stacks on top of the viewport gap).
-   The first intro is skipped: it peeks up under the hero. */
+   The first intro is skipped: nothing precedes it inside the deck. */
 .deck__slide--intro:not(:first-child) {
   margin-top: clamp(2.5rem, 7vh, 6rem);
 }

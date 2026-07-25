@@ -1,11 +1,20 @@
 ---
 import { about } from "../data/site";
+
+interface Props {
+  /** The full portfolio (/work) rather than the home highlights — greets with
+   *  "Hello" instead of "Hi", so the first word says which deck you're in. */
+  full?: boolean;
+}
+
+const { full = false } = Astro.props;
+const heading = full ? about.headingFull : about.heading;
 ---
 
 <section class="hero" data-hero id="about">
   <div class="hero__inner">
     <div class="hero__content">
-      <h1 class="hero__headline">{about.heading}</h1>
+      <h1 class="hero__headline">{heading}</h1>
       <div class="hero__bio">
         {about.paragraphs.map((p) => <p>{p}</p>)}
         {about.notes.map((p) => <p class="body-sm">{p}</p>)}
