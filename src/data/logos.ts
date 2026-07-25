@@ -13,15 +13,18 @@ export interface Logo {
    *  components.css — so the whole set resizes from a single number. Height
    *  follows the aspect. */
   w: number;
+  /** Top billing: drawn a step larger and less knocked-back than the rest.
+   *  Leads come first in the array, so they also lead the row. */
+  lead?: boolean;
 }
 
-/** The strip, in reading order. It wraps: rows are whatever fits the page width,
- *  not a fixed layout. */
+/** The strip, in reading order — one row, so this order IS the layout. The three
+ *  leads open it; the rest follow. */
 export const logos: Logo[] = [
-  { src: "/work/logos/foyer.svg", alt: "Foyer", w: 23.26 },
+  { src: "/work/logos/foyer.svg", alt: "Foyer", w: 23.26, lead: true },
+  { src: "/work/logos/huge.svg", alt: "Huge", w: 9.91, lead: true },
+  { src: "/work/logos/akqa.png", alt: "AKQA", w: 13.58, lead: true },
   { src: "/work/logos/hawthorne.svg", alt: "Hawthorne", w: 36.44 },
-  { src: "/work/logos/huge.svg", alt: "Huge", w: 9.91 },
-  { src: "/work/logos/akqa.png", alt: "AKQA", w: 13.58 },
   { src: "/work/logos/rga.svg", alt: "R/GA", w: 23.26 },
   { src: "/work/logos/cuban-council.png", alt: "Cuban Council", w: 9.44 },
   { src: "/work/logos/publicis-sapient.svg", alt: "Publicis Sapient", w: 8.84 },

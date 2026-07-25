@@ -1,7 +1,8 @@
 ---
 /* The "as seen in" strip — the logos as marks on the page itself, between the
    deck and the contact closer, rather than inside a deck card. A label and one
-   centred, wrapping row of logos; no frame, no fill. Data lives in ../data/logos. */
+   centred row of logos; no frame, no fill. Data (order + which get top billing)
+   lives in ../data/logos. */
 import { logos } from "../data/site";
 ---
 
@@ -10,7 +11,7 @@ import { logos } from "../data/site";
     <h2 class="eyebrow logo-strip__label" id="logo-strip-label">Where I've worked</h2>
     <ul class="logo-strip__marks">
       {logos.map((logo) => (
-        <li class="logo-strip__item" style={`--mark-w: ${logo.w}`}>
+        <li class:list={["logo-strip__item", logo.lead && "is-lead"]} style={`--mark-w: ${logo.w}`}>
           <img class="logo-strip__mark" src={logo.src} alt={logo.alt} loading="lazy" />
         </li>
       ))}

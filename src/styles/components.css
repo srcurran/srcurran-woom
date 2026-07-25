@@ -290,13 +290,24 @@
    black artwork with no background of its own, so the page shows through and
    the knock-back is applied once here rather than baked per-asset.
 
-   Sizing: the inner block is the query container, and each mark's designed
-   width (its % of the Figma frame, set inline as --mark-w) is multiplied by one
-   shared --logo-strip-scale. So the marks keep their relative sizes — a wordmark
-   reads wider than an icon — and the whole set resizes from a single number.
-   The row simply wraps: how many marks fit a line is a function of the width. */
+   ONE row, and it fits by construction: the inner block is the query container
+   and every width here is a multiple of --logo-strip-unit, so the marks + gaps
+   always sum to ~96% of the container whatever its width. Each mark's designed
+   width (its % of the Figma frame, set inline as --mark-w) times the shared
+   --logo-strip-scale keeps the set in its designed proportions — a wordmark
+   reads wider than an icon — and resizes the whole row from a single number.
+
+   The unit has a px floor so the marks stop shrinking on a narrow page; past
+   that point the row outgrows the container and scrolls sideways instead of
+   thinning to nothing. 7px here puts that changeover below any laptop width
+   (responsive.css raises it once the page is phone-narrow, where scrolling is
+   the right answer). `safe center` keeps the overflow reachable — plain
+   `center` would push the first marks off the un-scrollable left edge. */
 .logo-strip {
-  --logo-strip-scale: 0.6;
+  --logo-strip-scale: 0.34;
+  /* Top billing (see `lead` in data/logos.ts) — a step larger than the rest. */
+  --logo-strip-lead: 1.3;
+  --logo-strip-unit: max(1cqw, 7px);
   padding-block: var(--space-3xl);
   padding-inline: var(--page-padding-x);
   background: var(--color-bg);
@@ -314,21 +325,30 @@
 }
 .logo-strip__marks {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
-  /* Gaps track the container like the marks do, with a floor so the strip still
-     breathes once the page is narrow enough that 4cqw is only a few pixels. */
-  column-gap: max(var(--space-md), 4cqw);
-  row-gap: max(var(--space-md), 3.5cqw);
+  justify-content: safe center;
+  gap: calc(1.3 * var(--logo-strip-unit));
+  overflow-x: auto;
+  scrollbar-width: none;
 }
+.logo-strip__marks::-webkit-scrollbar { display: none; }
 .logo-strip__item {
-  /* Designed width (--mark-w, inline) knocked down by the shared scale. */
-  width: calc(var(--mark-w) * var(--logo-strip-scale) * 1cqw);
+  /* Designed width (--mark-w, inline) at the shared scale. Never shrink — the
+     row is sized to fit, and a flex shrink would distort the proportions. */
+  flex: none;
+  width: calc(var(--mark-w) * var(--logo-strip-scale) * var(--logo-strip-unit));
+}
+.logo-strip__item.is-lead {
+  width: calc(var(--mark-w) * var(--logo-strip-scale) * var(--logo-strip-lead)
+              * var(--logo-strip-unit));
 }
 .logo-strip__mark {
   display: block;
   width: 100%;
   height: auto;
-  opacity: 0.5;
+  opacity: 0.48;
 }
+/* Leads also sit a little stronger than the rest. */
+.logo-strip__item.is-lead .logo-strip__mark { opacity: 0.7; }

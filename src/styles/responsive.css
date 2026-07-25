@@ -112,10 +112,16 @@
 /* Cards (width-driven for a true 16:9) need to widen on small screens. The
    text-card width + 16:9 min-height both follow --card-w. */
 @media (max-width: 760px) {
-  /* The strip's marks are sized in cqw, so a narrower page shrinks them past
-     legibility. Bump the shared scale so they hold their size (and simply wrap
-     onto more rows) instead. */
-  .logo-strip { --logo-strip-scale: 0.95; }
+  /* Phone-narrow: 1cqw is only a few px here, so hold the marks at a legible
+     size and let the single row scroll sideways instead of thinning out. The
+     scroller bleeds to the page edges (it keeps its own inset padding), so the
+     row runs off the edge of the screen and reads as scrollable rather than
+     clipped short of it. */
+  .logo-strip { --logo-strip-unit: 10px; }
+  .logo-strip__marks {
+    margin-inline: calc(-1 * var(--page-padding-x));
+    padding-inline: var(--page-padding-x);
+  }
 
   .deck__viewport { --card-w: 90vw; }
   /* Card widens to 90vw here — keep the hero/header column matched to it. */
@@ -156,10 +162,7 @@
     --header-height: 3.75rem;
   }
 
-  .logo-strip {
-    --logo-strip-scale: 1.35;
-    padding-block: var(--space-2xl);
-  }
+  .logo-strip { padding-block: var(--space-2xl); }
 
   .brand {
     flex-direction: column;
