@@ -11,6 +11,9 @@ interface Props {
 }
 
 const { sections = [] } = Astro.props;
+// Contact has its own button right beside this menu, so drop it from the list
+// rather than showing the word twice in one header.
+const menuSections = sections.filter((section) => section.id !== "contact");
 ---
 
 <header class="site-header">
@@ -52,7 +55,7 @@ const { sections = [] } = Astro.props;
       </nav>
 
       {
-        sections.length > 0 && (
+        menuSections.length > 0 && (
           <nav aria-label="Sections">
             <button
               class="header-link menu-toggle"
@@ -67,7 +70,7 @@ const { sections = [] } = Astro.props;
                 links the identical glide-to-section + active-state behaviour. */}
             <div id="section-menu" class="section-menu" popover="auto">
               <ul class="section-menu__list">
-                {sections.map((section) => (
+                {menuSections.map((section) => (
                   <li>
                     <a
                       class="section-menu__link"

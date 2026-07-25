@@ -312,18 +312,35 @@
   margin: 0;
   color: #ffffff;
 }
-/* A credit whose value is a URL (see `href` on SlideMetaRow). Reads as the rest
-   of the credits do — same size and colour — with a knocked-back underline that
-   comes up to full on hover, so it's legible as a link without shouting. */
-.slide__meta-link {
+/* Title card heading as a link out to the project (see `href` on Slide). The
+   heading is enormous, so an underline at rest would be a slab — the trailing ↗
+   carries the affordance instead (and unlike hover, it's there on touch too).
+   Hover then brings the underline in. Sized in em so both track the heading. */
+.slide__heading-link {
   color: inherit;
-  text-decoration: underline;
-  text-decoration-thickness: 0.06em;
-  text-underline-offset: 0.22em;
-  text-decoration-color: rgba(255, 255, 255, 0.45);
-  transition: text-decoration-color var(--duration-fast) var(--ease-out);
+  text-decoration: none;
 }
-.slide__meta-link:hover { text-decoration-color: currentColor; }
+.slide__heading-arrow {
+  display: inline-block;
+  margin-left: 0.12em;
+  font-size: 0.34em;
+  font-weight: var(--weight-medium);
+  /* Lift it to sit near the cap line rather than on the baseline of a ~110px
+     heading, where it would read as a dropped character. */
+  vertical-align: 0.9em;
+  opacity: 0.55;
+  transition: opacity var(--duration-fast) var(--ease-out),
+              translate var(--duration-fast) var(--ease-out);
+}
+.slide__heading-link:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 0.03em;
+  text-underline-offset: 0.12em;
+}
+.slide__heading-link:hover .slide__heading-arrow {
+  opacity: 1;
+  translate: 0.06em -0.06em;
+}
 
 /* Project intro — text left, device mockup bleeding off the right. */
 .slide__inner--intro { position: relative; }

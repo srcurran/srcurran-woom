@@ -12,7 +12,16 @@ const media = slide.media?.[0];
 
 <div class:list={["slide__inner", "slide__inner--intro", !media && "is-text-only"]}>
   <div class="slide__text">
-    <h2 class="slide__heading">{slide.heading}</h2>
+    <h2 class="slide__heading">
+      {slide.href
+        ? (
+            <a class="slide__heading-link" href={slide.href} target="_blank" rel="noopener noreferrer">
+              {slide.heading}
+              <span class="slide__heading-arrow" aria-hidden="true">↗</span>
+            </a>
+          )
+        : slide.heading}
+    </h2>
     <div class="slide__prose">
       {slide.paragraphs?.map((p) => <p set:html={emphasize(p)} />)}
     </div>
@@ -22,11 +31,7 @@ const media = slide.media?.[0];
       {slide.meta.map((row) => (
         <div class="slide__meta-row">
           <dt class="slide__meta-label">{row.label}</dt>
-          <dd class="slide__meta-value">
-            {row.href
-              ? <a class="slide__meta-link" href={row.href} target="_blank" rel="noopener noreferrer">{row.value}</a>
-              : row.value}
-          </dd>
+          <dd class="slide__meta-value">{row.value}</dd>
         </div>
       ))}
     </dl>
