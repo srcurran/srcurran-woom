@@ -22,7 +22,11 @@ const media = slide.media?.[0];
       {slide.meta.map((row) => (
         <div class="slide__meta-row">
           <dt class="slide__meta-label">{row.label}</dt>
-          <dd class="slide__meta-value">{row.value}</dd>
+          <dd class="slide__meta-value">
+            {row.href
+              ? <a class="slide__meta-link" href={row.href} target="_blank" rel="noopener noreferrer">{row.value}</a>
+              : row.value}
+          </dd>
         </div>
       ))}
     </dl>

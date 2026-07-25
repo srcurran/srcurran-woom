@@ -96,14 +96,20 @@
      copy above. The card is now auto-height, so drop the bottom-pin and just
      let the block sit under the prose with a little breathing room. Rows are
      stacked (label above value), so the between-row gap is wider than the tight
-     label/value gap inside each row. */
+     label/value gap inside each row. There isn't room for three credits side by
+     side at these widths, so the block wraps rather than shrinking the columns
+     — each credit keeps its natural width (flex: none) and drops to the next
+     line instead of breaking its value over three. */
   .slide__meta {
     margin-top: var(--space-lg);
     padding-top: 0;
-    gap: var(--space-sm);
+    flex-wrap: wrap;
+    column-gap: var(--space-md);
+    row-gap: var(--space-sm);
     max-width: none;
   }
   .slide__meta-row {
+    flex: none;
     gap: 0;
     font-size: var(--text-sm);
   }

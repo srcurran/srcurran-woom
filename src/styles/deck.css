@@ -312,6 +312,18 @@
   margin: 0;
   color: #ffffff;
 }
+/* A credit whose value is a URL (see `href` on SlideMetaRow). Reads as the rest
+   of the credits do — same size and colour — with a knocked-back underline that
+   comes up to full on hover, so it's legible as a link without shouting. */
+.slide__meta-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.22em;
+  text-decoration-color: rgba(255, 255, 255, 0.45);
+  transition: text-decoration-color var(--duration-fast) var(--ease-out);
+}
+.slide__meta-link:hover { text-decoration-color: currentColor; }
 
 /* Project intro — text left, device mockup bleeding off the right. */
 .slide__inner--intro { position: relative; }
