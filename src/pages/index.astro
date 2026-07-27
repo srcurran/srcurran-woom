@@ -12,8 +12,11 @@ import Contact from "../components/Contact.astro";
   <TopNav />
 
   <main>
-    <Hero />
-    <LogoStrip />
+    {/* Hero + strip are one opening view — see .opening in deck.css. */}
+    <div class="opening">
+      <Hero />
+      <LogoStrip />
+    </div>
     <Deck index />
     <Contact />
   </main>

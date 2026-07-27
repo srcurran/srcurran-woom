@@ -1,18 +1,43 @@
 ---
-/* The "as seen in" strip — the logos as marks on the page itself, between the
-   hero and the deck, rather than inside a deck card. One centred row; no label,
-   no frame, no fill. The marks say what it is, so the name is carried by
-   aria-label for anyone who can't see them. Data (order + which get top
-   billing) lives in ../data/logos. */
+/* The "as seen in" strip — the logos as marks on the page itself, under the
+   intro copy, rather than inside a deck card. A full-bleed row that loops
+   endlessly sideways; no label, no frame, no fill. The marks say what it is, so
+   the name is carried by aria-label for anyone who can't see them. Data (order +
+   which get top billing) lives in ../data/logos.
+
+   The row is repeated back to back COPIES times. The animation slides the track
+   left by exactly one copy's worth, so at the moment it wraps, copy two is
+   sitting where copy one began — the seam never shows. Every copy after the
+   first is pure decoration: aria-hidden, so each mark is announced once.
+
+   Why four and not two: the track has to stay wider than the window for the
+   WHOLE cycle, not just at the start. Two copies leaves only one copy's width
+   trailing the shift, so any viewport wider than a single copy runs out of row
+   and opens a gap. Four keeps three copies' worth behind the shift, which clears
+   any realistic display. */
 import { logos } from "../data/site";
+
+const COPIES = 4;
+const loop = Array.from({ length: COPIES }, () => logos).flat();
 ---
 
-<section class="logo-strip" aria-label="Where I've worked">
+<section
+  class="logo-strip"
+  aria-label="Where I've worked"
+  style={`--logo-count: ${logos.length}; --logo-strip-copies: ${COPIES}`}
+>
   <div class="logo-strip__inner">
     <ul class="logo-strip__marks">
-      {logos.map((logo) => (
-        <li class:list={["logo-strip__item", logo.lead && "is-lead"]} style={`--mark-h: ${logo.h}`}>
-          <img class="logo-strip__mark" src={logo.src} alt={logo.alt} loading="lazy" />
+      {loop.map((logo, i) => (
+        <li
+          class="logo-strip__item"
+          style={logo.h ? `--mark-h: ${logo.h}` : undefined}
+          aria-hidden={i >= logos.length ? "true" : undefined}
+        >
+          {/* Eager: the strip is in the opening view now, and an unloaded mark
+              contributes no width — a lazy row leaves the loop sliding a track
+              made of nothing but gaps. */}
+          <img class="logo-strip__mark" src={logo.src} alt={logo.alt} />
         </li>
       ))}
     </ul>

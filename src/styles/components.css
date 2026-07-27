@@ -479,68 +479,110 @@
 .footer-link:hover { color: var(--color-ink); }
 
 /* --- Logo strip ("where I've worked") -------------------------------------
-   The logos as marks on the page — an "as seen in" strip between the deck and
-   the contact closer — rather than a deck card. Every asset is full-strength
-   black artwork with no background of its own, so the page shows through and
-   the knock-back is applied once here rather than baked per-asset.
+   The logos as marks on the page — an "as seen in" strip under the intro copy —
+   rather than a deck card. Every asset is full-strength black artwork with no
+   background of its own, so the page shows through and the knock-back is applied
+   once here rather than baked per-asset.
 
-   Marks are sized by HEIGHT, not width: --logo-strip-height is the base, each
-   mark's --mark-h (inline, from data/logos.ts) steps off it, and width follows
-   from the asset's own aspect. That's what keeps the row level — sizing on
-   width let a 1:1 square mark run three times the height of a 7:1 wordmark.
+   Marks are sized by HEIGHT, with width following from the asset's own aspect —
+   sizing on width let a 1:1 square mark run three times the height of a 7:1
+   wordmark. One height for all of them: the optical correction lives inside the
+   artwork, not in a multiplier here (see data/logos.ts).
 
-   ONE row, and it fits by construction: the inner block is the query container
-   and every length here is a multiple of --logo-strip-unit, so the marks + gaps
-   always sum to ~92% of the container whatever its width.
-
-   The unit has a px floor so the marks stop shrinking on a narrow page; past
-   that point the row outgrows the container and scrolls sideways instead of
-   thinning to nothing. 7px here puts that changeover below any laptop width
-   (responsive.css raises it once the page is phone-narrow, where scrolling is
-   the right answer). `safe center` keeps the overflow reachable — plain
-   `center` would push the first marks off the un-scrollable left edge. */
+   The row LOOPS: it runs full-bleed, wider than the page, and slides left
+   forever (see LogoStrip.astro for how the seam is hidden). */
 .logo-strip {
-  /* Base mark height, in --logo-strip-unit. The one number that resizes the
-     whole row; raising it past ~1.5 overflows the container and starts the row
-     scrolling on desktop too. */
-  --logo-strip-height: 1.45;
-  /* Top billing (see `lead` in data/logos.ts) — a step larger than the rest. */
-  --logo-strip-lead: 1.3;
-  --logo-strip-unit: max(1cqw, 7px);
-  padding-block: var(--space-3xl);
-  padding-inline: var(--page-padding-x);
+  /* THE size knob, and deliberately a plain length rather than a multiple of
+     some unit: every asset is a 40px-tall normalised box straight out of Figma,
+     so 40px here renders the marks at exactly the size they were normalised at,
+     1:1 with the source. The visible logo sits smaller inside that box by
+     design. Trimmed on phones (responsive.css), full size everywhere else. */
+  --logo-strip-mark-h: 40px;
+  /* Cadence: the air between marks, in proportion to the mark height so the two
+     never drift apart. Generous — the marks are all different widths, so a tight
+     gap makes the row read as an uneven clump rather than a steady beat. */
+  --logo-strip-gap: calc(1.05 * var(--logo-strip-mark-h));
+  /* One pass per logo, so ADDING marks lengthens the loop instead of speeding it
+     up: the row always drifts past at the same rate (~45px/s — slow enough to
+     read a mark without tracking it). */
+  --logo-strip-duration: calc(var(--logo-count, 12) * 3.5s);
+  /* Symmetric by default. Inside the opening view the copy above sets the top
+     space, so that context overrides both (see .opening). */
+  padding-block: var(--logo-strip-pad-top, var(--space-3xl))
+                 var(--logo-strip-pad-bottom, var(--space-3xl));
   background: var(--color-bg);
 }
+/* The window the loop runs through. It spans the full page width, but the fade is
+   ANCHORED to the content column: the ramp is centred on the column's edge, so a
+   mark is exactly half faded as it crosses the same line the copy and the cards
+   start on, and carries a little way past it before it's gone. Clipping hard at
+   the column instead makes the row look boxed; putting the midpoint there keeps
+   it tied to the layout while letting the marks bleed.
+
+   --fade is the ramp's HALF width, so the full dissolve is twice it, straddling
+   the column edge. Capped at the gutter so the ramp can never start off-screen
+   (which would cut the marks flat at the viewport edge), and narrow enough that
+   it's fully transparent by the time it reaches the side nav out in the gutter. */
 .logo-strip__inner {
-  container-type: inline-size;
-  width: 100%;
-  max-width: var(--container-max);
-  margin-inline: auto;
+  overflow: hidden;
+  --gutter: max(0px, calc((100% - var(--container-max)) / 2));
+  --fade: min(var(--gutter), clamp(1.5rem, 4vw, 4.5rem));
+  --edge: linear-gradient(90deg,
+    transparent calc(var(--gutter) - var(--fade)),
+    #000 calc(var(--gutter) + var(--fade)),
+    #000 calc(100% - var(--gutter) - var(--fade)),
+    transparent calc(100% - var(--gutter) + var(--fade)));
+  -webkit-mask-image: var(--edge);
+  mask-image: var(--edge);
 }
 .logo-strip__marks {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  justify-content: center;
-  justify-content: safe center;
-  gap: calc(1.6 * var(--logo-strip-unit));
-  overflow-x: auto;
-  scrollbar-width: none;
+  /* Wider than the page on purpose — it holds two copies of the row. */
+  width: max-content;
+  gap: var(--logo-strip-gap);
+  animation: logo-strip-loop var(--logo-strip-duration) linear infinite;
+  will-change: transform;
 }
-.logo-strip__marks::-webkit-scrollbar { display: none; }
-/* Never shrink — the row is sized to fit, and a flex shrink would squash the
-   marks out of their aspect. */
+/* Slide by exactly ONE copy. The track is N copies joined by N*13-1 gaps, so its
+   width is N periods minus one gap — which makes a period (100% + gap) / N.
+   Land anywhere else and the row visibly jumps on repeat. */
+@keyframes logo-strip-loop {
+  to {
+    transform: translateX(calc(
+      (-100% - var(--logo-strip-gap)) / var(--logo-strip-copies, 4)
+    ));
+  }
+}
+/* Hold it still to read a mark. */
+.logo-strip:hover .logo-strip__marks { animation-play-state: paused; }
+/* No drift: drop the duplicate copy and let the single row centre and wrap. */
+@media (prefers-reduced-motion: reduce) {
+  .logo-strip__marks {
+    animation: none;
+    width: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: var(--space-lg);
+    padding-inline: var(--page-padding-x);
+  }
+  .logo-strip__item[aria-hidden="true"] { display: none; }
+}
+/* Never shrink — a flex shrink would squash the marks out of their aspect. */
 .logo-strip__item { flex: none; }
-/* Height drives; width comes from the asset's intrinsic aspect. */
+/* ONE height for every mark, with width following from the asset's own aspect.
+   That's all it takes now: each asset is a shared 40:x box with the mark seated
+   inside it at its optically-corrected size, so equal box height IS equal
+   presence (see data/logos.ts). --mark-h is an escape hatch and normally unset.
+
+   One knock-back for every mark too — a second opacity for the first few read as
+   the assets being different colours rather than as billing, since a flat
+   opacity can't equalise marks whose ink density runs from a hairline serif to a
+   filled square. */
 .logo-strip__mark {
   display: block;
   width: auto;
-  height: calc(var(--mark-h) * var(--logo-strip-height) * var(--logo-strip-unit));
+  height: calc(var(--mark-h, 1) * var(--logo-strip-mark-h));
   opacity: 0.48;
 }
-.logo-strip__item.is-lead .logo-strip__mark {
-  height: calc(var(--mark-h) * var(--logo-strip-height) * var(--logo-strip-lead)
-               * var(--logo-strip-unit));
-}
-/* Leads also sit a little stronger than the rest. */
-.logo-strip__item.is-lead .logo-strip__mark { opacity: 0.7; }

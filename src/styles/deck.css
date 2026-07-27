@@ -23,6 +23,32 @@
   }
 }
 
+/* --- OPENING VIEW (hero copy + logo strip together) -----------------------
+   The intro copy and the "as seen in" marks share the first screen: the copy
+   centres in whatever room is left above the strip, the strip sits on the floor
+   of the block. The block is deliberately a --deck-peek SHORT of the viewport —
+   that remainder is the top edge of the deck's first card, the "there's more
+   below" hint the intro's third beat rises into (intro.ts). */
+.opening {
+  /* How much of card one shows under the strip at rest. */
+  --deck-peek: clamp(3.5rem, 11svh, 8rem);
+  /* The marks ride directly under the copy — one paragraph break's worth of
+     space, and nothing below, so they read as part of the intro rather than as a
+     band pinned to the floor of the view. */
+  --logo-strip-pad-top: var(--space-2xl);
+  --logo-strip-pad-bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  /* Copy + marks centre as ONE group. (Letting the hero grow instead pushed the
+     marks down onto the fold, away from the copy they belong to.) */
+  justify-content: center;
+  min-height: calc(100svh - var(--deck-peek));
+}
+.opening > .hero {
+  min-height: 0;     /* cancel the hero's own 100svh floor */
+  flex: 0 0 auto;    /* sized by its copy; the group's centring places it */
+}
+
 /* --- HERO (a static, centred intro on the canvas) ------------------------- */
 .hero {
   position: relative;
@@ -195,18 +221,23 @@
     scroll-snap-type: y mandatory;
     scroll-padding: 0;
   }
+  /* Centres the contact closer, which reuses the .hero shell. */
   .hero {
     scroll-snap-align: center;
+  }
+  /* The opening is ONE target, resting at the top of the document (start, not
+     centre — it's shorter than the viewport, and the card peeking below it is
+     part of the view). Its hero + strip must not snap on their own, or mandatory
+     snap would stop twice inside a single screen. */
+  .opening {
+    scroll-snap-align: start;
+  }
+  .opening > :is(.hero, .logo-strip) {
+    scroll-snap-align: none;
   }
   .deck__card {
     scroll-snap-align: center;
     scroll-snap-stop: always;
-  }
-  /* The logo strip sits between the last card and the contact closer. Mandatory
-     snap would otherwise skip straight past it (it isn't a card), so give it its
-     own resting point. */
-  .logo-strip {
-    scroll-snap-align: center;
   }
 }
 

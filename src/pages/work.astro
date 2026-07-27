@@ -16,8 +16,11 @@ import { navSections } from "../data/site";
   <SideNav />
 
   <main>
-    <Hero full />
-    <LogoStrip />
+    {/* Hero + strip are one opening view — see .opening in deck.css. */}
+    <div class="opening">
+      <Hero full />
+      <LogoStrip />
+    </div>
     <Deck />
     <Contact />
   </main>
