@@ -4,6 +4,7 @@ import TopNav from "../components/TopNav.astro";
 import SideNav from "../components/SideNav.astro";
 import Hero from "../components/Hero.astro";
 import Deck from "../components/Deck.astro";
+import LogoStrip from "../components/LogoStrip.astro";
 import Contact from "../components/Contact.astro";
 ---
 
@@ -11,7 +12,11 @@ import Contact from "../components/Contact.astro";
   <TopNav />
 
   <main>
-    <Hero />
+    {/* Hero + strip are one opening view — see .opening in deck.css. */}
+    <div class="opening">
+      <Hero />
+      <LogoStrip />
+    </div>
     <Deck index />
     <Contact />
   </main>

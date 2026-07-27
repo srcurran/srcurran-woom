@@ -8,10 +8,12 @@
  *   intro    — project heading + serif paragraphs, device mockup bleeding right
  *   mockup   — full-bleed image of a designed slide (the visual case-study pages)
  *   results  — heading + serif list (use __like this__ for emphasis)
- *   logos    — the closing logo wall (data lives in ./logos)
+ *
+ * The logos aren't a slide — they sit on the page below the deck as an "as seen
+ * in" strip (see components/LogoStrip.astro, data in ./logos).
  */
 
-export type SlideKind = "bio" | "intro" | "mockup" | "results" | "logos";
+export type SlideKind = "bio" | "intro" | "mockup" | "results";
 export type SlideTheme = "dark" | "light";
 
 export interface SlideMedia {
@@ -47,6 +49,9 @@ export interface Slide {
   /** Credits pinned to the bottom of a title card (role / responsibilities /
    *  team). Omit and the card renders as before. */
   meta?: SlideMetaRow[];
+  /** Where this project lives on the web. Set it and the title card's heading
+   *  becomes a link out (with a ↗), so the URL costs the card no extra line. */
+  href?: string;
   /** Disciplines shown in a work (mockup) card's bottom caption, beneath its
    *  heading — a comma-separated list of what this piece involved (e.g. "user
    *  flow, design, development"). Omit and the caption shows just the heading. */
@@ -97,6 +102,7 @@ export const slides: Slide[] = [
     kind: "intro",
     theme: "dark",
     heading: "Foyer",
+    href: "https://foyersavings.com",
     meta: [{ label: "Role", value: "Staff (Founding) Product Designer" }],
     paragraphs: [
       "I joined Foyer, the 401(k) for homeownership, as the founding product designer in mid-2023.",
@@ -161,6 +167,7 @@ export const slides: Slide[] = [
     kind: "intro",
     theme: "dark",
     heading: "Ohsee QA",
+    href: "https://ohsee.app",
     meta: [{ label: "Role", value: "Personal Project (Designed & Developed)" }],
     paragraphs: [
       "Designing in code increases the risk of introducing visual bugs. I looked for a product for visual regression testing, but nothing that existed did what I needed.",
@@ -203,6 +210,7 @@ export const slides: Slide[] = [
     kind: "intro",
     theme: "dark",
     heading: "Hawthorne",
+    href: "https://hawthorne.co",
     meta: [{ label: "Role", value: "Product Designer" }],
     paragraphs: [
       "I joined Hawthorne, a D2C men's grooming startup, to work product-side after decade+ of working at agencies and design firms.",
@@ -306,6 +314,10 @@ export const slides: Slide[] = [
     kind: "intro",
     theme: "dark",
     heading: "Salesforce",
+    // NOTE: unlike the other three, this isn't the client's own site — it's
+    // Savage Bureau's writeup of the customer success calendar, the project
+    // this card introduces.
+    href: "https://www.savagebureau.com/case-study-cs-calendar",
     meta: [
       { label: "Role", value: "Product/UX Design Freelance" },
       { label: "Agency", value: "Savage Bureau" },
@@ -331,17 +343,5 @@ export const slides: Slide[] = [
       "Engagement was extended an additional year: allowing us to continue working on this app to refine and add features",
       "Designed for internationalization, with the events and UI available in seven different languages (including Japanese and German)",
     ],
-  },
-
-  // --- Logos -------------------------------------------------------------
-  // Closes both decks: last in this array (so it ends /work) and the highest
-  // onIndex (so it ends the home deck). The wall itself is `logoWall` (./logos).
-  {
-    id: "logos",
-    section: "logos",
-    kind: "logos",
-    heading: "Where I've worked",
-    onIndex: 9,
-    background: "var(--color-logo-wall)",
   },
 ];

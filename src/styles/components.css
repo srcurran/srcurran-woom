@@ -46,6 +46,8 @@
   justify-content: space-between;
 }
 
+.site-header__actions { gap: var(--space-md); }
+
 .brand {
   align-items: baseline;
   gap: var(--space-sm);
@@ -129,6 +131,198 @@
 .contact-menu__link:focus-visible {
   background: color-mix(in srgb, var(--color-ink) 7%, transparent);
   color: var(--color-ink);
+}
+
+/* --- Mobile sections menu (the hamburger) ---------------------------------
+   The side rail is the desktop way into the sections, but it needs a left
+   gutter to live in, and deck.ts hides it once the centred cards leave too
+   little. In practice that hands over at the 760px breakpoint, where the cards
+   widen to 90vw and the gutter collapses — but the button keys off deck.ts's
+   measurement (the root gets `nav-rail-hidden`) rather than a breakpoint of its
+   own, so the two can never both show or both vanish. Default-hidden, so it
+   never flashes on a desktop first paint.
+
+   What it opens is the full-viewport sheet further down, not a dropdown. */
+.menu-toggle { display: none; }
+:root.nav-rail-hidden .menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  /* Tap target around the 18px glyph, with the right edge pulled flush to the
+     header's padding so the bars line up with the content edge. */
+  padding: var(--space-2xs);
+  margin-right: calc(-1 * var(--space-2xs));
+}
+/* Contact is one of the sections, so once the menu is up it's in the bar twice.
+   The menu keeps it; the standalone button steps aside. Gated on the header
+   carrying a menu at all (`has-section-menu`, set by TopNav) — the home page
+   has no hamburger, so its Contact button must stay at every width. */
+:root.nav-rail-hidden .site-header.has-section-menu .header-contact {
+  display: none;
+}
+/* Three bars: the middle one is the element, the outer two its pseudos. */
+.menu-toggle__bars,
+.menu-toggle__bars::before,
+.menu-toggle__bars::after {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+}
+.menu-toggle__bars { position: relative; }
+.menu-toggle__bars::before,
+.menu-toggle__bars::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+.menu-toggle__bars::before { top: -6px; }
+.menu-toggle__bars::after  { top: 6px; }
+
+/* --- Sections sheet (what the hamburger opens) ----------------------------
+   A full-viewport panel rather than a dropdown: at these widths the sections
+   ARE the navigation, so they get the whole screen and display-sized type.
+   Still a native popover, so Esc and click-away still close it for free, and
+   it sits in the top layer — above the fixed header, which is why it carries
+   its own close button.
+
+   The open/close is transitioned, which for a popover means two extras: the
+   discrete display/overlay steps need `allow-discrete` to be animatable at
+   all, and @starting-style supplies the "before open" values (without it the
+   panel would appear already-open and only animate on the way out). */
+.section-menu {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  /* Solid, not frosted like the contact dropdown: at full-viewport size the
+     deck behind ghosts through a translucent fill and muddies the type. */
+  background: var(--color-bg);
+  color: var(--color-ink);
+  overflow-y: auto;
+  /* Don't hand the scroll on to the page behind once the sheet hits its end. */
+  overscroll-behavior: contain;
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out),
+              overlay var(--duration-base) var(--ease-out) allow-discrete,
+              display var(--duration-base) var(--ease-out) allow-discrete;
+}
+.section-menu:popover-open { opacity: 1; }
+@starting-style {
+  .section-menu:popover-open { opacity: 0; }
+}
+.section-menu__inner {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding-inline: var(--page-padding-x);
+}
+/* Same height + container as .site-header__inner, so the X sits exactly where
+   the hamburger was and the sheet reads as that button flipping open. */
+.section-menu__bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: var(--container-max);
+  min-height: var(--header-height);
+  margin-inline: auto;
+  padding-inline: 1cqw;
+}
+.section-menu__close {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-2xs);
+  margin-right: calc(-1 * var(--space-2xs));
+  color: var(--color-ink-muted);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.section-menu__close:hover { color: var(--color-ink); }
+/* Two bars crossed — same 18px glyph box as the hamburger it replaces. */
+.section-menu__close-glyph {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+.section-menu__close-glyph::before,
+.section-menu__close-glyph::after {
+  content: "";
+  position: absolute;
+  top: calc(50% - 1px);
+  left: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+}
+.section-menu__close-glyph::before { rotate: 45deg; }
+.section-menu__close-glyph::after  { rotate: -45deg; }
+
+.section-menu__list {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--space-2xs);
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: 1cqw;
+  padding-block: var(--space-2xl);
+}
+/* Rows rise in one after another (--i, set per item in TopNav). The delay lives
+   in the open rule only, so closing collapses them together instead of
+   replaying the stagger in reverse. */
+.section-menu__item {
+  opacity: 0;
+  translate: 0 14px;
+  transition: opacity var(--duration-base) var(--ease-out),
+              translate var(--duration-base) var(--ease-out);
+}
+.section-menu:popover-open .section-menu__item {
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: calc(var(--i) * 35ms);
+}
+@starting-style {
+  .section-menu:popover-open .section-menu__item {
+    opacity: 0;
+    translate: 0 14px;
+  }
+}
+.section-menu__link {
+  display: block;
+  padding-block: var(--space-3xs);
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 9vw, 3rem);
+  font-weight: var(--weight-bold);
+  line-height: 1.15;
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-ink-muted);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.section-menu__link:hover,
+.section-menu__link:focus-visible { color: var(--color-ink); }
+/* The active section is marked by deck.ts (.is-active, shared with the rail).
+   The type is already bold here, so colour alone carries it. */
+.section-menu__link.is-active { color: var(--color-ink); }
+
+/* Motion off → no slide or stagger; the sheet just appears. */
+@media (prefers-reduced-motion: reduce) {
+  .section-menu,
+  .section-menu__item {
+    transition-duration: 1ms;
+    transition-delay: 0ms;
+  }
+  .section-menu__item { translate: none; }
 }
 
 /* --- Side navigation (fixed left, vertically centred) ---------------------
@@ -283,3 +477,112 @@
   transition: color var(--duration-fast) var(--ease-out);
 }
 .footer-link:hover { color: var(--color-ink); }
+
+/* --- Logo strip ("where I've worked") -------------------------------------
+   The logos as marks on the page — an "as seen in" strip under the intro copy —
+   rather than a deck card. Every asset is full-strength black artwork with no
+   background of its own, so the page shows through and the knock-back is applied
+   once here rather than baked per-asset.
+
+   Marks are sized by HEIGHT, with width following from the asset's own aspect —
+   sizing on width let a 1:1 square mark run three times the height of a 7:1
+   wordmark. One height for all of them: the optical correction lives inside the
+   artwork, not in a multiplier here (see data/logos.ts).
+
+   The row LOOPS: it runs full-bleed, wider than the page, and slides left
+   forever (see LogoStrip.astro for how the seam is hidden). */
+.logo-strip {
+  /* THE size knob, and deliberately a plain length rather than a multiple of
+     some unit: every asset is a 40px-tall normalised box straight out of Figma,
+     so 40px here renders the marks at exactly the size they were normalised at,
+     1:1 with the source. The visible logo sits smaller inside that box by
+     design. Trimmed on phones (responsive.css), full size everywhere else. */
+  --logo-strip-mark-h: 40px;
+  /* Cadence: the air between marks, in proportion to the mark height so the two
+     never drift apart. Generous — the marks are all different widths, so a tight
+     gap makes the row read as an uneven clump rather than a steady beat. */
+  --logo-strip-gap: calc(1.05 * var(--logo-strip-mark-h));
+  /* One pass per logo, so ADDING marks lengthens the loop instead of speeding it
+     up: the row always drifts past at the same rate (~45px/s — slow enough to
+     read a mark without tracking it). */
+  --logo-strip-duration: calc(var(--logo-count, 12) * 3.5s);
+  /* Symmetric by default. Inside the opening view the copy above sets the top
+     space, so that context overrides both (see .opening). */
+  padding-block: var(--logo-strip-pad-top, var(--space-3xl))
+                 var(--logo-strip-pad-bottom, var(--space-3xl));
+  background: var(--color-bg);
+}
+/* The window the loop runs through. It spans the full page width, but the fade is
+   ANCHORED to the content column: the ramp is centred on the column's edge, so a
+   mark is exactly half faded as it crosses the same line the copy and the cards
+   start on, and carries a little way past it before it's gone. Clipping hard at
+   the column instead makes the row look boxed; putting the midpoint there keeps
+   it tied to the layout while letting the marks bleed.
+
+   --fade is the ramp's HALF width, so the full dissolve is twice it, straddling
+   the column edge. Capped at the gutter so the ramp can never start off-screen
+   (which would cut the marks flat at the viewport edge), and narrow enough that
+   it's fully transparent by the time it reaches the side nav out in the gutter. */
+.logo-strip__inner {
+  overflow: hidden;
+  --gutter: max(0px, calc((100% - var(--container-max)) / 2));
+  --fade: min(var(--gutter), clamp(1.5rem, 4vw, 4.5rem));
+  --edge: linear-gradient(90deg,
+    transparent calc(var(--gutter) - var(--fade)),
+    #000 calc(var(--gutter) + var(--fade)),
+    #000 calc(100% - var(--gutter) - var(--fade)),
+    transparent calc(100% - var(--gutter) + var(--fade)));
+  -webkit-mask-image: var(--edge);
+  mask-image: var(--edge);
+}
+.logo-strip__marks {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  /* Wider than the page on purpose — it holds two copies of the row. */
+  width: max-content;
+  gap: var(--logo-strip-gap);
+  animation: logo-strip-loop var(--logo-strip-duration) linear infinite;
+  will-change: transform;
+}
+/* Slide by exactly ONE copy. The track is N copies joined by N*13-1 gaps, so its
+   width is N periods minus one gap — which makes a period (100% + gap) / N.
+   Land anywhere else and the row visibly jumps on repeat. */
+@keyframes logo-strip-loop {
+  to {
+    transform: translateX(calc(
+      (-100% - var(--logo-strip-gap)) / var(--logo-strip-copies, 4)
+    ));
+  }
+}
+/* Hold it still to read a mark. */
+.logo-strip:hover .logo-strip__marks { animation-play-state: paused; }
+/* No drift: drop the duplicate copy and let the single row centre and wrap. */
+@media (prefers-reduced-motion: reduce) {
+  .logo-strip__marks {
+    animation: none;
+    width: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: var(--space-lg);
+    padding-inline: var(--page-padding-x);
+  }
+  .logo-strip__item[aria-hidden="true"] { display: none; }
+}
+/* Never shrink — a flex shrink would squash the marks out of their aspect. */
+.logo-strip__item { flex: none; }
+/* ONE height for every mark, with width following from the asset's own aspect.
+   That's all it takes now: each asset is a shared 40:x box with the mark seated
+   inside it at its optically-corrected size, so equal box height IS equal
+   presence (see data/logos.ts). --mark-h is an escape hatch and normally unset.
+
+   One knock-back for every mark too — a second opacity for the first few read as
+   the assets being different colours rather than as billing, since a flat
+   opacity can't equalise marks whose ink density runs from a hairline serif to a
+   filled square. */
+.logo-strip__mark {
+  display: block;
+  width: auto;
+  height: calc(var(--mark-h, 1) * var(--logo-strip-mark-h));
+  opacity: 0.48;
+}

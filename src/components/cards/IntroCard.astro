@@ -12,7 +12,15 @@ const media = slide.media?.[0];
 
 <div class:list={["slide__inner", "slide__inner--intro", !media && "is-text-only"]}>
   <div class="slide__text">
-    <h2 class="slide__heading">{slide.heading}</h2>
+    <h2 class="slide__heading">
+      {slide.href
+        ? (
+            <a class="slide__heading-link" href={slide.href} target="_blank" rel="noopener noreferrer">
+              {slide.heading}
+            </a>
+          )
+        : slide.heading}
+    </h2>
     <div class="slide__prose">
       {slide.paragraphs?.map((p) => <p set:html={emphasize(p)} />)}
     </div>

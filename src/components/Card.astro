@@ -7,7 +7,6 @@ import type { Slide } from "../data/slides";
 import BioCard from "./cards/BioCard.astro";
 import IntroCard from "./cards/IntroCard.astro";
 import MockupCard from "./cards/MockupCard.astro";
-import LogosCard from "./cards/LogosCard.astro";
 import ResultsCard from "./cards/ResultsCard.astro";
 
 interface Props {
@@ -36,7 +35,6 @@ const cardBackground =
     {slide.kind === "bio" && <BioCard slide={slide} />}
     {slide.kind === "intro" && <IntroCard slide={slide} />}
     {slide.kind === "mockup" && <MockupCard slide={slide} home={home} />}
-    {slide.kind === "logos" && <LogosCard />}
     {slide.kind === "results" && <ResultsCard slide={slide} />}
   </article>
 </div>
