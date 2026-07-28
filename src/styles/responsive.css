@@ -27,6 +27,26 @@
        right edge, instead of the column overshooting the narrower cards. */
     --container-max: 78vw;
   }
+  /* The hero is a scroll-snap target only above 960px; here it's just the top of
+     a document, and its copy is short — so holding a full viewport left a dead
+     tail below the copy (259px on a phone) and put ~4.5x more air above the logo
+     strip than below it. Hug the content instead, with no bottom padding, so the
+     strip's own symmetric padding sets the space on both sides. Scoped to the
+     About hero — the contact closer reuses .hero and keeps its full height. */
+  [data-hero].hero {
+    min-height: 0;
+    padding-bottom: 0;
+  }
+  /* …and with no fold to compose against (no snap, and the deck is a static
+     list), the opening view is just normal flow: no viewport height, no card
+     peek to reserve, and the strip's own symmetric padding back in charge. */
+  .opening {
+    display: block;
+    min-height: 0;
+    --logo-strip-pad-top: var(--space-3xl);
+    --logo-strip-pad-bottom: var(--space-3xl);
+  }
+
   /* --card-w drives both the card width AND the text-card 16:9 min-height below,
      so they stay in sync when the width changes per breakpoint. */
   .deck__viewport { --card-w: 78vw; }
@@ -38,8 +58,8 @@
      right edge — aligned on the left but not the right, which reads as a mistake
      rather than a choice. */
   .contact-end__peace { max-width: none; }
-  /* Keep the deck's negative margin (the first-card peek) so the intro still
-     pokes the first card up from the bottom of the hero on mobile. */
+  /* Tighter stack + a small tail; the logo strip above the deck supplies the
+     space between the hero and the first card. */
   .deck__viewport {
     gap: clamp(1.25rem, 4vh, 2.5rem);
     padding-block: 0 clamp(1.5rem, 6vh, 3rem);
@@ -149,6 +169,14 @@
   :root {
     --page-padding-x: var(--space-md);
     --header-height: 3.75rem;
+  }
+
+  /* The one place the marks aren't full size: 40px boxes plus their gaps put
+     barely two marks on a phone screen, which reads as a stalled row rather than
+     a moving one. */
+  .logo-strip {
+    --logo-strip-mark-h: 30px;
+    padding-block: var(--space-2xl);
   }
 
   .brand {

@@ -1,42 +1,110 @@
 ---
 import { site, contactLinks } from "../data/site";
+import type { NavSection } from "../data/navigation";
+
+interface Props {
+  /** Section links for the mobile menu. The side rail is the desktop way in;
+   *  below the width where it fits (see .menu-toggle in components.css) this
+   *  hamburger is the only section navigation there is. Omit on decks that
+   *  aren't sectioned — no sections, no button. */
+  sections?: NavSection[];
+}
+
+const { sections = [] } = Astro.props;
+// Contact is one of the sections, so with the menu up it would be in the bar
+// twice. The menu keeps it and the standalone button steps aside — see
+// .header-contact in components.css, which needs this flag to know the menu
+// exists at all (the home page has no hamburger and must keep its button).
+const hasMenu = sections.length > 0;
 ---
 
-<header class="site-header">
+<header class:list={["site-header", hasMenu && "has-section-menu"]}>
   <div class="page site-header__inner flex row">
     <a class="brand flex row" href="/" aria-label={site.name}>
       <span class="brand__name">{site.name}</span>
       <span class="brand__role">{site.role}</span>
     </a>
 
-    <nav aria-label="Contact">
-      <button
-        class="header-link"
-        type="button"
-        popovertarget="contact-menu"
-        aria-haspopup="menu"
-      >
-        Contact
-      </button>
-      <div id="contact-menu" class="contact-menu" popover="auto">
-        <ul class="contact-menu__list">
-          {
-            contactLinks.map((link) => (
-              <li>
-                <a
-                  class="contact-menu__link"
-                  href={link.href}
-                  {...(link.external
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-    </nav>
+    <div class="site-header__actions flex row items-center">
+      <nav class="header-contact" aria-label="Contact">
+        <button
+          class="header-link"
+          type="button"
+          popovertarget="contact-menu"
+          aria-haspopup="menu"
+        >
+          Contact
+        </button>
+        <div id="contact-menu" class="contact-menu" popover="auto">
+          <ul class="contact-menu__list">
+            {
+              contactLinks.map((link) => (
+                <li>
+                  <a
+                    class="contact-menu__link"
+                    href={link.href}
+                    {...(link.external
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </nav>
+
+      {
+        hasMenu && (
+          <nav aria-label="Sections">
+            <button
+              class="header-link menu-toggle"
+              type="button"
+              popovertarget="section-menu"
+              aria-label="Sections"
+              aria-haspopup="menu"
+            >
+              <span class="menu-toggle__bars" aria-hidden="true" />
+            </button>
+            {/* Same data-nav-link hook the side rail uses, so deck.ts gives these
+                links the identical glide-to-section + active-state behaviour. */}
+            <div id="section-menu" class="section-menu" popover="auto">
+              <div class="section-menu__inner">
+                {/* Mirrors the header row's height + container, so the X lands
+                    exactly where the hamburger it replaced was. `popovertarget`
+                    + action="hide" closes it natively — no JS. */}
+                <div class="section-menu__bar">
+                  <button
+                    class="section-menu__close"
+                    type="button"
+                    popovertarget="section-menu"
+                    popovertargetaction="hide"
+                    aria-label="Close menu"
+                  >
+                    <span class="section-menu__close-glyph" aria-hidden="true" />
+                  </button>
+                </div>
+                <ul class="section-menu__list">
+                  {sections.map((section, i) => (
+                    /* --i staggers this row's entrance (see components.css). */
+                    <li class="section-menu__item" style={`--i: ${i}`}>
+                      <a
+                        class="section-menu__link"
+                        href={`#${section.id}`}
+                        data-nav-link={section.id}
+                      >
+                        {section.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </nav>
+        )
+      }
+    </div>
   </div>
 </header>

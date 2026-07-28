@@ -1,58 +1,49 @@
-/** The logo wall — the closing "where I've worked" card (the `logos` slide). */
+/** The "where I've worked" logo strip that loops under the intro copy. */
 
-/** One mark on the logo wall. Every asset is the logo alone — full-strength black
- *  artwork, no background and no baked-in opacity — so the card paints the backdrop
- *  and .logo-wall__mark knocks them all back to 50% together. SVG where the source
- *  is vector, PNG for the few marks that only exist as raster. */
+/** One mark in the strip.
+ *
+ *  THE ARTWORK CARRIES THE SIZING. Every asset is exported from the
+ *  `logo-normalized` frames in the site-logos Figma file, where each mark was
+ *  optically normalised by hand: scaled and seated inside a shared 40px-tall
+ *  box until it holds the same weight as its neighbours. A 7:1 wordmark and a
+ *  1:1 square can't be equalised by a number — sizing on height alone lets the
+ *  square tower, sizing on width alone lets the wordmark run away, and matching
+ *  ink area over-shrinks the solid marks. So the box is the answer: the padding
+ *  baked into each SVG IS the optical correction, including the overshoot the
+ *  round and pointed marks need to sit level with the flat-edged ones.
+ *
+ *  Which means the strip just renders every mark at ONE height and lets width
+ *  follow from the asset's own aspect. No per-mark multipliers to keep in sync.
+ *
+ *  Every asset is the logo alone — full-strength black artwork, no background
+ *  and no baked-in opacity — so the page shows through and the knock-back is
+ *  applied once in CSS rather than per-asset. All SVG; the two that used to be
+ *  raster (AKQA, Cuban Council) were vectorised in the same pass.
+ */
 export interface Logo {
   src: string;
   alt: string;
-  /** Width as a % of the card width, taken from the Figma frame so each mark
-   *  keeps its designed size relative to the others. Height follows the aspect. */
-  w: number;
+  /** Escape hatch, as a multiple of the strip's base height. Omit it — the
+   *  normalised artwork should not need one. Set it only to nudge a single mark
+   *  without re-exporting, and prefer fixing the Figma frame instead. */
+  h?: number;
 }
 
-export interface LogoRow {
-  /** Gap between this row's marks, as a % of the card width. Each row holds a
-   *  different number of marks, so a per-row gap is what makes every row span
-   *  the same ~67% of the card that the Figma frame does. */
-  gap: number;
-  marks: Logo[];
-}
-
-/** The logo wall, row by row (mirrors the Figma layout). */
-export const logoWall: LogoRow[] = [
-  {
-    gap: 7.5,
-    marks: [
-      { src: "/work/logos/foyer.svg", alt: "Foyer", w: 23.26 },
-      { src: "/work/logos/hawthorne.svg", alt: "Hawthorne", w: 36.44 },
-    ],
-  },
-  {
-    gap: 3.67,
-    marks: [
-      { src: "/work/logos/huge.svg", alt: "Huge", w: 9.91 },
-      { src: "/work/logos/akqa.png", alt: "AKQA", w: 13.58 },
-      { src: "/work/logos/rga.svg", alt: "R/GA", w: 23.26 },
-      { src: "/work/logos/cuban-council.png", alt: "Cuban Council", w: 9.44 },
-    ],
-  },
-  {
-    gap: 5.12,
-    marks: [
-      { src: "/work/logos/publicis-sapient.svg", alt: "Publicis Sapient", w: 8.84 },
-      { src: "/work/logos/said-differently.svg", alt: "Said Differently", w: 28.66 },
-      { src: "/work/logos/savage-bureau.svg", alt: "Savage Bureau", w: 3.31 },
-      { src: "/work/logos/greenstone.svg", alt: "Greenstone", w: 11.03 },
-    ],
-  },
-  {
-    gap: 6.62,
-    marks: [
-      { src: "/work/logos/grow.svg", alt: "GROW", w: 19.49 },
-      { src: "/work/logos/ia-collaborative.svg", alt: "IA Collaborative", w: 26.29 },
-      { src: "/work/logos/vsa.svg", alt: "VSA", w: 8.19 },
-    ],
-  },
+/** The strip, in reading order. The loop renders this list twice (see
+ *  LogoStrip.astro), so this order IS the layout — and with every mark now at
+ *  the same height, position is what gives the first few their billing. */
+export const logos: Logo[] = [
+  { src: "/work/logos/cuban-council.svg", alt: "Cuban Council" },
+  { src: "/work/logos/huge.svg", alt: "Huge" },
+  { src: "/work/logos/foyer.svg", alt: "Foyer" },
+  { src: "/work/logos/akqa.svg", alt: "AKQA" },
+  { src: "/work/logos/hawthorne.svg", alt: "Hawthorne" },
+  { src: "/work/logos/rga.svg", alt: "R/GA" },
+  { src: "/work/logos/publicis-sapient.svg", alt: "Publicis Sapient" },
+  { src: "/work/logos/grow.svg", alt: "GROW" },
+  { src: "/work/logos/said-differently.svg", alt: "Said Differently" },
+  { src: "/work/logos/savage-bureau.svg", alt: "Savage Bureau" },
+  { src: "/work/logos/vsa.svg", alt: "VSA" },
+  { src: "/work/logos/ia-collaborative.svg", alt: "IA Collaborative" },
+  { src: "/work/logos/greenstone.svg", alt: "Greenstone" },
 ];
