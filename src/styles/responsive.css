@@ -35,6 +35,9 @@
      About hero — the contact closer reuses .hero and keeps its full height. */
   [data-hero].hero {
     min-height: 0;
+    /* No viewport centring here means the copy starts at the top of the
+       document — under the fixed header — so clear it explicitly. */
+    padding-top: calc(var(--header-height) + var(--space-md));
     padding-bottom: 0;
   }
   /* …and with no fold to compose against (no snap, and the deck is a static
