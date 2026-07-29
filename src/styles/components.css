@@ -557,15 +557,27 @@
 }
 /* Hold it still to read a mark. */
 .logo-strip:hover .logo-strip__marks { animation-play-state: paused; }
-/* No drift: drop the duplicate copy and let the single row centre and wrap. */
+/* No drift: the strip stays the SAME single row as the animated one — never a
+   wrapped grid, which reads as a different layout rather than the same one at
+   rest — but panning it becomes the reader's, by hand: the window turns into a
+   plain horizontal scroller. The loop's duplicate copies drop away so the
+   scroll ends at the LAST mark instead of running on into repeats, and the
+   track pads out past the mask's ramp at either end so the first and last
+   marks can be brought fully clear of the fade. The fades themselves stay on
+   as the "there's more" affordance, standing in for the hidden scrollbar. */
 @media (prefers-reduced-motion: reduce) {
+  .logo-strip__inner {
+    overflow-x: auto;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
   .logo-strip__marks {
     animation: none;
-    width: auto;
-    flex-wrap: wrap;
-    justify-content: center;
-    row-gap: var(--space-lg);
-    padding-inline: var(--page-padding-x);
+    padding-inline: calc(var(--gutter) + var(--fade));
+    /* Centre the single pass when it happens to fit the window; auto margins
+       collapse to zero once it overflows, so the scroll origin stays on the
+       first mark. */
+    margin-inline: auto;
   }
   .logo-strip__item[aria-hidden="true"] { display: none; }
 }
