@@ -195,6 +195,63 @@ export function initDeck(): void {
     }
   }
 
+  // --- Card clicks ---------------------------------------------------------
+  // Cards aren't links — clicking one does nothing. That's exactly what makes the
+  // click worth recording: someone tapping a mockup is asking to see it bigger, or
+  // to open the project. Dispatch it so analytics (analytics.ts) can count those
+  // DEAD clicks and tell us whether the deck needs a real detail view.
+  const INTERACTIVE = 'a[href], button, [role="button"], input, select, textarea, summary';
+  // Which part of the card was clicked — a click on the artwork is a stronger
+  // "show me this bigger" signal than one on the surrounding copy. First match wins,
+  // so the chin (a sibling of the frame, not a child) is checked before it.
+  const REGIONS: ReadonlyArray<readonly [string, string]> = [
+    [".slide__chin", "caption"],
+    [".slide__frame", "media"],
+    [".slide__text, .slide__prose, .slide__results, .slide__meta, .slide__heading", "text"],
+  ];
+  // Clicks so far per slide, this page load. A repeat click on the same card is a
+  // louder signal than a first one — they tried again when nothing happened.
+  const cardClicks = new Map<string, number>();
+  let downX = 0;
+  let downY = 0;
+  viewport.addEventListener(
+    "pointerdown",
+    (e) => {
+      downX = e.clientX;
+      downY = e.clientY;
+    },
+    { passive: true },
+  );
+  viewport.addEventListener("click", (e) => {
+    const target = e.target as Element | null;
+    const card = target?.closest<HTMLElement>("[data-card]");
+    if (!card) return;
+    // Finishing a drag or a text selection isn't intent. (detail === 0 means the
+    // click was synthesised — keyboard activation — so there's no drag to measure.)
+    if (e.detail > 0 && Math.hypot(e.clientX - downX, e.clientY - downY) > 10) return;
+    if (!(window.getSelection()?.isCollapsed ?? true)) return;
+
+    const slide = card.dataset.slide ?? "";
+    const count = (cardClicks.get(slide) ?? 0) + 1;
+    cardClicks.set(slide, count);
+
+    document.dispatchEvent(
+      new CustomEvent("card:click", {
+        detail: {
+          index: Number(card.dataset.index ?? 0),
+          section: card.dataset.section,
+          slide,
+          kind: card.dataset.kind,
+          region: REGIONS.find(([sel]) => target?.closest(sel))?.[1] ?? "card",
+          // A click that landed on a link/button did something; everything else is
+          // dead — the card looked clickable and wasn't.
+          dead: !target?.closest(INTERACTIVE),
+          count,
+        },
+      }),
+    );
+  });
+
   // Active section: About while we're still up in the hero, otherwise the card
   // nearest the viewport centre. The nav only shows when the centred content
   // leaves a wide enough left gutter for it. The content/card width grows with
