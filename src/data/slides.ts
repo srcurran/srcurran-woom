@@ -308,40 +308,7 @@ export const slides: Slide[] = [
   },
 
   // --- Salesforce --------------------------------------------------------
-  {
-    id: "salesforce-intro",
-    section: "salesforce",
-    kind: "intro",
-    theme: "dark",
-    heading: "Salesforce",
-    // NOTE: unlike the other three, this isn't the client's own site — it's
-    // Savage Bureau's writeup of the customer success calendar, the project
-    // this card introduces.
-    href: "https://www.savagebureau.com/case-study-cs-calendar",
-    meta: [
-      { label: "Role", value: "Product/UX Design Freelance" },
-      { label: "Agency", value: "Savage Bureau" },
-    ],
-    paragraphs: [
-      "Worked with Salesforce on several projects, including: developer documentation design, sites for various verticals, and an events application.",
-      "The customer success calendar was initiated in 2020 as the company pivoted to online events.",
-    ],
-  },
-  { id: "salesforce-1", section: "salesforce", kind: "mockup", heading: "Event calendar approaches", tasks: "Design concepting • wireframe diagrams", media: [{ src: "/work/salesforce-1.png", alt: "Event calendar approaches" }] },
-  { id: "salesforce-2", section: "salesforce", kind: "mockup", heading: "Event calendar detail", tasks: "Event registration flow • design", media: [{ src: "/work/salesforce-2.png", alt: "Event calendar detail" }] },
-  { id: "salesforce-3", section: "salesforce", kind: "mockup", heading: "Event calendar index", tasks: "Search + filtering patterns • design", onIndex: 8, media: [{ src: "/work/salesforce-3.png", alt: "Event calendar index" }] },
-  {
-    id: "salesforce-results",
-    section: "salesforce",
-    kind: "results",
-    theme: "light",
-    heading: "Salesforce results",
-    items: [
-      "Got quick alignment on shape of project through “Land Rover” vs. “Winnebago” concepts",
-      "Ran customer interview sessions, to help understand needs in a rapidly evolving time",
-      "Built to the SF Lightning design system specifications",
-      "Engagement was extended an additional year: allowing us to continue working on this app to refine and add features",
-      "Designed for internationalization, with the events and UI available in seven different languages (including Japanese and German)",
-    ],
-  },
+  // The full case study was retired from /work; only this one screen survives,
+  // as a home-deck slide (hence `indexOnly`).
+  { id: "salesforce-3", section: "salesforce", kind: "mockup", heading: "Event calendar index", tasks: "Search + filtering patterns • design", onIndex: 8, indexOnly: true, media: [{ src: "/work/salesforce-3.png", alt: "Event calendar index" }] },
 ];
