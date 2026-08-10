@@ -431,39 +431,8 @@ export const slides: Slide[] = [
   },
 
   // --- Salesforce --------------------------------------------------------
-  {
-    id: "salesforce-intro",
-    section: "salesforce",
-    kind: "intro",
-    theme: "dark",
-    heading: "Salesforce",
-    meta: [
-      { label: "Role", value: "Product/UX Design Freelance" },
-      { label: "Agency", value: "Savage Bureau" },
-    ],
-    paragraphs: [
-      "Worked with Salesforce on several projects, including: developer documentation design, sites for various verticals, and an events application.",
-      "The customer success calendar was initiated in 2020 as the company pivoted to online events.",
-    ],
-  },
-  {
-    id: "salesforce-1",
-    section: "salesforce",
-    kind: "mockup",
-    heading: "Event calendar approaches",
-    tasks: "Design concepting • wireframe diagrams",
-    media: [
-      { src: "/work/salesforce-1.png", alt: "Event calendar approaches" },
-    ],
-  },
-  {
-    id: "salesforce-2",
-    section: "salesforce",
-    kind: "mockup",
-    heading: "Event calendar detail",
-    tasks: "Event registration flow • design",
-    media: [{ src: "/work/salesforce-2.png", alt: "Event calendar detail" }],
-  },
+  // The full case study was retired from /work; only this one screen survives,
+  // as a home-deck slide (hence `indexOnly`).
   {
     id: "salesforce-3",
     section: "salesforce",
@@ -471,20 +440,7 @@ export const slides: Slide[] = [
     heading: "Event calendar index",
     tasks: "Search + filtering patterns • design",
     onIndex: 8,
+    indexOnly: true,
     media: [{ src: "/work/salesforce-3.png", alt: "Event calendar index" }],
-  },
-  {
-    id: "salesforce-results",
-    section: "salesforce",
-    kind: "results",
-    theme: "light",
-    heading: "Salesforce results",
-    items: [
-      "Aligned scope with “Land Rover” vs. “Winnebago” concepts",
-      "Ran customer interviews through a rapidly evolving moment",
-      "Built to Salesforce Lightning design system specs",
-      "Engagement extended a year to refine and add features",
-      "Internationalized — events and UI in seven languages",
-    ],
   },
 ];
