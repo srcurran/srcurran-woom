@@ -7,7 +7,10 @@
  *   bio      — heading + serif paragraphs (light)
  *   intro    — project heading + serif paragraphs, device mockup bleeding right
  *   mockup   — full-bleed image of a designed slide (the visual case-study pages)
- *   results  — heading + serif list (use __like this__ for emphasis)
+ *   results  — heading + serif list
+ *
+ * Copy on the text kinds (bio / intro / results) takes inline markdown:
+ * **bold**, _italic_ (or *italic*), and __underline__. See lib/emphasize.ts.
  *
  * The logos aren't a slide — they sit on the page below the deck as an "as seen
  * in" strip (see components/LogoStrip.astro, data in ./logos).
@@ -44,7 +47,7 @@ export interface Slide {
   kind: SlideKind;
   theme?: SlideTheme;
   heading?: string;
-  /** Serif copy. Wrap a phrase in __underscores__ to emphasise it. */
+  /** Serif copy. Takes inline markdown — see the header note. */
   paragraphs?: string[];
   /** Credits pinned to the bottom of a title card (role / responsibilities /
    *  team). Omit and the card renders as before. */
@@ -110,32 +113,64 @@ export const slides: Slide[] = [
     ],
   },
   {
-    id: "foyer-device", section: "foyer", kind: "mockup", fit: "contain", onIndex: 2,
-    heading: "Welcome screen", tasks: "Animation • design • development",
+    id: "foyer-device",
+    section: "foyer",
+    kind: "mockup",
+    fit: "contain",
+    onIndex: 2,
+    heading: "Welcome screen",
+    tasks: "Animation • design • development",
     // Soft lavender→peach gradient (from the Figma frame) behind the device.
     background: "linear-gradient(to top right, #f2ebf5, #f9f0eb 55%, #fbefe9)",
-    media: [{ src: "/work/foyer-app.mp4", alt: "Foyer app", type: "video", phoneBorder: true  }],
+    media: [
+      {
+        src: "/work/foyer-app.mp4",
+        alt: "Foyer app",
+        type: "video",
+        phoneBorder: true,
+      },
+    ],
   },
   {
-    id: "foyer-1", section: "foyer", kind: "mockup", heading: "Onboarding", onIndex: 5,
-    tasks: "User flow • performance optimization • design • interaction patterns • component development",
+    id: "foyer-1",
+    section: "foyer",
+    kind: "mockup",
+    heading: "Onboarding",
+    onIndex: 5,
+    tasks:
+      "User flow • performance optimization • design • interaction patterns • component development",
     media: [
       { src: "/work/foyer-1-a.png", alt: "Where" },
       { src: "/work/foyer-1-c.png", alt: "Price" },
       { src: "/work/foyer-1-d.png", alt: "Concerns" },
-      { src: "/work/foyer-home-goal.mp4", alt: "Homegoal", type: "video", phoneFrame: true },
+      {
+        src: "/work/foyer-home-goal.mp4",
+        alt: "Homegoal",
+        type: "video",
+        phoneFrame: true,
+      },
     ],
   },
   {
-    id: "foyer-2", section: "foyer", kind: "mockup", heading: "Foyer × Zillow",
+    id: "foyer-2",
+    section: "foyer",
+    kind: "mockup",
+    heading: "Foyer × Zillow",
     tasks: "Partnership concepting • design • hero animation • content",
     media: [
-      { src: "/work/foyer-zillow-square.mp4", alt: "Foyer × Zillow landing", type: "video" },
+      {
+        src: "/work/foyer-zillow-square.mp4",
+        alt: "Foyer × Zillow landing",
+        type: "video",
+      },
       { src: "/work/foyer-2-b.png", alt: "Foyer × Zillow on iPhone" },
     ],
   },
   {
-    id: "foyer-3", section: "foyer", kind: "mockup", heading: "Tools and calculators",
+    id: "foyer-3",
+    section: "foyer",
+    kind: "mockup",
+    heading: "Tools and calculators",
     tasks: "Interaction patterns • design • content • development",
     media: [
       { src: "/work/foyer-3-a.png", alt: "Calculator" },
@@ -151,16 +186,13 @@ export const slides: Slide[] = [
     theme: "light",
     heading: "Foyer results",
     items: [
-      "0→1 product launch",
-      "$6M seed round completed",
-      "Optimized onboarding conversion from 21% to 39%",
-      "Increased paid-tier conversion from 6% at launch, to 64% of depositors",
-      "De facto product owner with engineering partner",
-      "Managed large projects: oversaw freelance copywriter, brand design, and an engagement with Metalab",
-      "Helped <i>hundreds of members</i> reach homeownership",
+      "Founding designer, ran successful __0-to-1 launch__",
+      "__40pt increase__ in onboarded users, by leading with home goal",
+      "Achieved __64% attach rate__ on paid product",
+      "Helped __hundreds of members__ purchase a home",
     ],
   },
-//--- Ohsee --------
+  //--- Ohsee --------
   {
     id: "ohsee-intro",
     section: "ohsee",
@@ -176,31 +208,47 @@ export const slides: Slide[] = [
     ],
   },
   {
-    id: "ohsee-pages", section: "ohsee", kind: "mockup",
-    heading: "Visual QA testing", tasks: "Concept • design • development",
-    media: [{ src: "/work/ohsee-run.mp4", alt: "Ohsee Pages", type: "video"  }],
+    id: "ohsee-pages",
+    section: "ohsee",
+    kind: "mockup",
+    heading: "Visual QA testing",
+    tasks: "Concept • design • development",
+    media: [{ src: "/work/ohsee-run.mp4", alt: "Ohsee Pages", type: "video" }],
   },
   {
-    id: "ohsee-diff", section: "ohsee", kind: "mockup", onIndex: 3,
-    heading: "Page detail", tasks: "Concept • design • development",
-    media: [{ src: "/work/ohsee-diff.mp4", alt: "Ohsee Diff", type: "video"  }],
+    id: "ohsee-diff",
+    section: "ohsee",
+    kind: "mockup",
+    onIndex: 3,
+    heading: "Page detail",
+    tasks: "Concept • design • development",
+    media: [{ src: "/work/ohsee-diff.mp4", alt: "Ohsee Diff", type: "video" }],
   },
   {
-    id: "ohsee-screns", section: "ohsee", kind: "mockup",
-    heading: "Responsive states", tasks: "Concept • design • development",
-    media: [{ src: "/work/ohsee-screens2.mp4", alt: "Ohsee Screen Sizes", type: "video"  }],
-  },{
-
+    id: "ohsee-screns",
+    section: "ohsee",
+    kind: "mockup",
+    heading: "Responsive states",
+    tasks: "Concept • design • development",
+    media: [
+      {
+        src: "/work/ohsee-screens2.mp4",
+        alt: "Ohsee Screen Sizes",
+        type: "video",
+      },
+    ],
+  },
+  {
     id: "ohsee-results",
     section: "ohsee",
     kind: "results",
     theme: "light",
     heading: "Ohsee results",
     items: [
-      "Caught visual bugs faster with less effort",
-      "Features include: Playwright scripting, logged-in states, screenshot and code diff detection",
-      "Archived screenshots of app changes maintain a visual history",
-      "Agentic-first project with minimal design done in Figma",
+      "Has caught __dozens of bugs__ in my own work, before it shipped",
+      "Works for designers and developers with __CLI and app__",
+      "Traacks the __visual history__ of your project",
+      "Built __code-first__, to meet my specific needs",
     ],
   },
   // --- Hawthorne ---------------------------------------------------------
@@ -218,14 +266,58 @@ export const slides: Slide[] = [
     ],
   },
   {
-    id: "hawthorne-device", section: "hawthorne", kind: "mockup", theme: "dark", fit: "contain", onIndex: 4,
-    heading: "Quiz results prototype", tasks: "Concept • design • interaction patterns",
-    media: [{ src: "/work/hawthorne-video.mp4", alt: "Hawthorne quiz result", type: "video", rounded: true }],
+    id: "hawthorne-device",
+    section: "hawthorne",
+    kind: "mockup",
+    theme: "dark",
+    fit: "contain",
+    onIndex: 4,
+    heading: "Quiz results prototype",
+    tasks: "Concept • design • interaction patterns",
+    media: [
+      {
+        src: "/work/hawthorne-video.mp4",
+        alt: "Hawthorne quiz result",
+        type: "video",
+        rounded: true,
+      },
+    ],
   },
-  { id: "hawthorne-1", section: "hawthorne", kind: "mockup", heading: "Concept sketches (quiz results)", tasks: "Exploration • user flows • interaction patterns", onIndex: 7, media: [{ src: "/work/hawthorne-1.jpg", alt: "Quiz result concept sketches" }] },
-  { id: "hawthorne-2", section: "hawthorne", kind: "mockup", heading: "Quiz results redesign", tasks: "User feedback • design optimization", media: [{ src: "/work/hawthorne-2.jpg", alt: "Revised quiz results" }] },
-  { id: "hawthorne-3", section: "hawthorne", kind: "mockup", heading: "Website and CMS design", tasks: "Project leadership • design", media: [{ src: "/work/hawthorne-3.jpg", alt: "Website and CMS design" }] },
-  { id: "hawthorne-4", section: "hawthorne", kind: "mockup", heading: "E-commerce design", tasks: "Site design and optimization", media: [{ src: "/work/hawthorne-4.jpg", alt: "E-commerce design" }] },
+  {
+    id: "hawthorne-1",
+    section: "hawthorne",
+    kind: "mockup",
+    heading: "Concept sketches (quiz results)",
+    tasks: "Exploration • user flows • interaction patterns",
+    onIndex: 7,
+    media: [
+      { src: "/work/hawthorne-1.jpg", alt: "Quiz result concept sketches" },
+    ],
+  },
+  {
+    id: "hawthorne-2",
+    section: "hawthorne",
+    kind: "mockup",
+    heading: "Quiz results redesign",
+    tasks: "User feedback • design optimization",
+    media: [{ src: "/work/hawthorne-2.jpg", alt: "Revised quiz results" }],
+  },
+  {
+    id: "hawthorne-3",
+    section: "hawthorne",
+    kind: "mockup",
+    heading: "Website and CMS design",
+    tasks: "Project leadership • design",
+    media: [{ src: "/work/hawthorne-3.jpg", alt: "Website and CMS design" }],
+  },
+  {
+    id: "hawthorne-4",
+    section: "hawthorne",
+    kind: "mockup",
+    heading: "E-commerce design",
+    tasks: "Site design and optimization",
+    media: [{ src: "/work/hawthorne-4.jpg", alt: "E-commerce design" }],
+  },
   {
     id: "hawthorne-results",
     section: "hawthorne",
@@ -233,11 +325,9 @@ export const slides: Slide[] = [
     theme: "light",
     heading: "Hawthorne results",
     items: [
-      "Launched direct-buy experience, creating a new channel for consumers to buy products",
-      "Redesigned and optimized the core feature, a shoppable product recommendation quiz results page",
-      "Defined, and worked against, key site metric of “average session value” which analyzed basket size and conversion rates across all sessions",
-      "Supported launches of new products with one-off digital experiences. Most launches sold out within days",
-      "Co-led effort to move to headless Shopify with the lead engineer",
+      "0-to-1 launch of a __direct-buy channel__ for customers",
+      "Redesign of quiz results incresed __average session value__ by 15%",
+      "__8% subscription__ increase from quiz results redesign",
     ],
   },
 
@@ -260,10 +350,13 @@ export const slides: Slide[] = [
   // NOTE: Figma header here reads "Website and CMS design" — a copy-paste from
   // Hawthorne (wrong for App Omni). Corrected to match the actual content.
   {
-    id: "app-omni-1", section: "app-omni", kind: "mockup", heading: "Nested filtering pattern",
+    id: "app-omni-1",
+    section: "app-omni",
+    kind: "mockup",
+    heading: "Nested filtering pattern",
     tasks: "Prototype • interaction pattern exploration",
     media: [
-      { src: "/work/app-omni-1-a.mp4", alt: "Filtering UI", type: "video" }
+      { src: "/work/app-omni-1-a.mp4", alt: "Filtering UI", type: "video" },
     ],
   },
   {
@@ -273,8 +366,8 @@ export const slides: Slide[] = [
     theme: "light",
     heading: "App Omni results",
     items: [
-      "Designed an advanced multi-stage filtering system, extending work started by the in-house product team",
-      "Clarified technical constraints of un-nested and-or statements, using pet types and colors to illustrate the ambiguity",
+      "Extended the in-house team's multi-stage filtering system",
+      "Explained un-nested and/or limits with pet types and colors",
     ],
   },
 
@@ -293,8 +386,34 @@ export const slides: Slide[] = [
       "As part of a larger partnership between Said Differently and Neiman Marcus, I was tapped to redesign the checkout flow and store finder.",
     ],
   },
-  { id: "neiman-1", section: "neiman-marcus", kind: "mockup", heading: "Checkout design", tasks: "Research • user flow • design • interaction patterns", onIndex: 6, media: [{ src: "/work/neiman-1.mp4", alt: "Neiman Marcus checkout design", type: "video" }] },
-  { id: "neiman-2", section: "neiman-marcus", kind: "mockup", heading: "Store finder design", tasks: "Research • design", media: [{ src: "/work/neiman-marcus-store.png", alt: "Neiman Marcus store details" }] },
+  {
+    id: "neiman-1",
+    section: "neiman-marcus",
+    kind: "mockup",
+    heading: "Checkout design",
+    tasks: "Research • user flow • design • interaction patterns",
+    onIndex: 6,
+    media: [
+      {
+        src: "/work/neiman-1.mp4",
+        alt: "Neiman Marcus checkout design",
+        type: "video",
+      },
+    ],
+  },
+  {
+    id: "neiman-2",
+    section: "neiman-marcus",
+    kind: "mockup",
+    heading: "Store finder design",
+    tasks: "Research • design",
+    media: [
+      {
+        src: "/work/neiman-marcus-store.png",
+        alt: "Neiman Marcus store details",
+      },
+    ],
+  },
   {
     id: "neiman-results",
     section: "neiman-marcus",
@@ -302,8 +421,8 @@ export const slides: Slide[] = [
     theme: "light",
     heading: "Neiman Marcus results",
     items: [
-      "Checkout experience launched after out-performing the existing flow in performance testing",
-      "Created a store finder experience that celebrated the unique aspects of each location",
+      "Checkout launched after beating the existing flow in testing",
+      "Store finder that celebrates each location's character",
     ],
   },
 
@@ -327,9 +446,33 @@ export const slides: Slide[] = [
       "The customer success calendar was initiated in 2020 as the company pivoted to online events.",
     ],
   },
-  { id: "salesforce-1", section: "salesforce", kind: "mockup", heading: "Event calendar approaches", tasks: "Design concepting • wireframe diagrams", media: [{ src: "/work/salesforce-1.png", alt: "Event calendar approaches" }] },
-  { id: "salesforce-2", section: "salesforce", kind: "mockup", heading: "Event calendar detail", tasks: "Event registration flow • design", media: [{ src: "/work/salesforce-2.png", alt: "Event calendar detail" }] },
-  { id: "salesforce-3", section: "salesforce", kind: "mockup", heading: "Event calendar index", tasks: "Search + filtering patterns • design", onIndex: 8, media: [{ src: "/work/salesforce-3.png", alt: "Event calendar index" }] },
+  {
+    id: "salesforce-1",
+    section: "salesforce",
+    kind: "mockup",
+    heading: "Event calendar approaches",
+    tasks: "Design concepting • wireframe diagrams",
+    media: [
+      { src: "/work/salesforce-1.png", alt: "Event calendar approaches" },
+    ],
+  },
+  {
+    id: "salesforce-2",
+    section: "salesforce",
+    kind: "mockup",
+    heading: "Event calendar detail",
+    tasks: "Event registration flow • design",
+    media: [{ src: "/work/salesforce-2.png", alt: "Event calendar detail" }],
+  },
+  {
+    id: "salesforce-3",
+    section: "salesforce",
+    kind: "mockup",
+    heading: "Event calendar index",
+    tasks: "Search + filtering patterns • design",
+    onIndex: 8,
+    media: [{ src: "/work/salesforce-3.png", alt: "Event calendar index" }],
+  },
   {
     id: "salesforce-results",
     section: "salesforce",
@@ -337,11 +480,11 @@ export const slides: Slide[] = [
     theme: "light",
     heading: "Salesforce results",
     items: [
-      "Got quick alignment on shape of project through “Land Rover” vs. “Winnebago” concepts",
-      "Ran customer interview sessions, to help understand needs in a rapidly evolving time",
-      "Built to the SF Lightning design system specifications",
-      "Engagement was extended an additional year: allowing us to continue working on this app to refine and add features",
-      "Designed for internationalization, with the events and UI available in seven different languages (including Japanese and German)",
+      "Aligned scope with “Land Rover” vs. “Winnebago” concepts",
+      "Ran customer interviews through a rapidly evolving moment",
+      "Built to Salesforce Lightning design system specs",
+      "Engagement extended a year to refine and add features",
+      "Internationalized — events and UI in seven languages",
     ],
   },
 ];
