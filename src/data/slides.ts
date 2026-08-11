@@ -326,8 +326,9 @@ export const slides: Slide[] = [
     heading: "Hawthorne results",
     items: [
       "0-to-1 launch of a __direct-buy channel__ for customers",
-      "Redesign of quiz results incresed __average session value__ by 15%",
-      "__8% subscription__ increase from quiz results redesign",
+      "__Increased subscriptions 15%__ from quiz results redesign",
+      "Led CMS redesign to update the site __faster and cheaper__",
+      "__Average session value__ was the top line metric I owned",
     ],
   },
 
@@ -366,8 +367,8 @@ export const slides: Slide[] = [
     theme: "light",
     heading: "App Omni results",
     items: [
-      "Extended the in-house team's multi-stage filtering system",
-      "Explained un-nested and/or limits with pet types and colors",
+      "External consultant, providing __UX and product guidance__",
+      "__Simplified__ complex concepts (e.g., nested filtering logic)",
     ],
   },
 
