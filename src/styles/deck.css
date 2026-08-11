@@ -371,18 +371,19 @@
   margin: 0;
   color: #ffffff;
 }
-/* Title card heading as a link out to the project (see `href` on Slide). Plain
-   at rest — the heading is ~110px, so a standing underline would be a slab —
-   and underlined on hover. Sized in em so it tracks the heading. */
-.slide__heading-link {
+/* A credit row whose value is a link out to the project (see `href` on
+   SlideMetaRow) — the "Link" column. Underlined at rest so it reads as clickable
+   at this small size; sized in em so it tracks the row. */
+.slide__meta-link {
   color: inherit;
-  text-decoration: none;
-}
-.slide__heading-link:hover,
-.slide__heading-link:focus-visible {
   text-decoration: underline;
-  text-decoration-thickness: 0.03em;
-  text-underline-offset: 0.12em;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.2em;
+  text-decoration-color: rgba(255, 255, 255, 0.45);
+}
+.slide__meta-link:hover,
+.slide__meta-link:focus-visible {
+  text-decoration-color: currentColor;
 }
 
 /* Project intro — text left, device mockup bleeding off the right. */

@@ -35,10 +35,13 @@ export interface SlideMedia {
   phoneFrame?: boolean;
 }
 
-/** One credit row on a project title card — a label and its value. */
+/** One credit row on a project title card — a label and its value. Give it an
+ *  `href` and the value renders as a link out (e.g. a "Link" row carrying the
+ *  project's URL). */
 export interface SlideMetaRow {
   label: string;
   value: string;
+  href?: string;
 }
 
 export interface Slide {
@@ -52,9 +55,6 @@ export interface Slide {
   /** Credits pinned to the bottom of a title card (role / responsibilities /
    *  team). Omit and the card renders as before. */
   meta?: SlideMetaRow[];
-  /** Where this project lives on the web. Set it and the title card's heading
-   *  becomes a link out (with a ↗), so the URL costs the card no extra line. */
-  href?: string;
   /** Disciplines shown in a work (mockup) card's bottom caption, beneath its
    *  heading — a comma-separated list of what this piece involved (e.g. "user
    *  flow, design, development"). Omit and the caption shows just the heading. */
@@ -105,8 +105,10 @@ export const slides: Slide[] = [
     kind: "intro",
     theme: "dark",
     heading: "Foyer",
-    href: "https://foyersavings.com",
-    meta: [{ label: "Role", value: "Staff (Founding) Product Designer" }],
+    meta: [
+      { label: "Role", value: "Staff (Founding) Product Designer" },
+      { label: "Link", value: "foyersavings.com", href: "https://foyersavings.com" },
+    ],
     paragraphs: [
       "I joined Foyer, the 401(k) for homeownership, as the founding product designer in mid-2023.",
       "As the founding designer I brought the app to life. As a design-engineer I work in code and Figma. As the de facto product owner I prioritized features and drove outcomes. As the sole designer I have owned design end-to-end.",
@@ -199,8 +201,10 @@ export const slides: Slide[] = [
     kind: "intro",
     theme: "dark",
     heading: "Ohsee QA",
-    href: "https://ohsee.app",
-    meta: [{ label: "Role", value: "Personal Project (Designed & Developed)" }],
+    meta: [
+      { label: "Role", value: "Personal Project (Designed & Developed)" },
+      { label: "Link", value: "ohsee.app", href: "https://ohsee.app" },
+    ],
     paragraphs: [
       "Designing in code increases the risk of introducing visual bugs. I looked for a product for visual regression testing, but nothing that existed did what I needed.",
       "So I made my own.",
@@ -258,7 +262,6 @@ export const slides: Slide[] = [
     kind: "intro",
     theme: "dark",
     heading: "Hawthorne",
-    href: "https://hawthorne.co",
     meta: [{ label: "Role", value: "Product Designer" }],
     paragraphs: [
       "I joined Hawthorne, a D2C men's grooming startup, to work product-side after decade+ of working at agencies and design firms.",
@@ -434,10 +437,6 @@ export const slides: Slide[] = [
     kind: "intro",
     theme: "dark",
     heading: "Salesforce",
-    // NOTE: unlike the other three, this isn't the client's own site — it's
-    // Savage Bureau's writeup of the customer success calendar, the project
-    // this card introduces.
-    href: "https://www.savagebureau.com/case-study-cs-calendar",
     meta: [
       { label: "Role", value: "Product/UX Design Freelance" },
       { label: "Agency", value: "Savage Bureau" },
