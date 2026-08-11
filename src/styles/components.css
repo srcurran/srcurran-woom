@@ -69,10 +69,26 @@
 /* --- Contact menu (popover under the top-nav "Contact" button) ------------
    Native popover: top-layer, with built-in light-dismiss (click-away) + Esc.
    Positioned fixed under the header, right-aligned with the button. */
+.header-contact .header-link { anchor-name: --contact-invoker; }
 .contact-menu {
   position: fixed;
+  position-anchor: --contact-invoker;
   top: calc(var(--header-height) - var(--space-sm));
-  right: var(--space-sm);
+  /* A top-layer popover is positioned against the viewport, never against the
+     header — so a plain `right` inset drifts away from the button as soon as
+     .site-header__inner stops filling the width and centres at --container-max
+     (i.e. every wide screen). Two ways to land on the button's right edge, in
+     cascade order: recompute the column edge (page padding until the column
+     caps, half the leftover once it does, + the inner's own 1cqw = 1svw), then
+     let `anchor()` say it directly where it's supported. Browsers without
+     anchor positioning drop that line as invalid and keep the maths, which
+     resolves to the same edge — it's the tokens .site-header__inner lays itself
+     out with. */
+  right: max(
+    calc(var(--page-padding-x) + 1svw),
+    calc((100% - var(--container-max)) / 2 + 1svw)
+  );
+  right: anchor(right);
   left: auto;
   bottom: auto;
   margin: 0;
@@ -92,6 +108,19 @@
               transform var(--duration-fast) var(--ease-out),
               overlay var(--duration-fast) var(--ease-out) allow-discrete,
               display var(--duration-fast) var(--ease-out) allow-discrete;
+}
+/* Fallback-only correction: on a sectioned page the hamburger's <nav> stays in
+   the actions row at every width — zero-width once the toggle hides, but still
+   worth a flex gap — so the button sits one gap inboard of the column edge the
+   maths above finds. `anchor()` measures the button itself and ignores this. */
+.site-header.has-section-menu .contact-menu {
+  right: calc(
+    max(
+      calc(var(--page-padding-x) + 1svw),
+      calc((100% - var(--container-max)) / 2 + 1svw)
+    ) + var(--space-md)
+  );
+  right: anchor(right);
 }
 .contact-menu:popover-open {
   opacity: 1;
