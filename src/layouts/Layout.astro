@@ -57,18 +57,21 @@ const {
       }
     </script>
 
-    <script
-      is:inline
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-RDJ51M99TB"></script>
+    {/* Sending no consent signal is deliberate: Clarity then restricts itself in
+        the EEA/UK/CH, so those visitors aren't recorded and we need no banner. */}
     <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-
-      gtag("config", "G-RDJ51M99TB");
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", "y0umn1yiav");
     </script>
 
     <script

@@ -1,16 +1,18 @@
-type Gtag = (...args: unknown[]) => void;
+import { site } from "../data/meta";
+
 type Umami = { track: (name: string, data?: Record<string, unknown>) => void };
+type Clarity = (...args: unknown[]) => void;
 
 /** Payloads dispatched by deck.ts as the deck is scrolled and clicked. */
 interface CardViewDetail {
   index: number;
   section?: string;
-}
-interface CardClickDetail extends CardViewDetail {
   /** Slide id from the deck data (e.g. "foyer-1"). */
   slide?: string;
-  /** Slide kind — bio | intro | mockup | results. */
+  /** bio | intro | mockup | results */
   kind?: string;
+}
+interface CardClickDetail extends CardViewDetail {
   /** Part of the card clicked: media | caption | text | card. */
   region?: string;
   /** True when the click hit nothing interactive — the intent signal. */
@@ -19,12 +21,34 @@ interface CardClickDetail extends CardViewDetail {
   count?: number;
 }
 
-function track(event: string, params?: Record<string, unknown>): void {
-  const gtag = (window as unknown as { gtag?: Gtag }).gtag;
-  if (typeof gtag === "function") gtag("event", event, params);
+const CONTACT_LINKS = ".contact-menu__link, .contact-end__link";
 
+/**
+ * `action-thing--detail`, e.g. `view-results--foyer`. `-` joins the halves, `--`
+ * fences the detail, `_` joins words within one phrase (`neiman_marcus`).
+ *
+ * Detail goes in the name because Clarity's `event` takes a name and nothing else
+ * and its tags are session-scoped: a tag says a dead click happened somewhere in
+ * the visit, never which card. Higher-cardinality detail rides in `params`.
+ */
+function eventName(action: string, thing: string, detail?: string): string {
+  const head = `${action}-${thing}`;
+  return detail ? `${head}--${phrase(detail)}` : head;
+}
+
+function phrase(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+}
+
+function track(event: string, params?: Record<string, unknown>): void {
   const umami = (window as unknown as { umami?: Umami }).umami;
   if (umami?.track) umami.track(event, params);
+
+  const clarity = (window as unknown as { clarity?: Clarity }).clarity;
+  if (typeof clarity === "function") clarity("event", event);
 }
 
 function channelFor(href: string): string {
@@ -38,27 +62,11 @@ function channelFor(href: string): string {
 
 function trackContactClicks(): void {
   document.addEventListener("click", (e) => {
-    const link = (e.target as Element | null)?.closest<HTMLAnchorElement>(
-      ".contact-menu__link, .contact-end__link",
-    );
+    const link = (e.target as Element | null)?.closest<HTMLAnchorElement>(CONTACT_LINKS);
     if (!link) return;
-    track("contact_click", {
-      channel: channelFor(link.getAttribute("href") ?? ""),
+    track(eventName("click", "contact", channelFor(link.getAttribute("href") ?? "")), {
       location: link.classList.contains("contact-menu__link") ? "nav" : "footer",
     });
-  });
-}
-
-function trackProjectViews(): void {
-  const DWELL_MS = 2000;
-  const NON_PROJECT = new Set(["about", "contact"]);
-  let dwell: number | undefined;
-
-  document.addEventListener("section:change", (e) => {
-    const section = (e as CustomEvent<{ section: string }>).detail?.section;
-    window.clearTimeout(dwell);
-    if (!section || NON_PROJECT.has(section)) return;
-    dwell = window.setTimeout(() => track("project_view", { project: section }), DWELL_MS);
   });
 }
 
@@ -68,9 +76,11 @@ function trackExternalLinks(): void {
     if (!link) return;
     const href = link.getAttribute("href") ?? "";
     if (!href.startsWith("http")) return;
+    // A contact link is also an outbound one; without this the click lands twice.
+    if (link.closest(CONTACT_LINKS)) return;
 
     const url = new URL(href);
-    track("external_link_click", {
+    track(eventName("click", "link", channelFor(href)), {
       domain: url.hostname,
       url: href,
     });
@@ -78,28 +88,30 @@ function trackExternalLinks(): void {
 }
 
 function trackDeckInteractions(): void {
+  // Gate the view on dwell, so flicking past a card doesn't count as reading it.
+  const DWELL_MS = 2000;
+  let dwell: number | undefined;
+
   document.addEventListener("card:view", (e) => {
     const detail = (e as CustomEvent<CardViewDetail>).detail;
-    track("project_slide_viewed", {
-      index: detail.index,
-      project: detail.section,
-    });
+    window.clearTimeout(dwell);
+    dwell = window.setTimeout(() => {
+      track(eventName("view", detail.kind ?? "slide", detail.section), {
+        slide: detail.slide,
+        index: detail.index,
+      });
+    }, DWELL_MS);
   });
 
-  // Deck cards aren't links, so a click on one goes nowhere. Recording it tells us
-  // whether people EXPECT it to: filter on `dead: true` for clicks that hit nothing
-  // interactive, and read `region` (media vs. text) and `count` (they tried again)
-  // for how strongly they wanted a detail view. A high dead-click rate on a slide
-  // is the case for giving that card somewhere to go.
+  // Cards aren't links, so dead-ness is the action half of the name rather than a
+  // param — that makes "clicked a card that went nowhere" a Clarity filter.
   document.addEventListener("card:click", (e) => {
     const detail = (e as CustomEvent<CardClickDetail>).detail;
-    track("project_slide_clicked", {
-      index: detail.index,
-      project: detail.section,
+    const action = detail.dead ? "dead_click" : "click";
+    track(eventName(action, detail.kind ?? "slide", detail.section), {
       slide: detail.slide,
-      kind: detail.kind,
+      index: detail.index,
       region: detail.region,
-      dead: detail.dead,
       count: detail.count,
     });
   });
@@ -107,26 +119,34 @@ function trackDeckInteractions(): void {
 
 function trackNavigation(): void {
   document.addEventListener("click", (e) => {
-    const link = (e.target as Element | null)?.closest<HTMLAnchorElement>("[data-nav-link]");
-    if (!link) return;
-    const section = link.getAttribute("data-nav-link") ?? "";
-    track("nav_click", { section });
+    const target = e.target as Element | null;
+
+    const link = target?.closest<HTMLAnchorElement>("[data-nav-link]");
+    if (link) {
+      track(eventName("click", "nav", link.getAttribute("data-nav-link") ?? ""));
+      return;
+    }
+
+    // The wordmark goes home, so it reads as one more nav link.
+    if (target?.closest(".brand")) track(eventName("click", "nav", site.name));
   });
 }
 
-function trackBrandClick(): void {
+function trackLogoClicks(): void {
   document.addEventListener("click", (e) => {
-    const link = (e.target as Element | null)?.closest<HTMLAnchorElement>(".brand");
-    if (!link) return;
-    track("brand_click");
+    const mark = (e.target as Element | null)?.closest<HTMLElement>("[data-logo]");
+    if (!mark) return;
+    // Marks aren't links today, so these land as dead_click — one people keep
+    // clicking is the case for putting a case study behind it.
+    const dead = !mark.closest("a[href], button");
+    track(eventName(dead ? "dead_click" : "click", "logo", mark.dataset.logo ?? ""));
   });
 }
 
 export function initAnalytics(): void {
   trackContactClicks();
-  trackProjectViews();
   trackExternalLinks();
   trackDeckInteractions();
   trackNavigation();
-  trackBrandClick();
+  trackLogoClicks();
 }
