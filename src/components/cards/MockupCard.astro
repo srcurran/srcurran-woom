@@ -72,8 +72,8 @@ const chinTitle = project && slide.heading ? `${project} • ${slide.heading}` :
     /* Caption chin — title bottom-left, tasks bottom-right (wraps to its own line
        when the pair is too long; see .slide__chin in deck.css). */
     <div class="slide__chin">
-      {slide.heading && <p class="slide__chin-title body-xs">{chinTitle}</p>}
-      {slide.tasks && <p class="slide__chin-tasks body-xs">{slide.tasks}</p>}
+      {slide.heading && <p class="slide__chin-title body">{chinTitle}</p>}
+      {slide.tasks && <p class="slide__chin-tasks body">{slide.tasks}</p>}
     </div>
   )
 }

@@ -23,11 +23,14 @@ const {
     <meta name="description" content={description} />
     <title>{title}</title>
 
-    {/* Type system from the Figma: Poppins (display) + Merriweather (serif body). */}
+    {/* Type system from the Figma: Poppins (display) + Merriweather (serif body).
+        Merriweather also carries 700 + italic 300 for the inline emphasis marks in
+        card copy (**bold** / _italic_ — see lib/emphasize.ts), so the browser never
+        has to synthesise either one. */}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400&family=Poppins:wght@600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Poppins:wght@600;700&display=swap"
       rel="stylesheet"
     />
     {/* Flag JS as available before paint so reveal elements hide without a flash.
@@ -54,11 +57,8 @@ const {
       }
     </script>
 
-    {/* Clarity — session replay + heatmaps. No consent signal is sent, which is
-        deliberate: without one Clarity restricts itself in the EEA, UK, and
-        Switzerland (page views still count, but sessions fragment per-page and
-        replay is off), so visitors from those regions simply aren't recorded and
-        the site needs no cookie banner. Recordings roll off after 30 days. */}
+    {/* Sending no consent signal is deliberate: Clarity then restricts itself in
+        the EEA/UK/CH, so those visitors aren't recorded and we need no banner. */}
     <script is:inline>
       (function (c, l, a, r, i, t, y) {
         c[a] =

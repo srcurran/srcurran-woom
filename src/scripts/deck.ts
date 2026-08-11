@@ -343,11 +343,8 @@ export function initDeck(): void {
         nearest = null;
       }
     }
-    // A card becoming the nearest snap point IS the view. This used to fire once
-    // per SECTION and always reported that section's first card, so every view
-    // looked like an intro and the later cards were invisible — you couldn't tell
-    // a bounce from someone who read to the end. Per-card means the results card
-    // (last in a project) reports exactly that: they finished the case study.
+    // Per card, not per section: only that distinguishes a bounce from someone
+    // who reached the results card at the end of a project.
     if (nearest !== lastCard) {
       lastCard = nearest;
       if (nearest) {

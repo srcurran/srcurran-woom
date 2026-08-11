@@ -45,8 +45,8 @@
   min-height: calc(100svh - var(--deck-peek));
 }
 .opening > .hero {
-  min-height: 0;     /* cancel the hero's own 100svh floor */
-  flex: 0 0 auto;    /* sized by its copy; the group's centring places it */
+  min-height: 0; /* cancel the hero's own 100svh floor */
+  flex: 0 0 auto; /* sized by its copy; the group's centring places it */
 }
 
 /* --- HERO (a static, centred intro on the canvas) ------------------------- */
@@ -76,7 +76,9 @@
   text-align: left;
   padding: 1cqw;
 }
-.hero__eyebrow { color: var(--color-ink-muted); }
+.hero__eyebrow {
+  color: var(--color-ink-muted);
+}
 .hero__headline {
   font-family: var(--font-display);
   font-size: clamp(2.25rem, 5vw, 3.5rem);
@@ -115,7 +117,9 @@
   gap: var(--space-2xl);
   align-items: center;
 }
-.contact-end__list { list-style: none; }
+.contact-end__list {
+  list-style: none;
+}
 .contact-end__link {
   font-family: var(--font-serif);
   font-weight: var(--weight-light);
@@ -126,7 +130,9 @@
   border-bottom: 1px solid transparent;
   transition: border-color var(--duration-fast) var(--ease-out);
 }
-.contact-end__link:hover { border-bottom-color: currentColor; }
+.contact-end__link:hover {
+  border-bottom-color: currentColor;
+}
 .contact-end__copy {
   color: var(--color-ink-subtle);
 }
@@ -158,14 +164,18 @@
   width: 100%;
   height: 100%;
 }
-.contact-end__peace img { object-fit: cover; }
+.contact-end__peace img {
+  object-fit: cover;
+}
 /* The shader canvas fades in over the <img> once WebGL has rendered (the <img>
    stays as the no-WebGL / pre-load fallback). */
 .contact-end__peace canvas {
   opacity: 0;
   transition: opacity var(--duration-base) var(--ease-out);
 }
-.contact-end__peace.is-shaded canvas { opacity: 1; }
+.contact-end__peace.is-shaded canvas {
+  opacity: 1;
+}
 
 /* --- DECK (vertical column of spaced, tilting cards) ---------------------- */
 .deck {
@@ -260,8 +270,10 @@
   --focus: 1;
   --elev-k: calc(0.3 + 0.7 * var(--focus));
   box-shadow:
-    0 calc(var(--elev-k) * 16px) calc(var(--elev-k) * 40px) rgba(10, 10, 10, calc(var(--elev-k) * 0.12)),
-    0 calc(var(--elev-k) * 4px) calc(var(--elev-k) * 10px) rgba(10, 10, 10, calc(var(--elev-k) * 0.08));
+    0 calc(var(--elev-k) * 16px) calc(var(--elev-k) * 40px)
+      rgba(10, 10, 10, calc(var(--elev-k) * 0.12)),
+    0 calc(var(--elev-k) * 4px) calc(var(--elev-k) * 10px)
+      rgba(10, 10, 10, calc(var(--elev-k) * 0.08));
   backface-visibility: hidden;
   will-change: transform;
   container-type: size;
@@ -282,8 +294,15 @@
 }
 
 /* Slide themes (the source mixes dark + light). */
-.slide--light { background: #ffffff; color: var(--gray-950); border: .5px solid var(--gray-200) }
-.slide--dark  { background: var(--color-notblack); color: #ffffff; }
+.slide--light {
+  background: #ffffff;
+  color: var(--gray-950);
+  border: 0.5px solid var(--gray-200);
+}
+.slide--dark {
+  background: var(--color-notblack);
+  color: #ffffff;
+}
 
 /* Content scaffold — padded flex; sizing in cqw mirrors the 1920px source. */
 .slide__inner {
@@ -295,45 +314,53 @@
 .slide__heading {
   font-family: var(--font-display);
   font-weight: var(--weight-bold);
-  font-size: 5.7cqw;        /* 109px — base; split per kind below */
+  font-size: 5.7cqw; /* 109px — base; split per kind below */
   line-height: 1.15;
-  letter-spacing: -0.1cqw;  /* ~-2px */
+  letter-spacing: -0.1cqw; /* ~-2px */
 }
 /* Heading sizes split by slide kind (cqw = container units, so they scale with
    the card). Title/intro slides read big; results sit smaller above their list. */
-.slide--intro .slide__heading { font-size: 10cqw; }
-.slide--results .slide__heading { font-size: 4cqw; }
+.slide--intro .slide__heading {
+  font-size: 10cqw;
+}
+.slide--results .slide__heading {
+  font-size: 4.6cqw;
+}
 .slide__prose {
   margin-top: 2.4cqw;
-  max-width: 66cqw;         /* 889px */
+  max-width: 66cqw; /* 889px */
 }
 /* Serif family + weight inherited from the p default (base.css); only the
    card-relative size + tighter leading are set here. */
 .slide__prose p {
-  font-size: 2.2cqw;        /* 42px */
+  font-size: 2.2cqw; /* 42px */
   line-height: 1.4;
 }
-.slide__prose p + p { margin-top: 1.4cqw; }
+.slide__prose p + p {
+  margin-top: 1.4cqw;
+}
 
 /* Bio — wider measure for the longer paragraphs. */
-.slide--bio .slide__prose { max-width: 68cqw; }
+.slide--bio .slide__prose {
+  max-width: 68cqw;
+}
 
 /* Project credits pinned to the bottom-left of a title card — a row of credit
    columns under the intro copy, each a muted label above its value (Role · Agency
    · …). margin-top:auto pushes it to the card floor. All sizes in cqw so it scales
    with the card like the heading + prose. */
 .slide__meta {
-  margin-top: auto;        /* pin to the bottom of the flex column */
+  margin-top: auto; /* pin to the bottom of the flex column */
   padding-top: 3cqw;
   display: flex;
   flex-direction: row;
-  gap: 3.2cqw;             /* between the credit columns (Role ↔ Agency) */
+  gap: 3.2cqw; /* between the credit columns (Role ↔ Agency) */
 }
 .slide__meta-row {
   display: flex;
-  flex-direction: column;  /* label stacked above its value */
-  gap: 0.2cqw;             /* label ↔ its value */
-  font-size: 1.5cqw;       /* ~29px on the 1920px source */
+  flex-direction: column; /* label stacked above its value */
+  gap: 0.2cqw; /* label ↔ its value */
+  font-size: 1.5cqw; /* ~29px on the 1920px source */
   line-height: 1.3;
 }
 .slide__meta-label {
@@ -344,30 +371,37 @@
   margin: 0;
   color: #ffffff;
 }
-/* Title card heading as a link out to the project (see `href` on Slide). Plain
-   at rest — the heading is ~110px, so a standing underline would be a slab —
-   and underlined on hover. Sized in em so it tracks the heading. */
-.slide__heading-link {
+/* A credit row whose value is a link out to the project (see `href` on
+   SlideMetaRow) — the "Link" column. Underlined at rest so it reads as clickable
+   at this small size; sized in em so it tracks the row. */
+.slide__meta-link {
   color: inherit;
-  text-decoration: none;
-}
-.slide__heading-link:hover,
-.slide__heading-link:focus-visible {
   text-decoration: underline;
-  text-decoration-thickness: 0.03em;
-  text-underline-offset: 0.12em;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.2em;
+  text-decoration-color: rgba(255, 255, 255, 0.45);
+}
+.slide__meta-link:hover,
+.slide__meta-link:focus-visible {
+  text-decoration-color: currentColor;
 }
 
 /* Project intro — text left, device mockup bleeding off the right. */
-.slide__inner--intro { position: relative; }
-.slide__inner--intro .slide__text { max-width: 50cqw; }
+.slide__inner--intro {
+  position: relative;
+}
+.slide__inner--intro .slide__text {
+  max-width: 50cqw;
+}
 /* No device on this intro → let the copy use the full width. */
-.slide__inner--intro.is-text-only .slide__text { max-width: 78cqw; }
+.slide__inner--intro.is-text-only .slide__text {
+  max-width: 78cqw;
+}
 .slide__device {
   position: absolute;
-  top: -5cqw;              /* bleed off the top, per the source */
-  right: 4cqw;            /* bleed off the right edge */
-  height: 72cqw;           /* taller than the 56.25cqw card → bleeds top + bottom */
+  top: -5cqw; /* bleed off the top, per the source */
+  right: 4cqw; /* bleed off the right edge */
+  height: 72cqw; /* taller than the 56.25cqw card → bleeds top + bottom */
   will-change: transform;
 }
 .slide__device :is(img, video) {
@@ -383,7 +417,6 @@
      the assets room to breathe. `.slide__aperture` counter-scales this layout
      during the zoom so the content holds size while the frame opens. */
 
-
 /* Single, full-bleed cover (data-aperture: counter-scaled on enter so the frame
    opens to reveal the full-size content). */
 .slide__cover {
@@ -398,7 +431,9 @@
   object-fit: cover;
   object-position: center center;
 }
-.slide__cover.pin-top :is(img, video) { object-position: center top; }
+.slide__cover.pin-top :is(img, video) {
+  object-position: center top;
+}
 
 /* Multiple, padded + gapped */
 .slide__aperture {
@@ -432,9 +467,9 @@
   border-radius: var(--radius-sm);
 }
 
-.slide__shot .isPhoneBorder{
+.slide__shot .isPhoneBorder {
   /* Bezel sized in cqw so it scales with the card, like the type. */
-  border: .8cqw solid var(--color-ink);
+  border: 0.8cqw solid var(--color-ink);
   border-radius: 3cqw;
 }
 .slide__shot .isRounded {
@@ -487,7 +522,7 @@
    elevate as one. The card fill is ALWAYS white so the image's rounded bottom
    corners and the chin read white — any per-slide tint/dark lives on the frame. */
 .deck__card.slide--mockup {
-  aspect-ratio: auto;          /* grow past 16:9 to seat the chin */
+  aspect-ratio: auto; /* grow past 16:9 to seat the chin */
   container-type: inline-size; /* width-based cqw still resolves to the card */
   display: flex;
   flex-direction: column;
@@ -505,7 +540,9 @@
   overflow: hidden;
   background: var(--color-surface-alt);
 }
-.slide--dark .slide__frame { background: var(--color-notblack); }
+.slide--dark .slide__frame {
+  background: var(--color-notblack);
+}
 /* The chin — the tasks in an always-white note below the image (so it reads the
    same on tinted or dark cards); the card's overflow + radius round its bottom
    corners. */
@@ -531,24 +568,44 @@
   font-weight: var(--weight-medium);
 }
 
-/* Results — heading + serif list (slightly larger, per the source). */
+/* Results — heading + serif list. The copy is deliberately short (one line per
+   result), which buys the room to set the list much larger than the source did:
+   these read as statements, not as a paragraph broken into bullets.
+
+   The block is centred in the card rather than pinned to the top: item counts run
+   from two (App Omni) to six (Foyer), and top-aligning the short ones leaves half
+   the card empty below them. Centred, every results card reads as composed at any
+   length. */
+.slide--results .slide__inner {
+  justify-content: center;
+}
 .slide__results {
-  margin-top: 2.4cqw;
+  margin-top: 3cqw;
   display: flex;
   flex-direction: column;
-  gap: 1.4cqw;
+  gap: 1.7cqw;
 }
 .slide__results li {
   font-family: var(--font-serif);
   font-weight: var(--weight-light);
-  font-size: 1.8cqw;
-  line-height: 1.25;
-  max-width: 66cqw;
+  font-size: 2.7cqw;
+  line-height: 1.5;
 }
 
-/* Emphasis (not a link) — used via __underscores__ in copy. */
+/* --- Inline emphasis in card copy (see lib/emphasize.ts) ------------------
+   Three marks, all set in the serif body: **bold**, _italic_, __underline__. */
+
+/* Underline (not a link) — the house mark, used via __underscores__. */
 .slide__em {
   text-decoration: underline;
   text-decoration-thickness: 0.06em;
   text-underline-offset: 0.14em;
+}
+/* The serif body runs at 300, so 700 is a real jump — and both weights are
+   loaded (Layout.astro), so neither mark is a browser-synthesised fake. */
+.slide :is(.slide__prose, .slide__results) strong {
+  font-weight: var(--weight-bold);
+}
+.slide :is(.slide__prose, .slide__results) em {
+  font-style: italic;
 }
