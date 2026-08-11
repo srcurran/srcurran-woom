@@ -288,19 +288,6 @@ export function initDeck(): void {
     if (section !== lastSection) {
       lastSection = section;
       setActiveNav(section, navLinks);
-      document.dispatchEvent(
-        new CustomEvent("section:change", { detail: { section } }),
-      );
-      // Dispatch event for analytics when a card becomes visible
-      if (section !== "about" && section !== "contact") {
-        const card = cards.find((c) => c.dataset.section === section);
-        if (card) {
-          const index = parseInt(card.dataset.index ?? "0");
-          document.dispatchEvent(
-            new CustomEvent("card:view", { detail: { index, section } }),
-          );
-        }
-      }
       // Only update URL hash on explicit navigation clicks, not on scroll.
       // This keeps Umami's page view tracking clean (only actual page navigations).
       if (fromClick) {
@@ -333,15 +320,18 @@ export function initDeck(): void {
   // snap means we only ever REST on one of these, so "nearest" is the section in
   // focus — and it flips off About the instant the first card's snap is closer
   // than the hero's, which is what makes the nav collapse promptly.
+  let lastCard: HTMLElement | null = null;
   const updateActive = () => {
     const sy = window.scrollY;
     let bestDist = sy; // distance to the hero snap (scroll 0)
     let section = "about";
+    let nearest: HTMLElement | null = null;
     for (const card of cards) {
       const dist = Math.abs(sy - snapScrollFor(card));
       if (dist < bestDist) {
         bestDist = dist;
         section = card.dataset.section ?? "";
+        nearest = card;
       }
     }
     // Contact closer (centred like the hero, but it's a section not a card).
@@ -350,6 +340,27 @@ export function initDeck(): void {
       if (dist < bestDist) {
         bestDist = dist;
         section = "contact";
+        nearest = null;
+      }
+    }
+    // A card becoming the nearest snap point IS the view. This used to fire once
+    // per SECTION and always reported that section's first card, so every view
+    // looked like an intro and the later cards were invisible — you couldn't tell
+    // a bounce from someone who read to the end. Per-card means the results card
+    // (last in a project) reports exactly that: they finished the case study.
+    if (nearest !== lastCard) {
+      lastCard = nearest;
+      if (nearest) {
+        document.dispatchEvent(
+          new CustomEvent("card:view", {
+            detail: {
+              index: Number(nearest.dataset.index ?? 0),
+              section: nearest.dataset.section,
+              slide: nearest.dataset.slide,
+              kind: nearest.dataset.kind,
+            },
+          }),
+        );
       }
     }
     setActive(section);

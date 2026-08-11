@@ -33,6 +33,7 @@ const loop = Array.from({ length: COPIES }, () => logos).flat();
           class="logo-strip__item"
           style={logo.h ? `--mark-h: ${logo.h}` : undefined}
           aria-hidden={i >= logos.length ? "true" : undefined}
+          data-logo={logo.alt}
         >
           {/* Eager: the strip is in the opening view now, and an unloaded mark
               contributes no width — a lazy row leaves the loop sliding a track
