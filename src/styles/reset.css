@@ -98,6 +98,11 @@ p {
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    /* 0s, not 0.01ms: a zero transition never starts at all, so the new value
+       applies instantly. A 0.01ms one still needs a rendering frame to finish —
+       in a throttled tab or headless capture that frame may never come, and the
+       element sticks at the transition's FROM value (e.g. the side nav's labels
+       caught fully expanded mid-collapse). */
+    transition-duration: 0s !important;
   }
 }

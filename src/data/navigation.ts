@@ -12,6 +12,5 @@ export const navSections: NavSection[] = [
   { id: "hawthorne", label: "Hawthorne" },
   { id: "app-omni", label: "App Omni" },
   { id: "neiman-marcus", label: "Neiman Marcus" },
-  { id: "salesforce", label: "Salesforce" },
   { id: "contact", label: "Contact" },
 ];

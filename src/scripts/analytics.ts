@@ -50,7 +50,7 @@ function trackContactClicks(): void {
 }
 
 function trackProjectViews(): void {
-  const DWELL_MS = 1000;
+  const DWELL_MS = 2000;
   const NON_PROJECT = new Set(["about", "contact"]);
   let dwell: number | undefined;
 

@@ -89,8 +89,8 @@
     font-size: var(--text-2xl);
     letter-spacing: var(--tracking-tight);
   }
+  /* Results take the shared --text-2xl above; only intro reads bigger here. */
   .slide--intro .slide__heading { font-size: var(--text-3xl); }
-  .slide--results .slide__heading { font-size: var(--text-xl); }
 
   .slide__inner--intro .slide__text,
   .slide__inner--intro.is-text-only .slide__text { max-width: none; }
@@ -105,14 +105,15 @@
   }
   .slide__prose p + p { margin-top: var(--space-sm); }
 
+  /* Results set larger than the prose here too — one short statement per line, so
+     they can carry the size the way they do on desktop (see deck.css). */
   .slide__results {
     margin-top: var(--space-md);
     gap: var(--space-sm);
   }
   .slide__results li {
-    font-size: var(--text-base);
-    line-height: var(--leading-normal);
-    max-width: none;
+    font-size: var(--text-lg);
+    line-height: var(--leading-snug);
   }
 
   /* Credits: cqw stops here (container-type: normal), so size in rem like the
