@@ -58,6 +58,10 @@
 .text-center { text-align: center; }
 .text-right  { text-align: right; }
 
+/* Holds a phrase on one line. Applied by lib/emphasize.ts to short hyphenated
+   compounds; note `.nowrap` above is the flex one, not this. */
+.nobr { white-space: nowrap; }
+
 /* --- Sizing helpers ------------------------------------------------------- */
 .full-width { width: 100%; }
 .measure { max-width: var(--measure); }
