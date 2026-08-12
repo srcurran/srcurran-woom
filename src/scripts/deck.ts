@@ -259,10 +259,16 @@ export function initDeck(): void {
   // nav even on a wide screen — width breakpoints can't capture that. Instead we
   // measure the gutter directly (the shared container's left edge) and:
   //  • gutter < RAIL_GUTTER  → hidden entirely (no room for even the dash rail).
-  //  • on About, gutter ≥ LABEL_GUTTER → full labels; otherwise the slim rail.
-  //  • in the deck → always the slim rail (when shown at all).
+  //  • gutter fits the labels → full labels, and they STAY out for the whole
+  //    scroll: once there's room for them, dropping to the rail on the way into
+  //    the deck only costs orientation.
+  //  • otherwise → the slim dash rail, labels on hover/tap.
   const RAIL_GUTTER = 64; // px of clearance the edge-hugging dash rail needs
   const LABEL_GUTTER = 180; // px of clearance the expanded labels need
+  // In the deck the labels' neighbour isn't the static container edge but a card
+  // that swings past it as it enters/exits — and cards paint ABOVE the nav, so a
+  // swinging card would clip the labels. Absorb the swing before keeping them out.
+  const DECK_LABEL_GUTTER = LABEL_GUTTER + RANDOM.translate[1];
   const heroInner = document.querySelector<HTMLElement>(".hero__inner");
   let gutter = window.innerWidth;
   const measureGutter = () => {
@@ -280,7 +286,10 @@ export function initDeck(): void {
     const onAbout = lastSection === "about";
     sideNav.classList.toggle("is-hidden", railHidden);
     sideNav.classList.toggle("is-about", onAbout);
-    sideNav.classList.toggle("is-collapsed", !onAbout || gutter < LABEL_GUTTER);
+    sideNav.classList.toggle(
+      "is-collapsed",
+      gutter < (onAbout ? LABEL_GUTTER : DECK_LABEL_GUTTER),
+    );
   };
   syncNav();
   const setActive = (section: string, fromClick = false) => {
