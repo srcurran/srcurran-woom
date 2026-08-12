@@ -1,49 +1,24 @@
-/* ============================================================================
-   RESPONSIVE — desktop-first. The coverflow is a desktop experience; below the
-   nav breakpoint the side nav is hidden and the deck falls back to a plain
-   vertical list (JS adds `.is-static`).
-   ========================================================================== */
-
-/* Side nav hugs the left edge on narrow screens. Its dash-rail look comes from
-   the shared `.is-collapsed` rules (deck.ts collapses it whenever the gutter is
-   too tight for labels, which is most of this range; on the hero it's hidden —
-   see the phone block below), so nothing else is needed. */
 @media (max-width: 1024px) {
   .side-nav { left: var(--space-2xs); }
 }
-/* Not enough gutter beside the centred content for even the dash rail (set by
-   deck.ts). Overrides the is-about / is-collapsed states. */
+
 .side-nav.is-hidden { display: none; }
 
-/* --- Tablet / phone ( <= 960px ): static deck ----------------------------
-   No coverflow transforms or snap here (see deck.ts), so the cards are a plain
-   vertical list. Drop the big animated-view gap for a tight stack + small tail. */
-@media (max-width: 960px) {
+@media (max-width: 960px), (max-height: 800px) {
   :root {
     --page-padding-x: var(--space-lg);
     --space-3xl: 5rem;
-    /* The deck switches to a static 78vw card here, so the hero/header column
-       follows the CARD width (not the desktop height-driven --container-max) —
-       this keeps the brand/headline on the card's left edge and Contact on its
-       right edge, instead of the column overshooting the narrower cards. */
-    --container-max: 78vw;
+    --static-card-w: min(78vw, calc(78svh * 16 / 9));
+    --container-max: var(--static-card-w);
   }
-  /* The hero is a scroll-snap target only above 960px; here it's just the top of
-     a document, and its copy is short — so holding a full viewport left a dead
-     tail below the copy (259px on a phone) and put ~4.5x more air above the logo
-     strip than below it. Hug the content instead, with no bottom padding, so the
-     strip's own symmetric padding sets the space on both sides. Scoped to the
-     About hero — the contact closer reuses .hero and keeps its full height. */
+
   [data-hero].hero {
     min-height: 0;
-    /* No viewport centring here means the copy starts at the top of the
-       document — under the fixed header — so clear it explicitly. */
+
     padding-top: calc(var(--header-height) + var(--space-md));
     padding-bottom: 0;
   }
-  /* …and with no fold to compose against (no snap, and the deck is a static
-     list), the opening view is just normal flow: no viewport height, no card
-     peek to reserve, and the strip's own symmetric padding back in charge. */
+
   .opening {
     display: block;
     min-height: 0;
@@ -51,37 +26,21 @@
     --logo-strip-pad-bottom: var(--space-3xl);
   }
 
-  /* --card-w drives both the card width AND the text-card 16:9 min-height below,
-     so they stay in sync when the width changes per breakpoint. */
-  .deck__viewport { --card-w: 78vw; }
+  .deck__viewport { --card-w: var(--static-card-w); }
   .deck__card { width: var(--card-w); }
-  /* The contact row wraps at these widths (photo above the copy, via
-     wrap-reverse). Once the photo is on its own row it should read as the deck's
-     closing card, so let it fill the container and land on the card's width
-     exactly. The desktop 640px cap otherwise stops it ~40px short of the card's
-     right edge — aligned on the left but not the right, which reads as a mistake
-     rather than a choice. */
+
   .contact-end__peace { max-width: none; }
-  /* Tighter stack + a small tail; the logo strip above the deck supplies the
-     space between the hero and the first card. */
+
   .deck__viewport {
     gap: clamp(1.25rem, 4vh, 2.5rem);
     padding-block: 0 clamp(1.5rem, 6vh, 3rem);
   }
 
-  /* --- Text-only cards: legible on mobile --------------------------------
-     Image cards keep their 16:9 frame, but a phone-width 16:9 card is far too
-     short for paragraphs — its cqw-scaled type collapses to a few pixels. So
-     the text kinds (bio / intro / results) drop the aspect lock and grow to fit
-     their copy, and size that copy in rem (not cqw) so it stays readable
-     regardless of card width. They keep a 16:9 floor (min-height) so a short
-     card still fills a full frame and only taller copy pushes past it. (The deck
-     is static here — no coverflow transforms depend on the 16:9 ratio.) */
   .deck__card:is(.slide--bio, .slide--intro, .slide--results) {
     aspect-ratio: auto;
     height: auto;
-    min-height: calc(var(--card-w) * 9 / 16); /* never shorter than 16:9 */
-    container-type: normal; /* stop cqw scaling; rem sizes below take over */
+    min-height: calc(var(--card-w) * 9 / 16);
+    container-type: normal;
   }
   .deck__card:is(.slide--bio, .slide--intro, .slide--results) .slide__inner {
     padding: var(--space-lg);
@@ -90,7 +49,7 @@
     font-size: var(--text-2xl);
     letter-spacing: var(--tracking-tight);
   }
-  /* Results take the shared --text-2xl above; only intro reads bigger here. */
+
   .slide--intro .slide__heading { font-size: var(--text-3xl); }
 
   .slide__inner--intro .slide__text,
@@ -106,8 +65,6 @@
   }
   .slide__prose p + p { margin-top: var(--space-sm); }
 
-  /* Results set larger than the prose here too — one short statement per line, so
-     they can carry the size the way they do on desktop (see deck.css). */
   .slide__results {
     margin-top: var(--space-md);
     gap: var(--space-sm);
@@ -117,11 +74,6 @@
     line-height: var(--leading-snug);
   }
 
-  /* Credits: cqw stops here (container-type: normal), so size in rem like the
-     copy above. The card is now auto-height, so drop the bottom-pin and just
-     let the block sit under the prose with a little breathing room. Rows are
-     stacked (label above value), so the between-row gap is wider than the tight
-     label/value gap inside each row. */
   .slide__meta {
     margin-top: var(--space-lg);
     padding-top: 0;
@@ -134,33 +86,18 @@
   }
 }
 
-/* Cards (width-driven for a true 16:9) need to widen on small screens. The
-   text-card width + 16:9 min-height both follow --card-w. */
 @media (max-width: 760px) {
-  .deck__viewport { --card-w: 90vw; }
-  /* Card widens to 90vw here — keep the hero/header column matched to it. */
-  :root { --container-max: 90vw; }
+  :root { --static-card-w: min(90vw, calc(78svh * 16 / 9)); }
 
-  /* The hero copy is taller than the viewport here, so centring overflows UP
-     under the fixed header (headline collides with the brand). Start it below
-     the header instead. */
   .hero {
     justify-content: flex-start;
     padding-top: calc(var(--header-height) + var(--space-md));
     padding-bottom: var(--space-xl);
   }
 
-  /* The full-width About copy reaches the left edge, so even the dash rail
-     collides with the bio text on phones. Hide the nav on the About hero here
-     (it returns in the deck, where the cards are inset and clear of it). */
   .side-nav.is-about { display: none; }
 }
 
-/* --- Short viewports (mobile landscape, short windows) -------------------
-   The hero vertically-centres its copy in 100svh. When the viewport is short,
-   the copy is tall relative to it, so centring drops the headline UP under the
-   fixed header. Pin the copy to the top (below the header) and let it scroll
-   instead — keyed on HEIGHT so it catches landscape regardless of width. */
 @media (max-height: 600px) {
   .hero {
     align-items: flex-start;
@@ -169,16 +106,12 @@
   }
 }
 
-/* --- Phone ( <= 600px ) --------------------------------------------------- */
 @media (max-width: 600px) {
   :root {
     --page-padding-x: var(--space-md);
     --header-height: 3.75rem;
   }
 
-  /* The one place the marks aren't full size: 40px boxes plus their gaps put
-     barely two marks on a phone screen, which reads as a stalled row rather than
-     a moving one. */
   .logo-strip {
     --logo-strip-mark-h: 30px;
     padding-block: var(--space-2xl);
@@ -189,7 +122,6 @@
     gap: 0;
   }
 
-  /* Let the glow bleed fully behind the smaller hero. */
   .hero__glow {
     width: 140vw;
     height: 140vw;

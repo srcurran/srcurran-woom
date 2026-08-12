@@ -1,21 +1,3 @@
-/**
- * The deck as data, rebuilt 1:1 from the Figma deck (srcurran.com-work). Each
- * Slide is one 16:9 card. Everything here is template-driven — edit copy, swap an
- * image src, reorder, or add a slide without touching components.
- *
- * Slide kinds:
- *   bio      — heading + serif paragraphs (light)
- *   intro    — project heading + serif paragraphs, device mockup bleeding right
- *   mockup   — full-bleed image of a designed slide (the visual case-study pages)
- *   results  — heading + serif list
- *
- * Copy on the text kinds (bio / intro / results) takes inline markdown:
- * **bold**, _italic_ (or *italic*), and __underline__. See lib/emphasize.ts.
- *
- * The logos aren't a slide — they sit on the page below the deck as an "as seen
- * in" strip (see components/LogoStrip.astro, data in ./logos).
- */
-
 export type SlideKind = "bio" | "intro" | "mockup" | "results";
 export type SlideTheme = "dark" | "light";
 
@@ -26,18 +8,13 @@ export interface SlideMedia {
   /** Bleed the device mockup off the right edge (project intros). */
   bleed?: boolean;
   phoneBorder?: boolean;
-  /** Round the asset's corners (cqw, scales with the card) — e.g. a phone-screen
-   *  recording that needs its own rounding. */
+  /** Round the asset's own corners, in cqw, so it scales with the card. */
   rounded?: boolean;
-  /** Overlay the iPhone bezel (public/work/phone-mask.png) on top of the asset so
-   *  raw screen guts (a video, or a bezel-less screenshot) match the screenshots
-   *  that have the frame baked in. The asset shows through the transparent glass. */
+  /** Overlay the iPhone bezel on a bezel-less asset (phone-mask.png). */
   phoneFrame?: boolean;
 }
 
-/** One credit row on a project title card — a label and its value. Give it an
- *  `href` and the value renders as a link out (e.g. a "Link" row carrying the
- *  project's URL). */
+/** One credit row on a title card. With `href`, the value renders as a link out. */
 export interface SlideMetaRow {
   label: string;
   value: string;
@@ -50,38 +27,28 @@ export interface Slide {
   kind: SlideKind;
   theme?: SlideTheme;
   heading?: string;
-  /** Serif copy. Takes inline markdown — see the header note. */
+  /** Serif copy. Takes inline **bold**, _italic_, __underline__ (lib/emphasize). */
   paragraphs?: string[];
-  /** Credits pinned to the bottom of a title card (role / responsibilities /
-   *  team). Omit and the card renders as before. */
+  /** Credits pinned to the bottom of a title card. */
   meta?: SlideMetaRow[];
-  /** Disciplines shown in a work (mockup) card's bottom caption, beneath its
-   *  heading — a comma-separated list of what this piece involved (e.g. "user
-   *  flow, design, development"). Omit and the caption shows just the heading. */
+  /** Disciplines listed in a mockup card's caption chin. */
   tasks?: string;
   items?: string[];
   media?: SlideMedia[];
-  /** Single-image mockups fill the card (cover); pin the crop to "top" or
-   *  "center" (default). Ignored for multi-image mockups. */
+  /** Crop for a single-image mockup. Ignored when there are several. */
   pin?: "top" | "center";
-  /** Force a single-image mockup to "contain" (centred + padded) instead of the
-   *  default cover-fill — e.g. a device shown on its own slide. */
+  /** Force a single-image mockup to contain (centred + padded) over cover-fill. */
   fit?: "cover" | "contain";
-  /** Any CSS `background` value painted behind the card content, overriding the
-   *  default light/dark fill — e.g. a gradient behind a contained device mockup. */
+  /** Fill behind the card, overriding the theme. A token reference
+   *  (`var(--gradient-lavender-peach)`), never a literal color. */
   background?: string;
-  /** Position on the retired home highlights deck, 1-based. Nothing reads it now
-   *  that / and /work render the same deck — kept only as a record of the order. */
+  /** Vestigial: position on the retired home highlights deck. Nothing reads it. */
   onIndex?: number;
-  /** Was home-deck-only, so it renders nowhere now that deck is gone (e.g. the
-   *  "Latest work" opener). Held here rather than deleted. */
+  /** Vestigial: was home-deck-only, so it renders nowhere. Held, not deleted. */
   indexOnly?: boolean;
 }
 
 export const slides: Slide[] = [
-  // --- Index opener (retired) ---------------------------------------------
-  // Led the old home-page highlights deck. `indexOnly` now means it renders
-  // nowhere — kept in case the shorter deck comes back.
   {
     id: "index-latest",
     section: "latest",
@@ -95,7 +62,7 @@ export const slides: Slide[] = [
     onIndex: 1,
     indexOnly: true,
   },
-  // --- Foyer -------------------------------------------------------------
+
   {
     id: "foyer-intro",
     section: "foyer",
@@ -119,8 +86,7 @@ export const slides: Slide[] = [
     onIndex: 2,
     heading: "Welcome screen",
     tasks: "Animation • design • development",
-    // Soft lavender→peach gradient (from the Figma frame) behind the device.
-    background: "linear-gradient(to top right, #f2ebf5, #f9f0eb 55%, #fbefe9)",
+    background: "var(--gradient-lavender-peach)",
     media: [
       {
         src: "/work/foyer-app.mp4",
@@ -191,7 +157,7 @@ export const slides: Slide[] = [
       "Helped __hundreds of members__ purchase a home",
     ],
   },
-  //--- Ohsee --------
+
   {
     id: "ohsee-intro",
     section: "ohsee",
@@ -252,7 +218,7 @@ export const slides: Slide[] = [
       "Built __code-first__, to meet my specific needs",
     ],
   },
-  // --- Hawthorne ---------------------------------------------------------
+
   {
     id: "hawthorne-intro",
     section: "hawthorne",
@@ -332,7 +298,6 @@ export const slides: Slide[] = [
     ],
   },
 
-  // --- App Omni ----------------------------------------------------------
   {
     id: "app-omni-intro",
     section: "app-omni",
@@ -348,8 +313,7 @@ export const slides: Slide[] = [
       "Projects included application-wide audits and single-feature deep dives.",
     ],
   },
-  // NOTE: Figma header here reads "Website and CMS design" — a copy-paste from
-  // Hawthorne (wrong for App Omni). Corrected to match the actual content.
+
   {
     id: "app-omni-1",
     section: "app-omni",
@@ -372,7 +336,6 @@ export const slides: Slide[] = [
     ],
   },
 
-  // --- Neiman Marcus -----------------------------------------------------
   {
     id: "neiman-intro",
     section: "neiman-marcus",
@@ -427,9 +390,6 @@ export const slides: Slide[] = [
     ],
   },
 
-  // --- Salesforce --------------------------------------------------------
-  // The full case study was retired from /work and this lone surviving screen
-  // ran on the home deck, so `indexOnly` now keeps it off the page entirely.
   {
     id: "salesforce-3",
     section: "salesforce",

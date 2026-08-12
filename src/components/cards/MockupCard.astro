@@ -4,18 +4,13 @@ import type { Slide } from "../../data/slides";
 interface Props {
   slide: Slide;
 }
-
 const { slide } = Astro.props;
 const media = slide.media?.[0];
 ---
 
 {
   media && (
-    /* The image, at the original card dimensions. Multiple assets (or a single one
-       forced to contain, e.g. a device on its own slide) get the padded, gapped
-       aperture; a lone asset covers the frame. The per-slide tint/gradient lives on
-       the frame (not the card) so the white notch + chin stay white. */
-    <div class="slide__frame" style={slide.background ? `background: ${slide.background}` : undefined}>
+    <div class="slide__frame" style={slide.background ? `--slide-bg: ${slide.background}` : undefined}>
       {(slide.media?.length ?? 0) > 1 || slide.fit === "contain" ? (
         <div class="slide__aperture" data-aperture>
           <div class:list={["slide__shots", `count-${slide.media?.length}`]} data-parallax>
@@ -61,8 +56,6 @@ const media = slide.media?.[0];
 
 {
   (slide.heading || slide.tasks) && (
-    /* Caption chin — title bottom-left, tasks bottom-right (wraps to its own line
-       when the pair is too long; see .slide__chin in deck.css). */
     <div class="slide__chin">
       {slide.heading && <p class="slide__chin-title body">{slide.heading}</p>}
       {slide.tasks && <p class="slide__chin-tasks body">{slide.tasks}</p>}

@@ -2,8 +2,6 @@
 import Card from "./Card.astro";
 import { slides } from "../data/site";
 
-// One deck now — `indexOnly` slides were built for the retired home highlights
-// deck and stay out of it.
 const shown = slides.filter((s) => !s.indexOnly);
 ---
 

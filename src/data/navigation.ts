@@ -1,5 +1,3 @@
-/** Side-nav / scroll-spy sections (also drives deep-link ids). */
-
 export interface NavSection {
   id: string;
   label: string;
