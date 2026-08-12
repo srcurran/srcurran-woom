@@ -77,6 +77,19 @@ export function initDeck(): void {
   // card, so the scroll-spy + nav-click handlers below treat it as a special case.
   const contact = document.querySelector<HTMLElement>("#contact");
 
+  // Document order of the sections: the hero, each project once, then the contact
+  // closer. Drives keyboard project-stepping and how far a visit got. Built from
+  // the rendered cards rather than navSections so it can't drift from the deck.
+  const sectionOrder = ((): string[] => {
+    const keys = ["about"];
+    for (const card of cards) {
+      const section = card.dataset.section ?? "";
+      if (section && !keys.includes(section)) keys.push(section);
+    }
+    if (contact) keys.push("contact");
+    return keys;
+  })();
+
   // Deep-link target (e.g. /work#ohsee), captured now — before the scroll-spy
   // rewrites the hash to the focused section — and applied once the card
   // positions are known (end of initDeck).
@@ -124,12 +137,11 @@ export function initDeck(): void {
   // the user prefers reduced motion — the deck falls back to a plain static list
   // (no per-card transforms, no snap; see responsive.css). Scroll-driven scrubbed
   // transforms feel janky under touch, and a tight static stack reads cleaner.
-  const animate = !prefersReduced() && window.innerWidth > 960;
+  const desktop = window.matchMedia("(min-width: 961px)");
+  const animate = !prefersReduced() && desktop.matches;
   // The decision is made once here, so crossing the breakpoint needs a reload to
   // re-wire (or tear down) the per-card ScrollTriggers.
-  window
-    .matchMedia("(min-width: 961px)")
-    .addEventListener("change", () => location.reload());
+  desktop.addEventListener("change", () => location.reload());
 
   if (animate) {
     for (const card of cards) {
@@ -276,27 +288,47 @@ export function initDeck(): void {
   };
   measureGutter();
   let lastSection = "";
+  let lastView = "";
   const syncNav = () => {
     // No room for the rail → the header hamburger takes over as the way into
     // the sections (see .menu-toggle in components.css). Same signal drives
     // both, so exactly one of them is ever on screen.
     const railHidden = gutter < RAIL_GUTTER;
     document.documentElement.classList.toggle("nav-rail-hidden", railHidden);
-    if (!sideNav) return;
     const onAbout = lastSection === "about";
-    sideNav.classList.toggle("is-hidden", railHidden);
-    sideNav.classList.toggle("is-about", onAbout);
-    sideNav.classList.toggle(
-      "is-collapsed",
-      gutter < (onAbout ? LABEL_GUTTER : DECK_LABEL_GUTTER),
-    );
+    const collapsed = gutter < (onAbout ? LABEL_GUTTER : DECK_LABEL_GUTTER);
+    if (sideNav) {
+      sideNav.classList.toggle("is-hidden", railHidden);
+      sideNav.classList.toggle("is-about", onAbout);
+      sideNav.classList.toggle("is-collapsed", collapsed);
+    }
+    // Which layout the visitor actually got. Dispatched rather than sent straight
+    // to Umami so analytics.ts stays the only module that knows the vendors, and
+    // only on CHANGE — syncNav runs on every scroll.
+    const layout = desktop.matches ? "desktop" : "mobile";
+    const nav = railHidden ? "hidden" : collapsed ? "rail" : "labels";
+    if (`${layout}-${nav}` !== lastView) {
+      lastView = `${layout}-${nav}`;
+      document.dispatchEvent(
+        new CustomEvent("view:mode", {
+          detail: { layout, nav, deck: animate ? "coverflow" : "static" },
+        }),
+      );
+    }
   };
   syncNav();
+  let furthest = -1;
   const setActive = (section: string, fromClick = false) => {
     if (!section) return;
     if (section !== lastSection) {
       lastSection = section;
       setActiveNav(section, navLinks);
+      // New high-water mark for the visit. Scrolling back up doesn't lower it.
+      const rank = sectionOrder.indexOf(section);
+      if (rank > furthest) {
+        furthest = rank;
+        document.dispatchEvent(new CustomEvent("view:furthest", { detail: { section } }));
+      }
       // Only update URL hash on explicit navigation clicks, not on scroll.
       // This keeps Umami's page view tracking clean (only actual page navigations).
       if (fromClick) {
@@ -449,19 +481,6 @@ export function initDeck(): void {
     if (contact) ys.push(snapScrollFor(contact));
     return ys;
   };
-  const projectKeys = (): string[] => {
-    const keys = ["about"];
-    const seen = new Set<string>();
-    for (const c of cards) {
-      const s = c.dataset.section ?? "";
-      if (s && !seen.has(s)) {
-        seen.add(s);
-        keys.push(s);
-      }
-    }
-    if (contact) keys.push("contact");
-    return keys;
-  };
   const yForKey = (key: string): number => {
     if (key === "about") return 0;
     if (key === "contact") return contact ? snapScrollFor(contact) : 0;
@@ -484,11 +503,10 @@ export function initDeck(): void {
     if (next !== i) glideTo(ys[next]);
   };
   const stepProject = (dir: number) => {
-    const keys = projectKeys();
-    let i = keys.indexOf(lastSection);
+    let i = sectionOrder.indexOf(lastSection);
     if (i === -1) i = 0;
-    const next = Math.min(keys.length - 1, Math.max(0, i + dir));
-    if (next !== i) glideTo(yForKey(keys[next]));
+    const next = Math.min(sectionOrder.length - 1, Math.max(0, i + dir));
+    if (next !== i) glideTo(yForKey(sectionOrder[next]));
   };
   window.addEventListener("keydown", (event) => {
     // Discrete presses only; let shortcuts (⌘/Ctrl/Alt) and typing through.
@@ -532,7 +550,7 @@ export function initDeck(): void {
   })();
   if (shouldRestore && savedScroll !== null) {
     window.scrollTo(0, parseFloat(savedScroll));
-  } else if (initialHash && initialHash !== "about" && projectKeys().includes(initialHash)) {
+  } else if (initialHash && initialHash !== "about" && sectionOrder.includes(initialHash)) {
     window.scrollTo(0, yForKey(initialHash));
   }
 }

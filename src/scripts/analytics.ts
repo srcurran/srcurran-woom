@@ -1,6 +1,9 @@
 import { site } from "../data/meta";
 
-type Umami = { track: (name: string, data?: Record<string, unknown>) => void };
+type Umami = {
+  track: (name: string, data?: Record<string, unknown>) => void;
+  identify?: (data: Record<string, unknown>) => void;
+};
 type Clarity = (...args: unknown[]) => void;
 
 /** Payloads dispatched by deck.ts as the deck is scrolled and clicked. */
@@ -12,6 +15,15 @@ interface CardViewDetail {
   /** bio | intro | mockup | results */
   kind?: string;
 }
+/** Payload dispatched by deck.ts whenever the layout the visitor sees changes. */
+interface ViewModeDetail {
+  /** desktop | mobile — which side of the 960px layout switch. */
+  layout: string;
+  /** labels | rail | hidden — the side nav's state. */
+  nav: string;
+  /** coverflow | static — the deck's mode. */
+  deck: string;
+}
 interface CardClickDetail extends CardViewDetail {
   /** Part of the card clicked: media | caption | text | card. */
   region?: string;
@@ -22,6 +34,9 @@ interface CardClickDetail extends CardViewDetail {
 }
 
 const CONTACT_LINKS = ".contact-menu__link, .contact-end__link";
+
+/** Dwell before a section counts as seen, so flicking past isn't reading. */
+const DWELL_MS = 2000;
 
 /**
  * `action-thing--detail`, e.g. `view-results--foyer`. `-` joins the halves, `--`
@@ -49,6 +64,21 @@ function track(event: string, params?: Record<string, unknown>): void {
 
   const clarity = (window as unknown as { clarity?: Clarity }).clarity;
   if (typeof clarity === "function") clarity("event", event);
+}
+
+/**
+ * Facts about the visit rather than something that happened in it: Umami's
+ * `identify` hangs them off the session (Properties on the user), and Clarity's
+ * tags are session-scoped too, which makes them a replay filter.
+ */
+function describeSession(data: Record<string, string>): void {
+  const umami = (window as unknown as { umami?: Umami }).umami;
+  umami?.identify?.(data);
+
+  const clarity = (window as unknown as { clarity?: Clarity }).clarity;
+  if (typeof clarity === "function") {
+    for (const [key, value] of Object.entries(data)) clarity("set", key, value);
+  }
 }
 
 function channelFor(href: string): string {
@@ -88,8 +118,6 @@ function trackExternalLinks(): void {
 }
 
 function trackDeckInteractions(): void {
-  // Gate the view on dwell, so flicking past a card doesn't count as reading it.
-  const DWELL_MS = 2000;
   let dwell: number | undefined;
 
   document.addEventListener("card:view", (e) => {
@@ -114,6 +142,55 @@ function trackDeckInteractions(): void {
       region: detail.region,
       count: detail.count,
     });
+  });
+}
+
+// Below the breakpoint the rail is gone by design, so every phone visit is one
+// value rather than three.
+const DESKTOP_VIEWS: Record<string, string> = {
+  labels: "desktop-labels",
+  rail: "desktop-rail",
+  hidden: "desktop-no-nav",
+};
+
+function trackViewMode(): void {
+  let sent = "";
+  let settle: number | undefined;
+
+  document.addEventListener("view:mode", (e) => {
+    const detail = (e as CustomEvent<ViewModeDetail>).detail;
+    const view =
+      detail.layout === "desktop" ? (DESKTOP_VIEWS[detail.nav] ?? detail.nav) : "mobile";
+    // The nav settles over a couple of syncNav passes on load, and a drag-resize
+    // fires a run of them — wait for the resting state.
+    window.clearTimeout(settle);
+    settle = window.setTimeout(() => {
+      if (view === sent) return;
+      sent = view;
+      // prefers-reduced-motion drops a DESKTOP visitor to a static list, which
+      // `view` on its own would hide.
+      describeSession({ view, deck: detail.deck });
+    }, 300);
+  });
+}
+
+// How far into the work a visit got — the counterpart to `view`, so "of the
+// people who saw the full nav, how many reached contact?" is one filter rather
+// than a per-session trawl through events.
+function trackFurthest(): void {
+  let sent = "";
+  let dwell: number | undefined;
+
+  document.addEventListener("view:furthest", (e) => {
+    const { section } = (e as CustomEvent<{ section: string }>).detail;
+    // Same dwell gate as a card view: a fast scroll to the bottom fires every
+    // section on the way, and only the one they come to rest on should count.
+    window.clearTimeout(dwell);
+    dwell = window.setTimeout(() => {
+      if (section === sent) return;
+      sent = section;
+      describeSession({ furthest: section });
+    }, DWELL_MS);
   });
 }
 
@@ -144,6 +221,8 @@ function trackLogoClicks(): void {
 }
 
 export function initAnalytics(): void {
+  trackViewMode();
+  trackFurthest();
   trackContactClicks();
   trackExternalLinks();
   trackDeckInteractions();
