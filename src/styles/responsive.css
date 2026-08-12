@@ -5,8 +5,9 @@
    ========================================================================== */
 
 /* Side nav hugs the left edge on narrow screens. Its dash-rail look comes from
-   the shared `.is-collapsed` rules (in the deck it's always collapsed; on the
-   hero it's hidden — see the phone block below), so nothing else is needed. */
+   the shared `.is-collapsed` rules (deck.ts collapses it whenever the gutter is
+   too tight for labels, which is most of this range; on the hero it's hidden —
+   see the phone block below), so nothing else is needed. */
 @media (max-width: 1024px) {
   .side-nav { left: var(--space-2xs); }
 }

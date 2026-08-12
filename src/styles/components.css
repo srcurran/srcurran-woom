@@ -355,8 +355,9 @@
 }
 
 /* --- Side navigation (fixed left, vertically centred) ---------------------
-   Three states: full labels on About; collapses to dashes in the deck; comes
-   back up as a blurred panel when the deck (or the nav itself) is hovered. */
+   Two states, chosen by the room in the left gutter (deck.ts): full labels the
+   whole way down when they fit, otherwise a slim dash rail that comes up as a
+   blurred label panel on hover/tap. */
 .side-nav {
   position: fixed;
   left: var(--page-padding-x);
@@ -449,8 +450,9 @@
 }
 
 /* Blurred panel wraps the nav in BOTH states: a slim rounded rail around the
-   dashes when minimized, expanding to fit the labels when revealed. (On About —
-   neither collapsed nor revealed — it stays transparent with full labels.) */
+   dashes when minimized, expanding to fit the labels when revealed. (In a gutter
+   wide enough for the labels — neither collapsed nor revealed — it stays
+   transparent with full labels.) */
 .side-nav.is-collapsed,
 .side-nav.is-revealed {
   background: color-mix(in srgb, var(--color-bg) 72%, transparent);
