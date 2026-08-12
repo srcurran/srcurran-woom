@@ -14,10 +14,25 @@
  */
 const INLINE = /\*\*([^*]+)\*\*|__([^_]+)__|\*([^*]+)\*|(?<!\w)_([^_]+)_(?!\w)/g;
 
+/** A short hyphenated compound reads as one word, so a line shouldn't break
+ *  inside it ("successful 0-" / "to-1 launch"). CSS has no lever for this —
+ *  `line-break` and `word-break` are about CJK and long unbroken strings — so the
+ *  compound is wrapped and held together with white-space. Long ones are left
+ *  breakable rather than risk overflowing a narrow card.
+ *
+ *  The bounds exclude letters, digits and hyphens but allow the emphasis markers,
+ *  so a compound still matches inside __…__, and the markup injected here carries
+ *  no `_` or `*` for the pass below to trip over. */
+const COMPOUND = /(?<![A-Za-z0-9-])[A-Za-z0-9]+(?:-[A-Za-z0-9]+)+(?![A-Za-z0-9-])/g;
+
 export function emphasize(text: string): string {
-  return text.replace(INLINE, (_match, bold, underline, starItalic, underItalic) => {
-    if (bold !== undefined) return `<strong>${bold}</strong>`;
-    if (underline !== undefined) return `<u class="slide__em">${underline}</u>`;
-    return `<em>${starItalic ?? underItalic}</em>`;
-  });
+  return text
+    .replace(COMPOUND, (word) =>
+      word.length > 16 ? word : `<span class="nobr">${word}</span>`,
+    )
+    .replace(INLINE, (_match, bold, underline, starItalic, underItalic) => {
+      if (bold !== undefined) return `<strong>${bold}</strong>`;
+      if (underline !== undefined) return `<u class="slide__em">${underline}</u>`;
+      return `<em>${starItalic ?? underItalic}</em>`;
+    });
 }

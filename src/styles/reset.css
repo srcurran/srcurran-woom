@@ -78,7 +78,10 @@ h6 {
   text-wrap: balance;
 }
 
-p {
+/* Tidy the rag — no lone word stranded on the last line. List items get it too:
+   the results cards set one statement per <li>, which wraps like a paragraph. */
+p,
+li {
   text-wrap: pretty;
 }
 
