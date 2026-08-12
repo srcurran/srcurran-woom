@@ -1,8 +1,4 @@
 ---
-/* One deck card. This shell owns the shared contract every kind needs — the
-   .deck__slide wrapper + .deck__card article with the data-* hooks deck.ts reads
-   (data-card / data-index / data-section / data-slide / data-kind) and the theme
-   class — then dispatches the body to a per-kind component in ./cards. */
 import type { Slide } from "../data/slides";
 import BioCard from "./cards/BioCard.astro";
 import IntroCard from "./cards/IntroCard.astro";
@@ -13,13 +9,11 @@ interface Props {
   slide: Slide;
   index: number;
 }
-
 const { slide, index } = Astro.props;
 const theme = slide.theme ?? "light";
-// The per-slide background paints the card fill for every kind EXCEPT mockup, where
-// it lives on the image frame instead (so the white notch/chin stay white).
+
 const cardBackground =
-  slide.background && slide.kind !== "mockup" ? `background: ${slide.background}` : undefined;
+  slide.background && slide.kind !== "mockup" ? `--slide-bg: ${slide.background}` : undefined;
 ---
 
 <div class:list={["deck__slide", `deck__slide--${slide.kind}`]}>

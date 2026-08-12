@@ -1,18 +1,3 @@
-/* ============================================================================
-   DECK + HERO — the gallery experience.
-   A full-viewport hero (animated gradient + typewriter) above a "deck": a
-   vertical column of evenly-spaced cards. Each card tilts in 3D by its distance
-   from the viewport centre — flat + largest at centre, rotated back above/below.
-   Real gaps between cards mean they never overlap (no z-stacking, no transparent
-   cross-fades needed). Free scroll; rotation is applied per card in deck.ts.
-   ========================================================================== */
-
-/* --- First-load intro guard ----------------------------------------------
-   Hide the targets the intro timeline (intro.ts) animates in, BEFORE paint, so
-   they don't pop in then jump. Gated on `.play-intro` (set pre-paint in Layout
-   ONLY on the first load of a session) + motion-ok — so no-JS, reduced-motion,
-   AND reloads/HMR render everything immediately (nothing to hide → no late pop).
-   GSAP clears the opacity as it fades each one in. */
 @media (prefers-reduced-motion: no-preference) {
   .play-intro [data-hero] .hero__headline,
   .play-intro [data-hero] .hero__bio p,
@@ -23,45 +8,32 @@
   }
 }
 
-/* --- OPENING VIEW (hero copy + logo strip together) -----------------------
-   The intro copy and the "as seen in" marks share the first screen: the copy
-   centres in whatever room is left above the strip, the strip sits on the floor
-   of the block. The block is deliberately a --deck-peek SHORT of the viewport —
-   that remainder is the top edge of the deck's first card, the "there's more
-   below" hint the intro's third beat rises into (intro.ts). */
 .opening {
-  /* How much of card one shows under the strip at rest. */
   --deck-peek: clamp(3.5rem, 11svh, 8rem);
-  /* The marks ride directly under the copy — one paragraph break's worth of
-     space, and nothing below, so they read as part of the intro rather than as a
-     band pinned to the floor of the view. */
+
   --logo-strip-pad-top: var(--space-2xl);
   --logo-strip-pad-bottom: 0px;
   display: flex;
   flex-direction: column;
-  /* Copy + marks centre as ONE group. (Letting the hero grow instead pushed the
-     marks down onto the fold, away from the copy they belong to.) */
+
   justify-content: center;
   min-height: calc(100svh - var(--deck-peek));
 }
 .opening > .hero {
-  min-height: 0; /* cancel the hero's own 100svh floor */
-  flex: 0 0 auto; /* sized by its copy; the group's centring places it */
+  min-height: 0;
+  flex: 0 0 auto;
 }
 
-/* --- HERO (a static, centred intro on the canvas) ------------------------- */
 .hero {
   position: relative;
-  /* Full height so the About content centres vertically (centre at 50vh). */
+
   min-height: 100svh;
   display: flex;
   align-items: center;
   padding-inline: var(--page-padding-x);
   background: var(--color-bg);
 }
-/* Shared inner container — a consistent, centred width that both the About hero
-   and the Contact closer sit inside, so their headlines/copy line up on the same
-   left edge (the Contact's two-column group no longer shifts its text inward). */
+
 .hero__inner {
   width: 100%;
   max-width: var(--container-max);
@@ -86,8 +58,7 @@
   line-height: 1.05;
   letter-spacing: var(--tracking-tight);
 }
-/* Paragraphs inside inherit the serif body (see base.css); the block just sets
-   the reading measure + size. */
+
 .hero__bio {
   display: flex;
   flex-direction: column;
@@ -96,21 +67,12 @@
   font-size: var(--text-md);
   line-height: var(--leading-relaxed);
 }
-/* Index-only sign-off; set apart from the notes above it. */
+
 .hero__aside {
   margin-top: var(--space-xs);
   font-style: italic;
 }
 
-/* Contact closer — reuses the .hero shell; the bio area becomes a list of
-   contact links (serif, to mirror the intro copy). */
-/* Pin the content block to the same width the About copy fills (its 56ch bio),
-   so the short contact links line up with the About text instead of the narrow
-   block centring itself further right. */
-/* Contact closer is two columns on wide screens (copy | photo); flex-wrap drops
-   the photo below the copy once they no longer fit side by side. The two-column
-   layout lives on the shared inner container so the copy aligns with the About
-   hero's left edge. */
 .hero--end .hero__inner {
   display: flex;
   flex-wrap: wrap-reverse;
@@ -136,25 +98,17 @@
 .contact-end__copy {
   color: var(--color-ink-subtle);
 }
-/* Peace-out photo — a rounded sign-off below the contact links. */
+
 .contact-end__peace {
-  position: relative; /* canvas overlays the <img> */
+  position: relative;
   display: block;
-  /* Grow to fill the space left of the copy (gap is the inner's 2xl); the copy
-     column keeps its content width and doesn't grow. The min-width floor keeps
-     the photo usable — once it can't fit beside the copy at that size, the row
-     wraps (photo above copy, via wrap-reverse) instead of collapsing to a sliver.
-     The cap keeps the photo from dominating beside the copy (and its square
-     height from running away) on a wide desktop container. It's lifted at <=960px
-     (responsive.css), where the row wraps and the photo should match the card
-     width instead of stopping short of it. */
   flex: 1 1 360px;
   width: auto;
   min-width: 280px;
   max-width: 640px;
   aspect-ratio: 1;
   border-radius: var(--radius-lg);
-  overflow: hidden; /* round the canvas + img */
+  overflow: hidden;
   box-shadow: var(--elevation-2);
 }
 .contact-end__peace img,
@@ -167,8 +121,7 @@
 .contact-end__peace img {
   object-fit: cover;
 }
-/* The shader canvas fades in over the <img> once WebGL has rendered (the <img>
-   stays as the no-WebGL / pre-load fallback). */
+
 .contact-end__peace canvas {
   opacity: 0;
   transition: opacity var(--duration-base) var(--ease-out);
@@ -177,68 +130,42 @@
   opacity: 1;
 }
 
-/* --- DECK (vertical column of spaced, tilting cards) ---------------------- */
 .deck {
   position: relative;
   background: var(--color-bg);
-  /* No negative top margin: the logo strip now sits between the hero and the
-     deck, so there's nothing to pull up under. (It used to lift the first card
-     into the bottom of the opening view as a "there's more below" hint; with a
-     band in between, that margin only ate the strip's bottom padding.) The
-     strip's own padding spaces the deck off it. */
 }
 .deck__viewport {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Card width, shared by the card frame and its caption wrapper so the caption
-     aligns to the card and its text can't widen the group. Height-capped so a card
-     never exceeds ~54svh (see .deck__card). Overridden to a flat 78vw on mobile. */
+
   --card-w: min(90vw, 1180px, calc(54svh * 16 / 9));
-  /* Gap between cards — small enough that the neighbours peek into view when a
-     card is centred (the "hint"), big enough they never collide. */
+
   gap: clamp(2.5rem, 7vh, 7rem);
-  /* No top room (the logo strip's bottom padding already spaces the first card
-     off it); tail room so the last card can still reach the centre. */
+
   padding-block: 0 30vh;
 }
 
-/* Project boundary — extra breathing room so each project reads as its own
-   group. Every project opens with an intro slide, so push it down from the
-   prior project's results card (this margin stacks on top of the viewport gap).
-   The first intro is skipped: nothing precedes it inside the deck. */
 .deck__slide--intro:not(:first-child) {
   margin-top: clamp(2.5rem, 7vh, 6rem);
 }
 
-/* Each card + its caption grouped as one flex item, so the caption tucks directly
-   under the card (small gap) while the viewport gap still spaces one group from the
-   next. Width matches the card so the caption aligns to its left edge and the
-   caption text can never widen the group. The snap + scroll transforms still target
-   the .deck__card inside — this wrapper is layout only. */
 .deck__slide {
   display: flex;
   flex-direction: column;
   width: var(--card-w);
 }
 
-/* --- Sticky scroll-snap (desktop, motion-ok) -----------------------------
-   Native mandatory snap: the scroll rests on a card and resists until you flick
-   past it. `scroll-snap-stop: always` makes that a deliberate, one-card move.
-   scroll-padding:0 so a centred card lands with its centre at 50vh. */
 @media (prefers-reduced-motion: no-preference) and (min-width: 961px) {
   html {
     scroll-snap-type: y mandatory;
     scroll-padding: 0;
   }
-  /* Centres the contact closer, which reuses the .hero shell. */
+
   .hero {
     scroll-snap-align: center;
   }
-  /* The opening is ONE target, resting at the top of the document (start, not
-     centre — it's shorter than the viewport, and the card peeking below it is
-     part of the view). Its hero + strip must not snap on their own, or mandatory
-     snap would stop twice inside a single screen. */
+
   .opening {
     scroll-snap-align: start;
   }
@@ -251,38 +178,26 @@
   }
 }
 
-/* --- CARD / SLIDE --------------------------------------------------------
-   Each card is a 16:9 slide rebuilt from Figma. `container-type: size` lets the
-   slide content scale in container-query units: 1cqw ≈ 19.2 Figma px (slides are
-   1920px wide), so the layout matches the source at any card size. */
 .deck__card {
   position: relative;
-  /* Width-driven for a true 16:9, but ALSO capped by height (--card-w's calc term)
-     so a card never exceeds ~54svh — it always fits the viewport with room for the
-     neighbours to peek, and a centred card's top stays below the exit line. */
   width: var(--card-w);
   aspect-ratio: 16 / 9;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  /* Elevation tracks focus: full --elevation-3 when centred (--focus 1), easing
-     to a consistent lighter shadow as the card recedes (--focus → 0, set per
-     frame in deck.ts). Mirrors --elevation-3, scaled by --elev-k. */
+
   --focus: 1;
   --elev-k: calc(0.3 + 0.7 * var(--focus));
   box-shadow:
     0 calc(var(--elev-k) * 16px) calc(var(--elev-k) * 40px)
-      rgba(10, 10, 10, calc(var(--elev-k) * 0.12)),
+      rgba(var(--shadow-rgb), calc(var(--elev-k) * 0.12)),
     0 calc(var(--elev-k) * 4px) calc(var(--elev-k) * 10px)
-      rgba(10, 10, 10, calc(var(--elev-k) * 0.08));
+      rgba(var(--shadow-rgb), calc(var(--elev-k) * 0.08));
   backface-visibility: hidden;
   will-change: transform;
   container-type: size;
-  z-index: var(--z-overlay); /* cards sit above the fixed side nav */
+  z-index: var(--z-overlay);
 }
 
-/* Dimming scrim — mixes the stage colour over the card as it leaves off the top
-   (driven by --dim from deck.ts). The card stays fully opaque, so it never
-   reveals the cards behind it; it just recedes into the stage. */
 .deck__card::after {
   content: "";
   position: absolute;
@@ -293,33 +208,30 @@
   pointer-events: none;
 }
 
-/* Slide themes (the source mixes dark + light). */
 .slide--light {
-  background: #ffffff;
+  background: var(--slide-bg, var(--color-surface-alt));
   color: var(--gray-950);
   border: 0.5px solid var(--gray-200);
 }
 .slide--dark {
-  background: var(--color-notblack);
-  color: #ffffff;
+  background: var(--slide-bg, var(--color-notblack));
+  color: var(--color-on-dark);
 }
 
-/* Content scaffold — padded flex; sizing in cqw mirrors the 1920px source. */
 .slide__inner {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 7cqw 8.75cqw; /* Figma left margin 168px = 8.75cqw */
+  padding: 7cqw 8.75cqw;
 }
 .slide__heading {
   font-family: var(--font-display);
   font-weight: var(--weight-bold);
-  font-size: 5.7cqw; /* 109px — base; split per kind below */
+  font-size: 5.7cqw;
   line-height: 1.15;
-  letter-spacing: -0.1cqw; /* ~-2px */
+  letter-spacing: -0.1cqw;
 }
-/* Heading sizes split by slide kind (cqw = container units, so they scale with
-   the card). Title/intro slides read big; results sit smaller above their list. */
+
 .slide--intro .slide__heading {
   font-size: 10cqw;
 }
@@ -328,80 +240,71 @@
 }
 .slide__prose {
   margin-top: 2.4cqw;
-  max-width: 66cqw; /* 889px */
+  max-width: 66cqw;
 }
-/* Serif family + weight inherited from the p default (base.css); only the
-   card-relative size + tighter leading are set here. */
+
 .slide__prose p {
-  font-size: 2.2cqw; /* 42px */
+  font-size: 2.2cqw;
   line-height: 1.4;
 }
 .slide__prose p + p {
   margin-top: 1.4cqw;
 }
 
-/* Bio — wider measure for the longer paragraphs. */
 .slide--bio .slide__prose {
   max-width: 68cqw;
 }
 
-/* Project credits pinned to the bottom-left of a title card — a row of credit
-   columns under the intro copy, each a muted label above its value (Role · Agency
-   · …). margin-top:auto pushes it to the card floor. All sizes in cqw so it scales
-   with the card like the heading + prose. */
 .slide__meta {
-  margin-top: auto; /* pin to the bottom of the flex column */
+  margin-top: auto;
   padding-top: 3cqw;
   display: flex;
   flex-direction: row;
-  gap: 3.2cqw; /* between the credit columns (Role ↔ Agency) */
+  gap: 3.2cqw;
 }
 .slide__meta-row {
   display: flex;
-  flex-direction: column; /* label stacked above its value */
-  gap: 0.2cqw; /* label ↔ its value */
-  font-size: 1.5cqw; /* ~29px on the 1920px source */
+  flex-direction: column;
+  gap: 0.2cqw;
+  font-size: 1.5cqw;
   line-height: 1.3;
 }
 .slide__meta-label {
   font-weight: var(--weight-semibold);
-  color: rgba(255, 255, 255, 0.55);
+  color: color-mix(in srgb, var(--color-on-dark) 55%, transparent);
 }
 .slide__meta-value {
   margin: 0;
-  color: #ffffff;
+  color: var(--color-on-dark);
 }
-/* A credit row whose value is a link out to the project (see `href` on
-   SlideMetaRow) — the "Link" column. Underlined at rest so it reads as clickable
-   at this small size; sized in em so it tracks the row. */
+
 .slide__meta-link {
   color: inherit;
   text-decoration: underline;
   text-decoration-thickness: 0.06em;
   text-underline-offset: 0.2em;
-  text-decoration-color: rgba(255, 255, 255, 0.45);
+  text-decoration-color: color-mix(in srgb, var(--color-on-dark) 45%, transparent);
 }
 .slide__meta-link:hover,
 .slide__meta-link:focus-visible {
   text-decoration-color: currentColor;
 }
 
-/* Project intro — text left, device mockup bleeding off the right. */
 .slide__inner--intro {
   position: relative;
 }
 .slide__inner--intro .slide__text {
   max-width: 50cqw;
 }
-/* No device on this intro → let the copy use the full width. */
+
 .slide__inner--intro.is-text-only .slide__text {
   max-width: 78cqw;
 }
 .slide__device {
   position: absolute;
-  top: -5cqw; /* bleed off the top, per the source */
-  right: 4cqw; /* bleed off the right edge */
-  height: 72cqw; /* taller than the 56.25cqw card → bleeds top + bottom */
+  top: -5cqw;
+  right: 4cqw;
+  height: 72cqw;
   will-change: transform;
 }
 .slide__device :is(img, video) {
@@ -410,15 +313,6 @@
   width: auto;
 }
 
-/* Mockup — two presentations:
-   • SINGLE asset → fills the whole card (object-fit: cover), pinned centre or
-     top. Scales with the card (no aperture) so it always fills the frame.
-   • MULTIPLE assets → a padded, gapped row that still fills the card but gives
-     the assets room to breathe. `.slide__aperture` counter-scales this layout
-     during the zoom so the content holds size while the frame opens. */
-
-/* Single, full-bleed cover (data-aperture: counter-scaled on enter so the frame
-   opens to reveal the full-size content). */
 .slide__cover {
   position: absolute;
   inset: 0;
@@ -435,7 +329,6 @@
   object-position: center top;
 }
 
-/* Multiple, padded + gapped */
 .slide__aperture {
   position: absolute;
   inset: 0;
@@ -468,24 +361,14 @@
 }
 
 .slide__shot .isPhoneBorder {
-  /* Bezel sized in cqw so it scales with the card, like the type. */
   border: 0.8cqw solid var(--color-ink);
   border-radius: 3cqw;
 }
 .slide__shot .isRounded {
-  /* Phone-corner rounding in cqw so it scales with the card (≈44px). */
   border-radius: 4cqw;
 }
 
-/* Phone frame — raw screen guts (a video, or a bezel-less screenshot) shown
-   through the transparent glass of phone-mask.png, which overlays the metallic
-   bezel + dynamic island on top. Same asset baked into the static foyer
-   screenshots, so framed media matches them exactly. */
 .slide__shot .phone {
-  /* Stack the screen + bezel in one grid cell. The bezel <img> is in-flow and
-     contain-fits the cell (same rules as the bezel-baked screenshots), so it
-     sizes the box and the 377/772 ratio is never distorted; the screen fills
-     behind it. */
   display: grid;
   place-items: center;
   height: 100%;
@@ -508,48 +391,32 @@
   z-index: 1;
 }
 .slide__shot .phone__screen {
-  /* Native ratio (width follows height) so the full screen shows uncropped, like
-     the screenshots; 85% height insets it slightly inside the glass. */
   width: auto;
   height: 85%;
   object-fit: cover;
-  border-radius: 14% / 6.8%; /* round the corners to match the phone's glass */
+  border-radius: 14% / 6.8%;
 }
 
-/* Work cards carry a caption chin, so they grow past 16:9: a 16:9 image FRAME plus
-   the CHIN beneath it, together as one rounded, shadowed unit. .deck__card keeps
-   the shadow, dim scrim, and scroll transform, so the image + caption move and
-   elevate as one. The card fill is ALWAYS white so the image's rounded bottom
-   corners and the chin read white — any per-slide tint/dark lives on the frame. */
 .deck__card.slide--mockup {
-  aspect-ratio: auto; /* grow past 16:9 to seat the chin */
-  container-type: inline-size; /* width-based cqw still resolves to the card */
+  aspect-ratio: auto;
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   background: var(--color-surface);
 }
-/* The image, kept at the original card dimensions (16:9) and rounded on every
-   corner; overflow clips the media to that radius. The frame — not the card —
-   carries the tint (foyer's gradient, set inline) or the dark fill, so it stays
-   contained to the image and never bleeds into the white notch/chin. */
+
 .slide__frame {
   position: relative;
   aspect-ratio: 16 / 9;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  background: var(--color-surface-alt);
+  background: var(--slide-bg, var(--color-surface-alt));
 }
 .slide--dark .slide__frame {
-  background: var(--color-notblack);
+  background: var(--slide-bg, var(--color-notblack));
 }
-/* The chin — the tasks in an always-white note below the image (so it reads the
-   same on tinted or dark cards); the card's overflow + radius round its bottom
-   corners. */
-/* Title bottom-left, tasks bottom-right. flex-wrap makes it content-aware: if the
-   title + the tasks' one-line width fit, they share a row (space-between); if not,
-   the whole tasks block drops to its own line. Left-aligned, so a wrapped tasks
-   line reads from the left rather than staying pinned right. */
+
 .slide__chin {
   display: flex;
   flex-wrap: wrap;
@@ -561,21 +428,12 @@
   color: var(--color-ink-muted);
   letter-spacing: 0.01em;
 }
-/* Title reads as the primary label (bottom-left); tasks stay muted (bottom-right,
-   or bottom-left once wrapped to their own line). */
+
 .slide__chin-title {
   color: var(--color-ink);
   font-weight: var(--weight-medium);
 }
 
-/* Results — heading + serif list. The copy is deliberately short (one line per
-   result), which buys the room to set the list much larger than the source did:
-   these read as statements, not as a paragraph broken into bullets.
-
-   The block is centred in the card rather than pinned to the top: item counts run
-   from two (App Omni) to six (Foyer), and top-aligning the short ones leaves half
-   the card empty below them. Centred, every results card reads as composed at any
-   length. */
 .slide--results .slide__inner {
   justify-content: center;
 }
@@ -592,17 +450,12 @@
   line-height: 1.5;
 }
 
-/* --- Inline emphasis in card copy (see lib/emphasize.ts) ------------------
-   Three marks, all set in the serif body: **bold**, _italic_, __underline__. */
-
-/* Underline (not a link) — the house mark, used via __underscores__. */
 .slide__em {
   text-decoration: underline;
   text-decoration-thickness: 0.06em;
   text-underline-offset: 0.14em;
 }
-/* The serif body runs at 300, so 700 is a real jump — and both weights are
-   loaded (Layout.astro), so neither mark is a browser-synthesised fake. */
+
 .slide :is(.slide__prose, .slide__results) strong {
   font-weight: var(--weight-bold);
 }
