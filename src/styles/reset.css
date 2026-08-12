@@ -69,7 +69,8 @@ h6 {
   text-wrap: balance;
 }
 
-p {
+p,
+li {
   text-wrap: pretty;
 }
 

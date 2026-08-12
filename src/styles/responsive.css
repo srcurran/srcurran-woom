@@ -4,12 +4,12 @@
 
 .side-nav.is-hidden { display: none; }
 
-@media (max-width: 960px) {
+@media (max-width: 960px), (max-height: 800px) {
   :root {
     --page-padding-x: var(--space-lg);
     --space-3xl: 5rem;
-
-    --container-max: 78vw;
+    --static-card-w: min(78vw, calc(78svh * 16 / 9));
+    --container-max: var(--static-card-w);
   }
 
   [data-hero].hero {
@@ -26,7 +26,7 @@
     --logo-strip-pad-bottom: var(--space-3xl);
   }
 
-  .deck__viewport { --card-w: 78vw; }
+  .deck__viewport { --card-w: var(--static-card-w); }
   .deck__card { width: var(--card-w); }
 
   .contact-end__peace { max-width: none; }
@@ -87,9 +87,7 @@
 }
 
 @media (max-width: 760px) {
-  .deck__viewport { --card-w: 90vw; }
-
-  :root { --container-max: 90vw; }
+  :root { --static-card-w: min(90vw, calc(78svh * 16 / 9)); }
 
   .hero {
     justify-content: flex-start;

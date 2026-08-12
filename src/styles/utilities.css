@@ -46,6 +46,8 @@
 .text-center { text-align: center; }
 .text-right  { text-align: right; }
 
+.nobr { white-space: nowrap; }
+
 .full-width { width: 100%; }
 .measure { max-width: var(--measure); }
 

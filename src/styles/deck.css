@@ -156,7 +156,7 @@
   width: var(--card-w);
 }
 
-@media (prefers-reduced-motion: no-preference) and (min-width: 961px) {
+@media (prefers-reduced-motion: no-preference) and (min-width: 961px) and (min-height: 801px) {
   html {
     scroll-snap-type: y mandatory;
     scroll-padding: 0;

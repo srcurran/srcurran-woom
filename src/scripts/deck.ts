@@ -30,7 +30,7 @@ const makeJitter = () => ({
   exitScale: rand(...RANDOM.scale),
 });
 
-const DESKTOP = "(min-width: 961px)";
+const COVERFLOW = "(min-width: 961px) and (min-height: 801px)";
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 
@@ -82,9 +82,10 @@ export function initDeck(): void {
   computeSpacing();
   window.addEventListener("resize", computeSpacing);
 
-  const animate = !prefersReduced() && window.matchMedia(DESKTOP).matches;
+  const coverflow = window.matchMedia(COVERFLOW);
+  const animate = !prefersReduced() && coverflow.matches;
+  coverflow.addEventListener("change", () => location.reload());
 
-  window.matchMedia(DESKTOP).addEventListener("change", () => location.reload());
   if (animate) {
     for (const card of cards) {
       const inner = card.querySelector<HTMLElement>("[data-parallax]");

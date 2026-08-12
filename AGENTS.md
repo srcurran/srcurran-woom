@@ -74,6 +74,8 @@ The four facts below were load-bearing comments before the codebase was stripped
 
 **The alternation order in `lib/emphasize.ts` is load-bearing.** Double-character forms come first so `__x__` can't be read as two italics, and the single `_` needs word boundaries so `snake_case_name` survives. It's one pass, so a replacement's own markup is never rescanned — which matters because the underline's class name (`slide__em`) contains the very underscores the italic rule looks for.
 
+**`emphasize.ts` runs the compound pass before the emphasis pass, also deliberately.** A short hyphenated compound reads as one word, so a line shouldn't break inside it ("successful 0-" / "to-1 launch"); CSS has no lever for that, since `line-break` and `word-break` address CJK and long unbroken strings, so the compound is wrapped in `.nobr`. Compounds over 16 characters are left breakable rather than risk overflowing a narrow card. `COMPOUND`'s bounds exclude letters, digits and hyphens but allow the emphasis markers, so a compound still matches inside `__…__` — and the `<span class="nobr">` it injects contains no `_` or `*` for the emphasis pass to trip over.
+
 ## CSS
 
 Three composed layers, imported in cascade order by `global.css`:
