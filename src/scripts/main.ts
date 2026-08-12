@@ -4,8 +4,8 @@ import { initDeck } from "./deck";
 import { initLenticular } from "./lenticular";
 import { initAnalytics } from "./analytics";
 
+initAnalytics();
 initHeader();
 initIntro();
 initDeck();
 initLenticular();
-initAnalytics();

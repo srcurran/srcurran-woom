@@ -1,6 +1,9 @@
 import { site } from "../data/meta";
 
-type Umami = { track: (name: string, data?: Record<string, unknown>) => void };
+type Umami = {
+  track: (name: string, data?: Record<string, unknown>) => void;
+  identify?: (data: Record<string, unknown>) => void;
+};
 type Clarity = (...args: unknown[]) => void;
 
 interface CardViewDetail {
@@ -14,8 +17,22 @@ interface CardClickDetail extends CardViewDetail {
   dead?: boolean;
   count?: number;
 }
+interface ViewModeDetail {
+  layout: string;
+  nav: string;
+  deck: string;
+}
 
 const CONTACT_LINKS = ".contact-menu__link, .contact-end__link";
+
+const DWELL_MS = 2000;
+const SETTLE_MS = 300;
+
+const DESKTOP_VIEWS: Record<string, string> = {
+  labels: "desktop-labels",
+  rail: "desktop-rail",
+  hidden: "desktop-no-nav",
+};
 
 function eventName(action: string, thing: string, detail?: string): string {
   const head = `${action}-${thing}`;
@@ -35,6 +52,16 @@ function track(event: string, params?: Record<string, unknown>): void {
 
   const clarity = (window as unknown as { clarity?: Clarity }).clarity;
   if (typeof clarity === "function") clarity("event", event);
+}
+
+function describeSession(data: Record<string, string>): void {
+  const umami = (window as unknown as { umami?: Umami }).umami;
+  umami?.identify?.(data);
+
+  const clarity = (window as unknown as { clarity?: Clarity }).clarity;
+  if (typeof clarity === "function") {
+    for (const [key, value] of Object.entries(data)) clarity("set", key, value);
+  }
 }
 
 function channelFor(href: string): string {
@@ -73,7 +100,6 @@ function trackExternalLinks(): void {
 }
 
 function trackDeckInteractions(): void {
-  const DWELL_MS = 2000;
   let dwell: number | undefined;
 
   document.addEventListener("card:view", (e) => {
@@ -96,6 +122,38 @@ function trackDeckInteractions(): void {
       region: detail.region,
       count: detail.count,
     });
+  });
+}
+
+function trackViewMode(): void {
+  let sent = "";
+  let settle: number | undefined;
+
+  document.addEventListener("view:mode", (e) => {
+    const detail = (e as CustomEvent<ViewModeDetail>).detail;
+    const view =
+      detail.layout === "desktop" ? (DESKTOP_VIEWS[detail.nav] ?? detail.nav) : "mobile";
+    window.clearTimeout(settle);
+    settle = window.setTimeout(() => {
+      if (view === sent) return;
+      sent = view;
+      describeSession({ view, deck: detail.deck });
+    }, SETTLE_MS);
+  });
+}
+
+function trackFurthest(): void {
+  let sent = "";
+  let dwell: number | undefined;
+
+  document.addEventListener("view:furthest", (e) => {
+    const { section } = (e as CustomEvent<{ section: string }>).detail;
+    window.clearTimeout(dwell);
+    dwell = window.setTimeout(() => {
+      if (section === sent) return;
+      sent = section;
+      describeSession({ furthest: section });
+    }, DWELL_MS);
   });
 }
 
@@ -124,6 +182,8 @@ function trackLogoClicks(): void {
 }
 
 export function initAnalytics(): void {
+  trackViewMode();
+  trackFurthest();
   trackContactClicks();
   trackExternalLinks();
   trackDeckInteractions();

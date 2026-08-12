@@ -31,6 +31,7 @@ const makeJitter = () => ({
 });
 
 const COVERFLOW = "(min-width: 961px) and (min-height: 801px)";
+const DESKTOP_LAYOUT = "(min-width: 961px)";
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 
@@ -51,6 +52,16 @@ export function initDeck(): void {
   const sideNav = document.querySelector<HTMLElement>("[data-side-nav]");
 
   const contact = document.querySelector<HTMLElement>("#contact");
+
+  const sectionOrder = ((): string[] => {
+    const keys = ["about"];
+    for (const card of cards) {
+      const section = card.dataset.section ?? "";
+      if (section && !keys.includes(section)) keys.push(section);
+    }
+    if (contact) keys.push("contact");
+    return keys;
+  })();
 
   const initialHash = location.hash.slice(1);
 
@@ -83,6 +94,7 @@ export function initDeck(): void {
   window.addEventListener("resize", computeSpacing);
 
   const coverflow = window.matchMedia(COVERFLOW);
+  const desktopLayout = window.matchMedia(DESKTOP_LAYOUT);
   const animate = !prefersReduced() && coverflow.matches;
   coverflow.addEventListener("change", () => location.reload());
 
@@ -186,24 +198,40 @@ export function initDeck(): void {
   };
   measureGutter();
   let lastSection = "";
+  let lastView = "";
   const syncNav = () => {
     const railHidden = gutter < RAIL_GUTTER;
     document.documentElement.classList.toggle("nav-rail-hidden", railHidden);
-    if (!sideNav) return;
     const onAbout = lastSection === "about";
-    sideNav.classList.toggle("is-hidden", railHidden);
-    sideNav.classList.toggle("is-about", onAbout);
-    sideNav.classList.toggle(
-      "is-collapsed",
-      gutter < (onAbout ? LABEL_GUTTER : DECK_LABEL_GUTTER),
-    );
+    const collapsed = gutter < (onAbout ? LABEL_GUTTER : DECK_LABEL_GUTTER);
+    if (sideNav) {
+      sideNav.classList.toggle("is-hidden", railHidden);
+      sideNav.classList.toggle("is-about", onAbout);
+      sideNav.classList.toggle("is-collapsed", collapsed);
+    }
+    const layout = desktopLayout.matches ? "desktop" : "mobile";
+    const nav = railHidden ? "hidden" : collapsed ? "rail" : "labels";
+    if (`${layout}-${nav}` !== lastView) {
+      lastView = `${layout}-${nav}`;
+      document.dispatchEvent(
+        new CustomEvent("view:mode", {
+          detail: { layout, nav, deck: animate ? "coverflow" : "static" },
+        }),
+      );
+    }
   };
   syncNav();
+  let furthest = -1;
   const setActive = (section: string, fromClick = false) => {
     if (!section) return;
     if (section !== lastSection) {
       lastSection = section;
       setActiveNav(section, navLinks);
+      const rank = sectionOrder.indexOf(section);
+      if (rank > furthest) {
+        furthest = rank;
+        document.dispatchEvent(new CustomEvent("view:furthest", { detail: { section } }));
+      }
       if (fromClick) {
         const url = section === "about" ? location.pathname + location.search : `#${section}`;
         history.replaceState(null, "", url);
@@ -327,19 +355,6 @@ export function initDeck(): void {
     if (contact) ys.push(snapScrollFor(contact));
     return ys;
   };
-  const projectKeys = (): string[] => {
-    const keys = ["about"];
-    const seen = new Set<string>();
-    for (const c of cards) {
-      const s = c.dataset.section ?? "";
-      if (s && !seen.has(s)) {
-        seen.add(s);
-        keys.push(s);
-      }
-    }
-    if (contact) keys.push("contact");
-    return keys;
-  };
   const yForKey = (key: string): number => {
     if (key === "about") return 0;
     if (key === "contact") return contact ? snapScrollFor(contact) : 0;
@@ -362,11 +377,10 @@ export function initDeck(): void {
     if (next !== i) glideTo(ys[next]);
   };
   const stepProject = (dir: number) => {
-    const keys = projectKeys();
-    let i = keys.indexOf(lastSection);
+    let i = sectionOrder.indexOf(lastSection);
     if (i === -1) i = 0;
-    const next = Math.min(keys.length - 1, Math.max(0, i + dir));
-    if (next !== i) glideTo(yForKey(keys[next]));
+    const next = Math.min(sectionOrder.length - 1, Math.max(0, i + dir));
+    if (next !== i) glideTo(yForKey(sectionOrder[next]));
   };
   window.addEventListener("keydown", (event) => {
     if (event.repeat || event.metaKey || event.ctrlKey || event.altKey) return;
@@ -404,7 +418,7 @@ export function initDeck(): void {
   })();
   if (shouldRestore && savedScroll !== null) {
     window.scrollTo(0, parseFloat(savedScroll));
-  } else if (initialHash && initialHash !== "about" && projectKeys().includes(initialHash)) {
+  } else if (initialHash && initialHash !== "about" && sectionOrder.includes(initialHash)) {
     window.scrollTo(0, yForKey(initialHash));
   }
 }
