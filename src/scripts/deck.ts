@@ -120,16 +120,16 @@ export function initDeck(): void {
   computeSpacing();
   window.addEventListener("resize", computeSpacing);
 
-  // The coverflow is a desktop experience: on tablet/phone (<= 960px) — and when
-  // the user prefers reduced motion — the deck falls back to a plain static list
-  // (no per-card transforms, no snap; see responsive.css). Scroll-driven scrubbed
-  // transforms feel janky under touch, and a tight static stack reads cleaner.
-  const animate = !prefersReduced() && window.innerWidth > 960;
+  // The coverflow is a desktop experience: on tablet/phone (<= 960px wide), in a
+  // short window (<= 800px tall) — and when the user prefers reduced motion — the
+  // deck falls back to a plain static list (no per-card transforms, no snap; see
+  // responsive.css). Scroll-driven scrubbed transforms feel janky under touch, and
+  // a card that fills a short viewport has no room to enter, hold, and hand off.
+  const coverflow = window.matchMedia("(min-width: 961px) and (min-height: 801px)");
+  const animate = !prefersReduced() && coverflow.matches;
   // The decision is made once here, so crossing the breakpoint needs a reload to
   // re-wire (or tear down) the per-card ScrollTriggers.
-  window
-    .matchMedia("(min-width: 961px)")
-    .addEventListener("change", () => location.reload());
+  coverflow.addEventListener("change", () => location.reload());
 
   if (animate) {
     for (const card of cards) {

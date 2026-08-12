@@ -15,18 +15,23 @@
    deck.ts). Overrides the is-about / is-collapsed states. */
 .side-nav.is-hidden { display: none; }
 
-/* --- Tablet / phone ( <= 960px ): static deck ----------------------------
+/* --- Tablet / phone / short window ( <= 960px wide OR <= 800px tall ) -----
    No coverflow transforms or snap here (see deck.ts), so the cards are a plain
-   vertical list. Drop the big animated-view gap for a tight stack + small tail. */
-@media (max-width: 960px) {
+   vertical list. A short window is as unworkable for the coverflow as a narrow
+   one — the card fills the height with no room to enter, hold, and hand off — so
+   it drops to the same static fallback. Drop the big animated-view gap for a
+   tight stack + small tail. */
+@media (max-width: 960px), (max-height: 800px) {
   :root {
     --page-padding-x: var(--space-lg);
     --space-3xl: 5rem;
-    /* The deck switches to a static 78vw card here, so the hero/header column
-       follows the CARD width (not the desktop height-driven --container-max) —
-       this keeps the brand/headline on the card's left edge and Contact on its
-       right edge, instead of the column overshooting the narrower cards. */
-    --container-max: 78vw;
+    /* The static card width, shared by the deck and by the hero/header column so
+       the brand/headline sits on the card's left edge and Contact on its right,
+       instead of the column overshooting the narrower cards. The svh term only
+       binds on a wide-but-short window, where a flat 78vw card would be far
+       taller than the viewport that triggered the fallback. */
+    --static-card-w: min(78vw, calc(78svh * 16 / 9));
+    --container-max: var(--static-card-w);
   }
   /* The hero is a scroll-snap target only above 960px; here it's just the top of
      a document, and its copy is short — so holding a full viewport left a dead
@@ -53,7 +58,7 @@
 
   /* --card-w drives both the card width AND the text-card 16:9 min-height below,
      so they stay in sync when the width changes per breakpoint. */
-  .deck__viewport { --card-w: 78vw; }
+  .deck__viewport { --card-w: var(--static-card-w); }
   .deck__card { width: var(--card-w); }
   /* The contact row wraps at these widths (photo above the copy, via
      wrap-reverse). Once the photo is on its own row it should read as the deck's
@@ -134,12 +139,11 @@
   }
 }
 
-/* Cards (width-driven for a true 16:9) need to widen on small screens. The
-   text-card width + 16:9 min-height both follow --card-w. */
+/* Cards (width-driven for a true 16:9) need to widen on small screens. Both the
+   deck and the hero/header column follow --static-card-w (set above), so widening
+   it here carries the card, its 16:9 text-card min-height, and the column. */
 @media (max-width: 760px) {
-  .deck__viewport { --card-w: 90vw; }
-  /* Card widens to 90vw here — keep the hero/header column matched to it. */
-  :root { --container-max: 90vw; }
+  :root { --static-card-w: min(90vw, calc(78svh * 16 / 9)); }
 
   /* The hero copy is taller than the viewport here, so centring overflows UP
      under the fixed header (headline collides with the brand). Start it below
