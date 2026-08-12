@@ -2,23 +2,13 @@
 import Card from "./Card.astro";
 import { slides } from "../data/site";
 
-interface Props {
-  /** Home-page deck: only the slides given an `onIndex` position, in that order.
-   *  The full /work deck shows every non-index-only slide in authored order. */
-  index?: boolean;
-}
-
-const { index = false } = Astro.props;
-
-const shown = index
-  ? slides
-      .filter((s) => s.onIndex != null)
-      .sort((a, b) => (a.onIndex ?? 0) - (b.onIndex ?? 0))
-  : slides.filter((s) => !s.indexOnly);
+// One deck now — `indexOnly` slides were built for the retired home highlights
+// deck and stay out of it.
+const shown = slides.filter((s) => !s.indexOnly);
 ---
 
 <section class="deck" data-deck aria-label="Selected work">
   <div class="deck__viewport" data-deck-viewport>
-    {shown.map((slide, i) => <Card slide={slide} index={i} home={index} />)}
+    {shown.map((slide, i) => <Card slide={slide} index={i} />)}
   </div>
 </section>

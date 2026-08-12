@@ -8,10 +8,10 @@ export const site = {
 } as const;
 
 export const about = {
-  /** Home — the short greeting for the short (highlights) deck. */
+  /** / — the short greeting. */
   heading: "Hi, I'm Sean.",
-  /** /work — the longer greeting for the full portfolio. The opening word is
-   *  the tell for which depth of deck you've landed in. */
+  /** /work — the longer greeting. Both routes render the same page, so the
+   *  opening word is the only thing separating them. */
   headingFull: "Hello, I'm Sean.",
   paragraphs: [
     "Full stack designer with nearly two decades of diverse experience. Working on projects from checkout optimization to 0-to-1 app creation, in fashion and fintech, for startups and design firms.",

@@ -12,11 +12,9 @@ import ResultsCard from "./cards/ResultsCard.astro";
 interface Props {
   slide: Slide;
   index: number;
-  /** Home (index) deck — surfaces the project name in the mockup chin. */
-  home?: boolean;
 }
 
-const { slide, index, home = false } = Astro.props;
+const { slide, index } = Astro.props;
 const theme = slide.theme ?? "light";
 // The per-slide background paints the card fill for every kind EXCEPT mockup, where
 // it lives on the image frame instead (so the white notch/chin stay white).
@@ -36,7 +34,7 @@ const cardBackground =
   >
     {slide.kind === "bio" && <BioCard slide={slide} />}
     {slide.kind === "intro" && <IntroCard slide={slide} />}
-    {slide.kind === "mockup" && <MockupCard slide={slide} home={home} />}
+    {slide.kind === "mockup" && <MockupCard slide={slide} />}
     {slide.kind === "results" && <ResultsCard slide={slide} />}
   </article>
 </div>
