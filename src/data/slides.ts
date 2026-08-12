@@ -70,21 +70,18 @@ export interface Slide {
   /** Any CSS `background` value painted behind the card content, overriding the
    *  default light/dark fill — e.g. a gradient behind a contained device mockup. */
   background?: string;
-  /** Position of this slide on the home (index) page deck, 1-based. Absent → the
-   *  slide does NOT appear on the home deck. Present slides render in ascending
-   *  `onIndex` order (so 1 leads, then 2, …). Duplicate numbers aren't guarded
-   *  against — just don't reuse one. */
+  /** Position on the retired home highlights deck, 1-based. Nothing reads it now
+   *  that / and /work render the same deck — kept only as a record of the order. */
   onIndex?: number;
-  /** Show this slide ONLY on the home (index) page, never in the full /work deck
-   *  (e.g. the index-only "Latest Work" opener). Implies it's excluded from /work. */
+  /** Was home-deck-only, so it renders nowhere now that deck is gone (e.g. the
+   *  "Latest work" opener). Held here rather than deleted. */
   indexOnly?: boolean;
 }
 
 export const slides: Slide[] = [
-  // --- Index opener (home page only) -------------------------------------
-  // A title card that leads the home-page deck (onIndex: 1). `indexOnly` keeps it
-  // out of the full /work deck; being first, it's data-index 0 — so it owns the
-  // first-load intro animation.
+  // --- Index opener (retired) ---------------------------------------------
+  // Led the old home-page highlights deck. `indexOnly` now means it renders
+  // nowhere — kept in case the shorter deck comes back.
   {
     id: "index-latest",
     section: "latest",
@@ -431,8 +428,8 @@ export const slides: Slide[] = [
   },
 
   // --- Salesforce --------------------------------------------------------
-  // The full case study was retired from /work; only this one screen survives,
-  // as a home-deck slide (hence `indexOnly`).
+  // The full case study was retired from /work and this lone surviving screen
+  // ran on the home deck, so `indexOnly` now keeps it off the page entirely.
   {
     id: "salesforce-3",
     section: "salesforce",

@@ -1,27 +1,5 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import TopNav from "../components/TopNav.astro";
-import SideNav from "../components/SideNav.astro";
-import Hero from "../components/Hero.astro";
-import Deck from "../components/Deck.astro";
-import LogoStrip from "../components/LogoStrip.astro";
-import Contact from "../components/Contact.astro";
-import { navSections } from "../data/site";
+import PortfolioPage from "../layouts/PortfolioPage.astro";
 ---
 
-<Layout title="Portfolio — Sean Curran">
-  {/* Sections → the mobile hamburger. The home deck isn't sectioned, so its
-      TopNav gets none and renders no button. */}
-  <TopNav sections={navSections} />
-  <SideNav />
-
-  <main>
-    {/* Hero + strip are one opening view — see .opening in deck.css. */}
-    <div class="opening">
-      <Hero full />
-      <LogoStrip />
-    </div>
-    <Deck />
-    <Contact />
-  </main>
-</Layout>
+<PortfolioPage title="Portfolio — Sean Curran" full />

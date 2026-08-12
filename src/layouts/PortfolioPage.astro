@@ -1,0 +1,37 @@
+---
+/* The page. `/` and `/work` both render this — the only thing that differs is the
+   hero greeting, so the two routes stay in step without being kept in sync by
+   hand. Add a prop here when they need to diverge again. */
+import Layout from "./Layout.astro";
+import TopNav from "../components/TopNav.astro";
+import SideNav from "../components/SideNav.astro";
+import Hero from "../components/Hero.astro";
+import Deck from "../components/Deck.astro";
+import LogoStrip from "../components/LogoStrip.astro";
+import Contact from "../components/Contact.astro";
+import { navSections } from "../data/site";
+
+interface Props {
+  title: string;
+  /** Greet with "Hello" instead of "Hi" — /work's longer opening. */
+  full?: boolean;
+}
+
+const { title, full = false } = Astro.props;
+---
+
+<Layout title={title}>
+  {/* Sections → the mobile hamburger; the side rail is the desktop way in. */}
+  <TopNav sections={navSections} />
+  <SideNav />
+
+  <main>
+    {/* Hero + strip are one opening view — see .opening in deck.css. */}
+    <div class="opening">
+      <Hero full={full} />
+      <LogoStrip />
+    </div>
+    <Deck />
+    <Contact />
+  </main>
+</Layout>

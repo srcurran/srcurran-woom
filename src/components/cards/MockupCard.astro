@@ -1,20 +1,12 @@
 ---
 import type { Slide } from "../../data/slides";
-import { navSections } from "../../data/navigation";
 
 interface Props {
   slide: Slide;
-  /** On the home deck, prefix the chin title with the project name (Foyer • …),
-   *  since cards there jump between projects. The /work deck is grouped by project,
-   *  so the prefix would be redundant. */
-  home?: boolean;
 }
 
-const { slide, home = false } = Astro.props;
+const { slide } = Astro.props;
 const media = slide.media?.[0];
-
-const project = home ? navSections.find((s) => s.id === slide.section)?.label : undefined;
-const chinTitle = project && slide.heading ? `${project} • ${slide.heading}` : slide.heading;
 ---
 
 {
@@ -72,7 +64,7 @@ const chinTitle = project && slide.heading ? `${project} • ${slide.heading}` :
     /* Caption chin — title bottom-left, tasks bottom-right (wraps to its own line
        when the pair is too long; see .slide__chin in deck.css). */
     <div class="slide__chin">
-      {slide.heading && <p class="slide__chin-title body">{chinTitle}</p>}
+      {slide.heading && <p class="slide__chin-title body">{slide.heading}</p>}
       {slide.tasks && <p class="slide__chin-tasks body">{slide.tasks}</p>}
     </div>
   )
