@@ -1,17 +1,9 @@
-/* ============================================================================
-   COMPONENTS — specific, named building blocks for the dark gallery stage.
-   Card + deck visuals live in deck.css; this file is chrome: nav, buttons,
-   footer. Extend with modifier classes: <a class="button small warning">.
-   ========================================================================== */
-
-/* --- App shell ------------------------------------------------------------ */
 .page {
   width: 100%;
   margin-inline: auto;
   padding-inline: var(--page-padding-x);
 }
 
-/* --- Top navigation (fixed; transparent over hero, tints once scrolled) --- */
 .site-header {
   position: fixed;
   inset: 0 0 auto 0;
@@ -20,9 +12,7 @@
   color: var(--color-ink);
   background: transparent;
   border-bottom: 1px solid transparent;
-  /* Pad the OUTER bar so the tint/border still span full width, but the inner
-     row mirrors the hero's padding model (padding outside, content inside) — see
-     below. */
+
   padding-inline: var(--page-padding-x);
   transition: background var(--duration-base) var(--ease-out),
               border-color var(--duration-base) var(--ease-out);
@@ -32,12 +22,7 @@
   backdrop-filter: saturate(160%) blur(14px);
   border-bottom-color: var(--color-border);
 }
-/* Constrain the brand + Contact to the SAME centred column as the hero/cards
-   (`--container-max`), so the brand's left edge lines up with the headline and
-   the content below it — instead of the brand hugging the page padding while the
-   centred content sits indented (the misalignment in the ~760–890px band). The
-   .page padding is dropped here; the outer .site-header pads instead, matching
-   .hero (pad outside, centre the inner) so the two left edges resolve equal. */
+
 .site-header__inner {
   max-width: var(--container-max);
   padding-inline: 1cqw;
@@ -59,31 +44,18 @@
 .brand__role { color: var(--color-ink-muted); }
 
 .header-link {
-  padding: 0; /* also used on a <button> invoker — strip default button padding */
+  padding: 0;
   font-weight: var(--weight-medium);
   color: var(--color-ink-muted);
   transition: color var(--duration-fast) var(--ease-out);
 }
 .header-link:hover { color: var(--color-ink); }
 
-/* --- Contact menu (popover under the top-nav "Contact" button) ------------
-   Native popover: top-layer, with built-in light-dismiss (click-away) + Esc.
-   Positioned fixed under the header, right-aligned with the button. */
 .header-contact .header-link { anchor-name: --contact-invoker; }
 .contact-menu {
   position: fixed;
   position-anchor: --contact-invoker;
   top: calc(var(--header-height) - var(--space-sm));
-  /* A top-layer popover is positioned against the viewport, never against the
-     header — so a plain `right` inset drifts away from the button as soon as
-     .site-header__inner stops filling the width and centres at --container-max
-     (i.e. every wide screen). Two ways to land on the button's right edge, in
-     cascade order: recompute the column edge (page padding until the column
-     caps, half the leftover once it does, + the inner's own 1cqw = 1svw), then
-     let `anchor()` say it directly where it's supported. Browsers without
-     anchor positioning drop that line as invalid and keep the maths, which
-     resolves to the same edge — it's the tokens .site-header__inner lays itself
-     out with. */
   right: max(
     calc(var(--page-padding-x) + 1svw),
     calc((100% - var(--container-max)) / 2 + 1svw)
@@ -100,8 +72,6 @@
   backdrop-filter: blur(16px) saturate(160%);
   box-shadow: var(--elevation-3);
   color: var(--color-ink);
-  /* Closed → open fade + slide (popover is display:none when closed, so the
-     discrete display/overlay steps are allowed; degrades to an instant show). */
   opacity: 0;
   transform: translateY(-6px);
   transition: opacity var(--duration-fast) var(--ease-out),
@@ -109,11 +79,8 @@
               overlay var(--duration-fast) var(--ease-out) allow-discrete,
               display var(--duration-fast) var(--ease-out) allow-discrete;
 }
-/* Fallback-only correction: on a sectioned page the hamburger's <nav> stays in
-   the actions row at every width — zero-width once the toggle hides, but still
-   worth a flex gap — so the button sits one gap inboard of the column edge the
-   maths above finds. `anchor()` measures the button itself and ignores this. */
-.site-header.has-section-menu .contact-menu {
+
+.site-header .contact-menu {
   right: calc(
     max(
       calc(var(--page-padding-x) + 1svw),
@@ -162,33 +129,19 @@
   color: var(--color-ink);
 }
 
-/* --- Mobile sections menu (the hamburger) ---------------------------------
-   The side rail is the desktop way into the sections, but it needs a left
-   gutter to live in, and deck.ts hides it once the centred cards leave too
-   little. In practice that hands over at the 760px breakpoint, where the cards
-   widen to 90vw and the gutter collapses — but the button keys off deck.ts's
-   measurement (the root gets `nav-rail-hidden`) rather than a breakpoint of its
-   own, so the two can never both show or both vanish. Default-hidden, so it
-   never flashes on a desktop first paint.
-
-   What it opens is the full-viewport sheet further down, not a dropdown. */
 .menu-toggle { display: none; }
 :root.nav-rail-hidden .menu-toggle {
   display: inline-flex;
   align-items: center;
-  /* Tap target around the 18px glyph, with the right edge pulled flush to the
-     header's padding so the bars line up with the content edge. */
+
   padding: var(--space-2xs);
   margin-right: calc(-1 * var(--space-2xs));
 }
-/* Contact is one of the sections, so once the menu is up it's in the bar twice.
-   The menu keeps it; the standalone button steps aside. Gated on the header
-   carrying a menu at all (`has-section-menu`, set by TopNav) — the home page
-   has no hamburger, so its Contact button must stay at every width. */
-:root.nav-rail-hidden .site-header.has-section-menu .header-contact {
+
+:root.nav-rail-hidden .site-header .header-contact {
   display: none;
 }
-/* Three bars: the middle one is the element, the outer two its pseudos. */
+
 .menu-toggle__bars,
 .menu-toggle__bars::before,
 .menu-toggle__bars::after {
@@ -208,17 +161,6 @@
 .menu-toggle__bars::before { top: -6px; }
 .menu-toggle__bars::after  { top: 6px; }
 
-/* --- Sections sheet (what the hamburger opens) ----------------------------
-   A full-viewport panel rather than a dropdown: at these widths the sections
-   ARE the navigation, so they get the whole screen and display-sized type.
-   Still a native popover, so Esc and click-away still close it for free, and
-   it sits in the top layer — above the fixed header, which is why it carries
-   its own close button.
-
-   The open/close is transitioned, which for a popover means two extras: the
-   discrete display/overlay steps need `allow-discrete` to be animatable at
-   all, and @starting-style supplies the "before open" values (without it the
-   panel would appear already-open and only animate on the way out). */
 .section-menu {
   position: fixed;
   inset: 0;
@@ -230,12 +172,11 @@
   padding: 0;
   border: 0;
   border-radius: 0;
-  /* Solid, not frosted like the contact dropdown: at full-viewport size the
-     deck behind ghosts through a translucent fill and muddies the type. */
+
   background: var(--color-bg);
   color: var(--color-ink);
   overflow-y: auto;
-  /* Don't hand the scroll on to the page behind once the sheet hits its end. */
+
   overscroll-behavior: contain;
   opacity: 0;
   transition: opacity var(--duration-base) var(--ease-out),
@@ -252,8 +193,7 @@
   min-height: 100%;
   padding-inline: var(--page-padding-x);
 }
-/* Same height + container as .site-header__inner, so the X sits exactly where
-   the hamburger was and the sheet reads as that button flipping open. */
+
 .section-menu__bar {
   display: flex;
   align-items: center;
@@ -273,7 +213,7 @@
   transition: color var(--duration-fast) var(--ease-out);
 }
 .section-menu__close:hover { color: var(--color-ink); }
-/* Two bars crossed — same 18px glyph box as the hamburger it replaces. */
+
 .section-menu__close-glyph {
   position: relative;
   display: block;
@@ -307,9 +247,7 @@
   padding-inline: 1cqw;
   padding-block: var(--space-2xl);
 }
-/* Rows rise in one after another (--i, set per item in TopNav). The delay lives
-   in the open rule only, so closing collapses them together instead of
-   replaying the stagger in reverse. */
+
 .section-menu__item {
   opacity: 0;
   translate: 0 14px;
@@ -340,11 +278,9 @@
 }
 .section-menu__link:hover,
 .section-menu__link:focus-visible { color: var(--color-ink); }
-/* The active section is marked by deck.ts (.is-active, shared with the rail).
-   The type is already bold here, so colour alone carries it. */
+
 .section-menu__link.is-active { color: var(--color-ink); }
 
-/* Motion off → no slide or stagger; the sheet just appears. */
 @media (prefers-reduced-motion: reduce) {
   .section-menu,
   .section-menu__item {
@@ -354,21 +290,13 @@
   .section-menu__item { translate: none; }
 }
 
-/* --- Side navigation (fixed left, vertically centred) ---------------------
-   Two states, chosen by the room in the left gutter (deck.ts): full labels the
-   whole way down when they fit, otherwise a slim dash rail that comes up as a
-   blurred label panel on hover/tap. */
 .side-nav {
   position: fixed;
   left: var(--page-padding-x);
   top: 50%;
   translate: 0 -50%;
-  z-index: var(--z-sidenav); /* above the cards, so it can come up over them */
-  /* Padding + matching negative HORIZONTAL margin: room for the panel without
-     nudging the dashes' resting x (margin-left = -padding-left). Only the side
-     padding shrinks when collapsed (slim rail); the vertical padding stays fixed
-     so the centred box never changes height — a vertical margin here would, with
-     `translate:-50%`, shift the content up/down as the padding changes on hover. */
+  z-index: var(--z-sidenav);
+
   padding: var(--space-md);
   margin-inline: calc(-1 * var(--space-md));
   border-radius: var(--radius-lg);
@@ -378,8 +306,7 @@
               padding var(--duration-base) var(--ease-out),
               margin-inline var(--duration-base) var(--ease-out);
 }
-/* Minimized: tighter SIDE padding so the panel is a slim rail around the dashes
-   (vertical padding unchanged → no vertical shift on reveal). */
+
 .side-nav.is-collapsed:not(.is-revealed) {
   padding-inline: var(--space-xs);
   margin-inline: calc(-1 * var(--space-xs));
@@ -387,8 +314,7 @@
 .nav-link {
   display: flex;
   align-items: center;
-  /* Reserve a full text line so the row height is the SAME whether the label is
-     shown or hidden — otherwise revealing the text would grow the row. */
+
   min-height: calc(var(--leading-normal) * 1em + var(--space-2xs));
   color: var(--color-ink-muted);
   transition: color var(--duration-fast) var(--ease-out);
@@ -398,9 +324,7 @@
   color: var(--color-ink);
   font-weight: var(--weight-semibold);
 }
-/* Structural vertical dash — a faint tick shown in EVERY state (the rail), all
-   one size + column, so it never shifts. The ACTIVE section is marked by the
-   sliding bar below, not by brightening a dash. */
+
 .nav-link__dash {
   flex: none;
   width: 3px;
@@ -409,11 +333,7 @@
   background: currentColor;
   opacity: 0.35;
 }
-/* Active marker — a single bar that SLIDES between rows as the active section
-   changes (the smooth motion), positioned by JS via --marker-y. The rows are
-   fixed-height, so it lands on the same spot whether collapsed or expanded and
-   never drifts. Overlays the active row's faint dash, so it reads as that dash
-   lighting up + gliding. */
+
 .side-nav__list { position: relative; }
 .side-nav__list::before {
   content: "";
@@ -428,38 +348,30 @@
   transition: transform var(--duration-base) var(--ease-out);
   pointer-events: none;
 }
-/* Label — just shown/hidden. Removing it from layout (display:none) lets the nav
-   shrink to the dash rail when minimized; it returns when expanded/revealed. */
+
 .nav-link__label {
-  margin-left: var(--space-sm); /* dash → label gap; collapses with the label */
+  margin-left: var(--space-sm);
   max-width: 12rem;
   overflow: hidden;
   white-space: nowrap;
-  line-height: var(--leading-normal); /* matches the row's reserved min-height */
+  line-height: var(--leading-normal);
   transition: max-width var(--duration-base) var(--ease-out),
               margin-left var(--duration-base) var(--ease-out),
               opacity var(--duration-base) var(--ease-out);
 }
-/* Minimized: the label animates AWAY (width + fade) rather than vanishing, so
-   revealing it on hover is a smooth grow/fade — not an instant pop. The dash rail
-   stays put; the panel grows/shrinks with the label (padding also transitions). */
+
 .side-nav.is-collapsed:not(.is-revealed) .nav-link__label {
   max-width: 0;
   margin-left: 0;
   opacity: 0;
 }
 
-/* Blurred panel wraps the nav in BOTH states: a slim rounded rail around the
-   dashes when minimized, expanding to fit the labels when revealed. (In a gutter
-   wide enough for the labels — neither collapsed nor revealed — it stays
-   transparent with full labels.) */
 .side-nav.is-collapsed,
 .side-nav.is-revealed {
   background: color-mix(in srgb, var(--color-bg) 72%, transparent);
   backdrop-filter: blur(14px) saturate(160%);
 }
 
-/* --- Button --------------------------------------------------------------- */
 .button {
   display: inline-flex;
   align-items: center;
@@ -494,7 +406,6 @@
 }
 .button.warning:hover { background: var(--color-warning-hover); border-color: var(--color-warning-hover); }
 
-/* --- Footer / end --------------------------------------------------------- */
 .site-footer {
   position: relative;
   z-index: 1;
@@ -509,51 +420,18 @@
 }
 .footer-link:hover { color: var(--color-ink); }
 
-/* --- Logo strip ("where I've worked") -------------------------------------
-   The logos as marks on the page — an "as seen in" strip under the intro copy —
-   rather than a deck card. Every asset is full-strength black artwork with no
-   background of its own, so the page shows through and the knock-back is applied
-   once here rather than baked per-asset.
-
-   Marks are sized by HEIGHT, with width following from the asset's own aspect —
-   sizing on width let a 1:1 square mark run three times the height of a 7:1
-   wordmark. One height for all of them: the optical correction lives inside the
-   artwork, not in a multiplier here (see data/logos.ts).
-
-   The row LOOPS: it runs full-bleed, wider than the page, and slides left
-   forever (see LogoStrip.astro for how the seam is hidden). */
 .logo-strip {
-  /* THE size knob, and deliberately a plain length rather than a multiple of
-     some unit: every asset is a 40px-tall normalised box straight out of Figma,
-     so 40px here renders the marks at exactly the size they were normalised at,
-     1:1 with the source. The visible logo sits smaller inside that box by
-     design. Trimmed on phones (responsive.css), full size everywhere else. */
   --logo-strip-mark-h: 40px;
-  /* Cadence: the air between marks, in proportion to the mark height so the two
-     never drift apart. Generous — the marks are all different widths, so a tight
-     gap makes the row read as an uneven clump rather than a steady beat. */
+
   --logo-strip-gap: calc(1.05 * var(--logo-strip-mark-h));
-  /* One pass per logo, so ADDING marks lengthens the loop instead of speeding it
-     up: the row always drifts past at the same rate (~45px/s — slow enough to
-     read a mark without tracking it). */
+
   --logo-strip-duration: calc(var(--logo-count, 12) * 3.5s);
-  /* Symmetric by default. Inside the opening view the copy above sets the top
-     space, so that context overrides both (see .opening). */
+
   padding-block: var(--logo-strip-pad-top, var(--space-3xl))
                  var(--logo-strip-pad-bottom, var(--space-3xl));
   background: var(--color-bg);
 }
-/* The window the loop runs through. It spans the full page width, but the fade is
-   ANCHORED to the content column: the ramp is centred on the column's edge, so a
-   mark is exactly half faded as it crosses the same line the copy and the cards
-   start on, and carries a little way past it before it's gone. Clipping hard at
-   the column instead makes the row look boxed; putting the midpoint there keeps
-   it tied to the layout while letting the marks bleed.
 
-   --fade is the ramp's HALF width, so the full dissolve is twice it, straddling
-   the column edge. Capped at the gutter so the ramp can never start off-screen
-   (which would cut the marks flat at the viewport edge), and narrow enough that
-   it's fully transparent by the time it reaches the side nav out in the gutter. */
 .logo-strip__inner {
   overflow: hidden;
   --gutter: max(0px, calc((100% - var(--container-max)) / 2));
@@ -570,15 +448,13 @@
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  /* Wider than the page on purpose — it holds two copies of the row. */
+
   width: max-content;
   gap: var(--logo-strip-gap);
   animation: logo-strip-loop var(--logo-strip-duration) linear infinite;
   will-change: transform;
 }
-/* Slide by exactly ONE copy. The track is N copies joined by N*13-1 gaps, so its
-   width is N periods minus one gap — which makes a period (100% + gap) / N.
-   Land anywhere else and the row visibly jumps on repeat. */
+
 @keyframes logo-strip-loop {
   to {
     transform: translateX(calc(
@@ -586,23 +462,9 @@
     ));
   }
 }
-/* Hold it still to read a mark. */
-.logo-strip:hover .logo-strip__marks { animation-play-state: paused; }
-/* No drift: the strip stays the SAME single row as the animated one — never a
-   wrapped grid, which reads as a different layout rather than the same one at
-   rest — but panning it becomes the reader's, by hand: the window turns into a
-   plain horizontal scroller. The loop's duplicate copies drop away so the
-   scroll ends at the LAST mark instead of running on into repeats.
 
-   Alignment: at rest the first mark sits EXACTLY on the content column's left
-   edge, flush with the copy above it. The base mask can't allow that — its ramp
-   straddles the column edge, so a mark there is half-dissolved — so the ramps
-   move instead of the marks: each one is shifted fully OUTBOARD, ending opaque
-   at the column edge it used to straddle (same 2·--fade width, clamped at the
-   viewport so a squeezed gutter steepens the ramp rather than slicing marks
-   flat). The track then pads to just the gutter, and the fades keep working as
-   the "there's more" affordance once the row is scrolled — marks dissolve as
-   they cross into the gutter, before the viewport edge cuts them. */
+.logo-strip:hover .logo-strip__marks { animation-play-state: paused; }
+
 @media (prefers-reduced-motion: reduce) {
   .logo-strip__inner {
     overflow-x: auto;
@@ -616,29 +478,16 @@
   }
   .logo-strip__marks {
     animation: none;
-    /* + 1cqw: the hero copy sits 1cqw inside the column (.hero__content's
-       padding), so the resting first mark matches the TEXT's left edge, not
-       just the column's. Neither element has a query container, so 1cqw
-       resolves identically (1% of small viewport width) in both places. */
+
     padding-inline: calc(var(--gutter) + 1cqw);
-    /* Centre the single pass when it happens to fit the window; auto margins
-       collapse to zero once it overflows, so the scroll origin stays on the
-       first mark. */
+
     margin-inline: auto;
   }
   .logo-strip__item[aria-hidden="true"] { display: none; }
 }
-/* Never shrink — a flex shrink would squash the marks out of their aspect. */
-.logo-strip__item { flex: none; }
-/* ONE height for every mark, with width following from the asset's own aspect.
-   That's all it takes now: each asset is a shared 40:x box with the mark seated
-   inside it at its optically-corrected size, so equal box height IS equal
-   presence (see data/logos.ts). --mark-h is an escape hatch and normally unset.
 
-   One knock-back for every mark too — a second opacity for the first few read as
-   the assets being different colours rather than as billing, since a flat
-   opacity can't equalise marks whose ink density runs from a hairline serif to a
-   filled square. */
+.logo-strip__item { flex: none; }
+
 .logo-strip__mark {
   display: block;
   width: auto;

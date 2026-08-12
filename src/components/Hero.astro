@@ -2,11 +2,9 @@
 import { about } from "../data/site";
 
 interface Props {
-  /** /work rather than / — greets with "Hello" instead of "Hi". The two routes
-   *  are otherwise the same page; this is where they're free to drift. */
+  /** /work rather than / — greets with "Hello" instead of "Hi". */
   full?: boolean;
 }
-
 const { full = false } = Astro.props;
 const heading = full ? about.headingFull : about.heading;
 ---

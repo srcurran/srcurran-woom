@@ -2,10 +2,6 @@
 import { navSections } from "../data/site";
 ---
 
-{/* Ships collapsed: the slim dash rail is the one state that's safe at every
-    width, so it's what shows before deck.ts measures the gutter and picks the
-    real state (expanded labels would overlap the hero copy in narrow gutters
-    until then). syncNav() toggles the class both ways on init. */}
 <nav class="side-nav is-collapsed" aria-label="Sections" data-side-nav>
   <ul class="side-nav__list stack gap-3xs">
     {

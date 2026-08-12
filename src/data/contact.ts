@@ -1,6 +1,5 @@
 import { site } from "./meta";
 
-/** Footer (the contact closer). */
 export const footerContent = {
   heading: "Reach out",
   location: "Based in Portland, Maine 🦞",
@@ -12,7 +11,6 @@ export interface FooterLink {
   href: string;
 }
 
-/** Contact methods shown in the top-nav "Contact" menu. */
 export interface ContactLink {
   label: string;
   href: string;

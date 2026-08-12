@@ -6,7 +6,6 @@ interface Props {
   title?: string;
   description?: string;
 }
-
 const {
   title = `${site.name} — ${site.role}`,
   description = `Portfolio of ${site.name}, ${site.role}.`,
@@ -23,29 +22,15 @@ const {
     <meta name="description" content={description} />
     <title>{title}</title>
 
-    {/* Type system from the Figma: Poppins (display) + Merriweather (serif body).
-        Merriweather also carries 700 + italic 300 for the inline emphasis marks in
-        card copy (**bold** / _italic_ — see lib/emphasize.ts), so the browser never
-        has to synthesise either one. */}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Poppins:wght@600;700&display=swap"
       rel="stylesheet"
     />
-    {/* Flag JS as available before paint so reveal elements hide without a flash.
-        `play-intro` is added only on the first load of a browser session (a new
-        hard visit); the CSS guard (deck.css) hides the intro targets ONLY under it.
-        Reloads, HMR rebuilds, and reloading while scrolled all skip it — so the
-        title card never gets hidden and re-popped-in late. sessionStorage survives
-        reloads within a tab but resets when the tab/session ends. */}
+
     <script is:inline>
       document.documentElement.classList.add("js");
-      // Own scroll restoration: the deck deep-links to the hash's section on load
-      // (deck.ts). Left on the browser's default `auto`, that native restore races
-      // the deep-link and both get clobbered to the top — landing on the first card
-      // in its off-screen peek/enter state. `manual` makes the deep-link the sole
-      // authority, so reloads land the section centred.
       if ("scrollRestoration" in history) history.scrollRestoration = "manual";
       try {
         if (!sessionStorage.getItem("intro-seen")) {
@@ -57,8 +42,6 @@ const {
       }
     </script>
 
-    {/* Sending no consent signal is deliberate: Clarity then restricts itself in
-        the EEA/UK/CH, so those visitors aren't recorded and we need no banner. */}
     <script is:inline>
       (function (c, l, a, r, i, t, y) {
         c[a] =
