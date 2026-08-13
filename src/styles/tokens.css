@@ -20,6 +20,8 @@
   --slate-600: #5c5c63;
   --slate-950: #0d0d0f;
 
+  --sand-0: #fffcf8;
+
   --shadow-rgb: 10, 10, 10;
 
   --accent-500: #2f4cdd;
@@ -28,7 +30,9 @@
   --warning-500: #c2410c;
   --warning-600: #9a3412;
 
-  --color-bg: var(--gray-0);
+  --theme-deck: 0;
+  --theme-close: 0;
+
   --color-surface: var(--gray-25);
   --color-surface-alt: var(--white);
   --color-ink: var(--slate-950);
@@ -38,6 +42,7 @@
   --color-border-strong: rgba(0, 0, 0, 0.22);
   --color-placeholder: var(--slate-300);
   --color-notblack: var(--gray-850);
+  --color-card-edge: var(--gray-200);
   --color-accent: var(--accent-500);
   --color-accent-hover: var(--accent-600);
   --color-warning: var(--warning-500);
@@ -46,6 +51,27 @@
   --color-on-ink: var(--gray-0);
   --color-on-accent: var(--gray-0);
   --color-on-dark: var(--white);
+}
+
+:root,
+.theme-reset {
+  --deck-pct: calc(var(--theme-deck) * 100%);
+  --close-pct: calc(var(--theme-close) * 100%);
+
+  --color-bg: color-mix(
+    in srgb,
+    var(--sand-0) var(--close-pct),
+    color-mix(in srgb, var(--gray-50) var(--deck-pct), var(--gray-0))
+  );
+}
+
+.theme-reset {
+  --theme-deck: 0;
+  --theme-close: 0;
+}
+
+:root {
+  --color-veil: var(--color-bg);
 
   --gradient-lavender-peach: linear-gradient(
     to top right,
