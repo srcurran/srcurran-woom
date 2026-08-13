@@ -191,10 +191,9 @@ export function initDeck(): void {
   const LABEL_GUTTER = 180;
 
   const DECK_LABEL_GUTTER = LABEL_GUTTER + RANDOM.translate[1];
-  const heroInner = document.querySelector<HTMLElement>(".hero__inner");
   let gutter = window.innerWidth;
   const measureGutter = () => {
-    gutter = heroInner ? heroInner.getBoundingClientRect().left : window.innerWidth;
+    gutter = (window.innerWidth - cards[0].offsetWidth) / 2;
   };
   measureGutter();
   let lastSection = "";
