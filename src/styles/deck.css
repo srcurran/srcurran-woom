@@ -36,7 +36,7 @@
 
 .hero__inner {
   width: 100%;
-  max-width: var(--container-max);
+  max-width: var(--content-max);
   margin-inline: auto;
 }
 .hero__content {
@@ -46,7 +46,7 @@
   gap: var(--space-md);
   max-width: 62ch;
   text-align: left;
-  padding: 1cqw;
+  padding-block: 1cqw;
 }
 .hero__eyebrow {
   color: var(--color-ink-muted);
@@ -75,7 +75,7 @@
 
 .hero--end .hero__inner {
   display: flex;
-  flex-wrap: wrap-reverse;
+  flex-wrap: wrap;
   gap: var(--space-2xl);
   align-items: center;
 }
@@ -222,7 +222,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 7cqw 8.75cqw;
+  padding: 7cqw calc(var(--card-inset) * 1cqw);
 }
 .slide__heading {
   font-family: var(--font-display);
