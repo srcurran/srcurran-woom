@@ -285,7 +285,7 @@
 
 .side-nav {
   position: fixed;
-  left: var(--page-padding-x);
+  left: var(--space-sm);
   top: 50%;
   translate: 0 -50%;
   z-index: var(--z-sidenav);
