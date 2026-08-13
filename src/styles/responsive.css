@@ -8,8 +8,9 @@
   :root {
     --page-padding-x: var(--space-lg);
     --space-3xl: 5rem;
-    --static-card-w: min(78vw, calc(78svh * 16 / 9));
+    --static-card-w: min(78vw, var(--rail-max), max(92svh * 16 / 9, var(--card-min)));
     --container-max: var(--static-card-w);
+    --content-max: calc(var(--static-card-w) - 2 * var(--space-lg));
   }
 
   [data-hero].hero {
@@ -87,7 +88,10 @@
 }
 
 @media (max-width: 760px) {
-  :root { --static-card-w: min(90vw, calc(78svh * 16 / 9)); }
+  :root {
+    --static-card-w: min(90vw, calc(78svh * 16 / 9));
+    --content-max: min(90vw, var(--rail-max));
+  }
 
   .hero {
     justify-content: flex-start;

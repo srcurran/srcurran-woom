@@ -117,7 +117,11 @@
 
   --layout-max:     1600px;
 
-  --container-max:  min(90vw, 1180px, max(54svh * 16 / 9, 44rem));
+  --rail-max:       1180px;
+  --card-min:       800px;
+  --container-max:  min(90vw, var(--rail-max), max(54svh * 16 / 9, 44rem));
+  --card-inset:     8.75;
+  --content-max:    calc(var(--container-max) * (100 - 2 * var(--card-inset)) / 100);
   --page-padding-x: var(--space-xl);
   --sidenav-width:  220px;
   --header-height:  4.5rem;
