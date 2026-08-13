@@ -18,7 +18,13 @@ const cardBackground =
 
 <div class:list={["deck__slide", `deck__slide--${slide.kind}`]}>
   <article
-    class:list={["deck__card", "slide", `slide--${slide.kind}`, `slide--${theme}`]}
+    class:list={[
+      "deck__card",
+      "theme-reset",
+      "slide",
+      `slide--${slide.kind}`,
+      `slide--${theme}`,
+    ]}
     style={cardBackground}
     data-card
     data-index={index}
