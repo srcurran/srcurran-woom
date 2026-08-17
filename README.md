@@ -23,7 +23,7 @@ src/
 │   ├── logos.ts              # The "where I've worked" strip
 │   ├── slides.ts             # The deck: slide types + every slide
 │   └── contact.ts            # Footer + contact links
-├── lib/emphasize.ts          # Inline **bold** / _italic_ / __underline__ for card copy
+├── lib/emphasize.ts          # Inline **bold** / _italic_ / __highlight__ for card copy
 ├── layouts/
 │   ├── Layout.astro          # HTML shell — head, fonts, analytics, boots scripts
 │   └── PortfolioPage.astro   # The page both routes render

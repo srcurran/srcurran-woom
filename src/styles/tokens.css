@@ -21,6 +21,7 @@
   --slate-950: #0d0d0f;
 
   --sand-0: #fffcf8;
+  --butter-300: #ffd76a;
 
   --shadow-rgb: 10, 10, 10;
 
@@ -45,6 +46,8 @@
   --color-card-edge: var(--gray-200);
   --color-accent: var(--accent-500);
   --color-accent-hover: var(--accent-600);
+  --color-highlight: color-mix(in srgb, var(--butter-300) 52%, transparent);
+  --color-highlight-soft: color-mix(in srgb, var(--butter-300) 26%, transparent);
   --color-warning: var(--warning-500);
   --color-warning-hover: var(--warning-600);
 

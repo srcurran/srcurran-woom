@@ -7,9 +7,10 @@ export function emphasize(text: string): string {
     .replace(COMPOUND, (word) =>
       word.length > 16 ? word : `<span class="nobr">${word}</span>`,
     )
-    .replace(INLINE, (_match, bold, underline, starItalic, underItalic) => {
+    .replace(INLINE, (_match, bold, highlight, starItalic, underItalic) => {
       if (bold !== undefined) return `<strong>${bold}</strong>`;
-      if (underline !== undefined) return `<u class="slide__em">${underline}</u>`;
+      if (highlight !== undefined)
+        return `<mark class="slide__em">${highlight}</mark>`;
       return `<em>${starItalic ?? underItalic}</em>`;
     });
 }
