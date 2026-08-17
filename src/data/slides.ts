@@ -175,32 +175,57 @@ export const slides: Slide[] = [
     ],
   },
   {
-    id: "ohsee-pages",
+    id: "ohsee-app-overview",
     section: "ohsee",
     kind: "mockup",
-    heading: "Visual QA testing",
-    tasks: "Concept • design • development",
-    media: [{ src: "/work/ohsee-run.mp4", alt: "Ohsee Pages", type: "video" }],
-  },
-  {
-    id: "ohsee-diff",
-    section: "ohsee",
-    kind: "mockup",
-    onIndex: 3,
-    heading: "Page detail",
-    tasks: "Concept • design • development",
-    media: [{ src: "/work/ohsee-diff.mp4", alt: "Ohsee Diff", type: "video" }],
-  },
-  {
-    id: "ohsee-screns",
-    section: "ohsee",
-    kind: "mockup",
-    heading: "Responsive states",
+    heading: "Captured pages",
     tasks: "Concept • design • development",
     media: [
       {
-        src: "/work/ohsee-screens2.mp4",
-        alt: "Ohsee Screen Sizes",
+        src: "/work/ohsee-app-overview.mp4",
+        alt: "Ohsee's desktop app showing every captured page in a test, then opening one",
+        type: "video",
+      },
+    ],
+  },
+  {
+    id: "ohsee-app-diff",
+    section: "ohsee",
+    kind: "mockup",
+    heading: "Page detail",
+    tasks: "Concept • design • development",
+    media: [
+      {
+        src: "/work/ohsee-diff.mp4",
+        alt: "Ohsee's desktop app diffing a page beside its detected changes",
+        type: "video",
+      },
+    ],
+  },
+  {
+    id: "ohsee-run",
+    section: "ohsee",
+    kind: "mockup",
+    heading: "Capture and diff",
+    tasks: "Concept • design • development",
+    media: [
+      {
+        src: "/work/ohsee-cli-run.mp4",
+        alt: "Ohsee capturing and diffing a run from the terminal",
+        type: "video",
+      },
+    ],
+  },
+  {
+    id: "ohsee-compare",
+    section: "ohsee",
+    kind: "mockup",
+    heading: "Diff report",
+    tasks: "Concept • design • development",
+    media: [
+      {
+        src: "/work/ohsee-cli-compare.mp4",
+        alt: "Ohsee's report highlighting diffs beside a list of detected changes",
         type: "video",
       },
     ],
@@ -214,7 +239,7 @@ export const slides: Slide[] = [
     items: [
       "Has caught __dozens of bugs__ in my own work, before it shipped",
       "Works for designers and developers with __CLI and app__",
-      "Traacks the __visual history__ of your project",
+      "Tracks the __visual history__ of your project",
       "Built __code-first__, to meet my specific needs",
     ],
   },
