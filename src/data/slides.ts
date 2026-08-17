@@ -27,7 +27,7 @@ export interface Slide {
   kind: SlideKind;
   theme?: SlideTheme;
   heading?: string;
-  /** Serif copy. Takes inline **bold**, _italic_, __underline__ (lib/emphasize). */
+  /** Serif copy. Takes inline **bold**, _italic_, __highlight__ (lib/emphasize). */
   paragraphs?: string[];
   /** Credits pinned to the bottom of a title card. */
   meta?: SlideMetaRow[];
