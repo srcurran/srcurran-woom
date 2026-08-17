@@ -27,7 +27,7 @@ export interface Slide {
   kind: SlideKind;
   theme?: SlideTheme;
   heading?: string;
-  /** Serif copy. Takes inline **bold**, _italic_, __underline__ (lib/emphasize). */
+  /** Serif copy. Takes inline **bold**, _italic_, __highlight__ (lib/emphasize). */
   paragraphs?: string[];
   /** Credits pinned to the bottom of a title card. */
   meta?: SlideMetaRow[];
@@ -159,6 +159,85 @@ export const slides: Slide[] = [
   },
 
   {
+    id: "hawthorne-intro",
+    section: "hawthorne",
+    kind: "intro",
+    theme: "dark",
+    heading: "Hawthorne",
+    meta: [{ label: "Role", value: "Product Designer" }],
+    paragraphs: [
+      "I joined Hawthorne, a D2C men's grooming startup, to work product-side after decade+ of working at agencies and design firms.",
+      "With a wealth of e-commerce experience, it was a natural fit that unlocked new ways of working: iterating on live design, managing internal bandwidth, and real time insights into customers/data.",
+    ],
+  },
+  {
+    id: "hawthorne-device",
+    section: "hawthorne",
+    kind: "mockup",
+    theme: "dark",
+    fit: "contain",
+    onIndex: 4,
+    heading: "Quiz results prototype",
+    tasks: "Concept • design • interaction patterns",
+    media: [
+      {
+        src: "/work/hawthorne-video.mp4",
+        alt: "Hawthorne quiz result",
+        type: "video",
+        rounded: true,
+      },
+    ],
+  },
+  {
+    id: "hawthorne-1",
+    section: "hawthorne",
+    kind: "mockup",
+    heading: "Concept sketches (quiz results)",
+    tasks: "Exploration • user flows • interaction patterns",
+    onIndex: 7,
+    media: [
+      { src: "/work/hawthorne-1.jpg", alt: "Quiz result concept sketches" },
+    ],
+  },
+  {
+    id: "hawthorne-2",
+    section: "hawthorne",
+    kind: "mockup",
+    heading: "Quiz results redesign",
+    tasks: "User feedback • design optimization",
+    media: [{ src: "/work/hawthorne-2.jpg", alt: "Revised quiz results" }],
+  },
+  {
+    id: "hawthorne-3",
+    section: "hawthorne",
+    kind: "mockup",
+    heading: "Website and CMS design",
+    tasks: "Project leadership • design",
+    media: [{ src: "/work/hawthorne-3.jpg", alt: "Website and CMS design" }],
+  },
+  {
+    id: "hawthorne-4",
+    section: "hawthorne",
+    kind: "mockup",
+    heading: "E-commerce design",
+    tasks: "Site design and optimization",
+    media: [{ src: "/work/hawthorne-4.jpg", alt: "E-commerce design" }],
+  },
+  {
+    id: "hawthorne-results",
+    section: "hawthorne",
+    kind: "results",
+    theme: "light",
+    heading: "Hawthorne results",
+    items: [
+      "0-to-1 launch of a __direct-buy channel__ for customers",
+      "__Increased subscriptions 15%__ from quiz results redesign",
+      "Led CMS redesign to update the site __faster and cheaper__",
+      "__Average session value__ was the top line metric I owned",
+    ],
+  },
+
+  {
     id: "ohsee-intro",
     section: "ohsee",
     kind: "intro",
@@ -241,85 +320,6 @@ export const slides: Slide[] = [
       "Works for designers and developers with __CLI and app__",
       "Tracks the __visual history__ of your project",
       "Built __code-first__, to meet my specific needs",
-    ],
-  },
-
-  {
-    id: "hawthorne-intro",
-    section: "hawthorne",
-    kind: "intro",
-    theme: "dark",
-    heading: "Hawthorne",
-    meta: [{ label: "Role", value: "Product Designer" }],
-    paragraphs: [
-      "I joined Hawthorne, a D2C men's grooming startup, to work product-side after decade+ of working at agencies and design firms.",
-      "With a wealth of e-commerce experience, it was a natural fit that unlocked new ways of working: iterating on live design, managing internal bandwidth, and real time insights into customers/data.",
-    ],
-  },
-  {
-    id: "hawthorne-device",
-    section: "hawthorne",
-    kind: "mockup",
-    theme: "dark",
-    fit: "contain",
-    onIndex: 4,
-    heading: "Quiz results prototype",
-    tasks: "Concept • design • interaction patterns",
-    media: [
-      {
-        src: "/work/hawthorne-video.mp4",
-        alt: "Hawthorne quiz result",
-        type: "video",
-        rounded: true,
-      },
-    ],
-  },
-  {
-    id: "hawthorne-1",
-    section: "hawthorne",
-    kind: "mockup",
-    heading: "Concept sketches (quiz results)",
-    tasks: "Exploration • user flows • interaction patterns",
-    onIndex: 7,
-    media: [
-      { src: "/work/hawthorne-1.jpg", alt: "Quiz result concept sketches" },
-    ],
-  },
-  {
-    id: "hawthorne-2",
-    section: "hawthorne",
-    kind: "mockup",
-    heading: "Quiz results redesign",
-    tasks: "User feedback • design optimization",
-    media: [{ src: "/work/hawthorne-2.jpg", alt: "Revised quiz results" }],
-  },
-  {
-    id: "hawthorne-3",
-    section: "hawthorne",
-    kind: "mockup",
-    heading: "Website and CMS design",
-    tasks: "Project leadership • design",
-    media: [{ src: "/work/hawthorne-3.jpg", alt: "Website and CMS design" }],
-  },
-  {
-    id: "hawthorne-4",
-    section: "hawthorne",
-    kind: "mockup",
-    heading: "E-commerce design",
-    tasks: "Site design and optimization",
-    media: [{ src: "/work/hawthorne-4.jpg", alt: "E-commerce design" }],
-  },
-  {
-    id: "hawthorne-results",
-    section: "hawthorne",
-    kind: "results",
-    theme: "light",
-    heading: "Hawthorne results",
-    items: [
-      "0-to-1 launch of a __direct-buy channel__ for customers",
-      "__Increased subscriptions 15%__ from quiz results redesign",
-      "Led CMS redesign to update the site __faster and cheaper__",
-      "__Average session value__ was the top line metric I owned",
     ],
   },
 
