@@ -1,4 +1,4 @@
-export type SlideKind = "bio" | "intro" | "mockup" | "results";
+export type SlideKind = "bio" | "intro" | "mockup" | "quote" | "results";
 export type SlideTheme = "dark" | "light";
 
 export interface SlideMedia {
@@ -33,6 +33,8 @@ export interface Slide {
   meta?: SlideMetaRow[];
   /** Disciplines listed in a mockup card's caption chin. */
   tasks?: string;
+  /** Reviewer credit on a quote card ("name · date"). */
+  attribution?: string;
   items?: string[];
   media?: SlideMedia[];
   /** Crop for a single-image mockup. Ignored when there are several. */
@@ -142,6 +144,20 @@ export const slides: Slide[] = [
       { src: "/work/foyer-3-b.png", alt: "Calculator" },
       { src: "/work/foyer-3-c.png", alt: "Calculator" },
       { src: "/work/foyer-3-d.png", alt: "Calculator" },
+    ],
+  },
+  {
+    id: "foyer-review",
+    section: "foyer",
+    kind: "quote",
+    theme: "light",
+    background: "var(--gradient-lavender-peach)",
+    attribution: "VanLee318 · 08/28/2024",
+    paragraphs: [
+      "As a first-time homebuyer, I was overwhelmed by the idea of saving for a down payment, but Foyer makes the process feel achievable and straightforward. The app is designed specifically for people like me.",
+    ],
+    media: [
+      { src: "/work/foyer-review-stars.svg", alt: "Five out of five stars" },
     ],
   },
   {
