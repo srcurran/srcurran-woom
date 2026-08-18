@@ -32,6 +32,7 @@ const makeJitter = () => ({
 
 const COVERFLOW = "(min-width: 961px) and (min-height: 801px)";
 const DESKTOP_LAYOUT = "(min-width: 961px)";
+const MOBILE_NAV = "(max-width: 760px)";
 
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 
@@ -95,6 +96,7 @@ export function initDeck(): void {
 
   const coverflow = window.matchMedia(COVERFLOW);
   const desktopLayout = window.matchMedia(DESKTOP_LAYOUT);
+  const mobileNav = window.matchMedia(MOBILE_NAV);
   const animate = !prefersReduced() && coverflow.matches;
   coverflow.addEventListener("change", () => location.reload());
 
@@ -199,13 +201,12 @@ export function initDeck(): void {
   let lastSection = "";
   let lastView = "";
   const syncNav = () => {
-    const railHidden = gutter < RAIL_GUTTER;
+    const railHidden = mobileNav.matches || gutter < RAIL_GUTTER;
     document.documentElement.classList.toggle("nav-rail-hidden", railHidden);
     const onAbout = lastSection === "about";
     const collapsed = gutter < (onAbout ? LABEL_GUTTER : DECK_LABEL_GUTTER);
     if (sideNav) {
       sideNav.classList.toggle("is-hidden", railHidden);
-      sideNav.classList.toggle("is-about", onAbout);
       sideNav.classList.toggle("is-collapsed", collapsed);
     }
     const layout = desktopLayout.matches ? "desktop" : "mobile";

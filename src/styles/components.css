@@ -138,13 +138,13 @@
 
 .menu-toggle {
   display: none;
-}
-:root.nav-rail-hidden .menu-toggle {
-  display: inline-flex;
   align-items: center;
 
   padding: var(--space-2xs);
   margin-right: calc(-1 * var(--space-2xs));
+}
+:root.nav-rail-hidden .menu-toggle {
+  display: inline-flex;
 }
 
 :root.nav-rail-hidden .site-header .header-contact {

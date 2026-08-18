@@ -90,8 +90,9 @@
     ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
     monospace;
 
-  --font-display: "Poppins", var(--font-sans);
-  --font-serif: "Merriweather", Georgia, "Times New Roman", serif;
+  --font-display: "Poppins", "Poppins Fallback", var(--font-sans);
+  --font-serif:
+    "Merriweather", "Merriweather Fallback", Georgia, "Times New Roman", serif;
 
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;

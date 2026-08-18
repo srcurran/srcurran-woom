@@ -99,7 +99,10 @@
     padding-bottom: var(--space-xl);
   }
 
-  .side-nav.is-about { display: none; }
+  .side-nav { display: none; }
+
+  .menu-toggle { display: inline-flex; }
+  .site-header .header-contact { display: none; }
 }
 
 @media (max-height: 600px) {
