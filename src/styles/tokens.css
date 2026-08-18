@@ -103,6 +103,8 @@
   --text-3xl: 3rem;
   --text-display: clamp(3rem, 6vw, 4.75rem);
 
+  --text-card-list: 1.25rem;
+
   --weight-light: 300;
   --weight-regular: 400;
   --weight-medium: 500;

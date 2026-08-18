@@ -136,7 +136,7 @@
   .footer-link { font-size: var(--text-base); }
 
   .slide__results li {
-    font-size: var(--text-md);
+    font-size: var(--text-card-list);
     line-height: var(--leading-normal);
   }
 }
