@@ -14,6 +14,13 @@ export interface SlideMedia {
   phoneFrame?: boolean;
 }
 
+/** One review on a quote card. */
+export interface SlideQuote {
+  title: string;
+  attribution: string;
+  text: string;
+}
+
 /** One credit row on a title card. With `href`, the value renders as a link out. */
 export interface SlideMetaRow {
   label: string;
@@ -33,8 +40,8 @@ export interface Slide {
   meta?: SlideMetaRow[];
   /** Disciplines listed in a mockup card's caption chin. */
   tasks?: string;
-  /** Reviewer credit on a quote card ("name · date"). */
-  attribution?: string;
+  /** Reviews listed on a quote card. */
+  quotes?: SlideQuote[];
   items?: string[];
   media?: SlideMedia[];
   /** Crop for a single-image mockup. Ignored when there are several. */
@@ -152,9 +159,22 @@ export const slides: Slide[] = [
     kind: "quote",
     theme: "light",
     background: "var(--gradient-lavender-peach)",
-    attribution: "VanLee318 · 08/28/2024",
-    paragraphs: [
-      "As a first-time homebuyer, I was overwhelmed by the idea of saving for a down payment, but Foyer makes the process feel achievable and straightforward. The app is designed specifically for people like me.",
+    quotes: [
+      {
+        title: "Great app",
+        attribution: "Ebeck8994",
+        text: "Foyer is a great app to use for saving money toward your new home no matter how little or small. It's easy to use and there's a lot of tools available to help you with purchasing your new home.",
+      },
+      {
+        title: "User friendly interface",
+        attribution: "justinsehunk",
+        text: "It's a well designed product that also comes with ample yet not so overwhelming information on saving for home ownership. I recommend this especially for first-time home buyers.",
+      },
+      {
+        title: "The easiest way to save",
+        attribution: "VanLee318",
+        text: "As a first-time homebuyer, I was overwhelmed by the idea of saving for a down payment, but Foyer makes the process feel achievable and straightforward. The app is designed specifically for people like me.",
+      },
     ],
     media: [
       { src: "/work/foyer-review-stars.svg", alt: "Five out of five stars" },

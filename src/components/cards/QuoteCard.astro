@@ -10,13 +10,18 @@ const stars = slide.media?.[0];
 ---
 
 <div class="slide__inner slide__inner--quote">
-  <div class="slide__quote">
-    <div class="slide__quote-head">
-      {stars && <img class="slide__quote-stars" src={stars.src} alt={stars.alt ?? ""} />}
-      {slide.attribution && <p class="slide__quote-attribution">{slide.attribution}</p>}
-    </div>
-    <blockquote class="slide__quote-text">
-      {slide.paragraphs?.map((p) => <p set:html={emphasize(p)} />)}
-    </blockquote>
+  <div class="slide__quotes">
+    {slide.quotes?.map((quote) => (
+      <div class="slide__quote">
+        <h3 class="slide__quote-title">{quote.title}</h3>
+        <div class="slide__quote-head">
+          {stars && <img class="slide__quote-stars" src={stars.src} alt={stars.alt ?? ""} />}
+          <p class="slide__quote-attribution">{quote.attribution}</p>
+        </div>
+        <blockquote class="slide__quote-text">
+          <p set:html={emphasize(quote.text)} />
+        </blockquote>
+      </div>
+    ))}
   </div>
 </div>

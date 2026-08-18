@@ -69,13 +69,19 @@
   .slide--quote .slide__inner {
     min-height: calc(var(--card-w) * 9 / 16);
   }
-  .slide__quote {
+  .slide__quotes {
+    flex-direction: column;
+    align-items: center;
     gap: var(--space-sm);
+  }
+  .slide__quote {
+    gap: var(--space-2xs);
     width: 100%;
     max-width: 34rem;
     padding: var(--space-md);
     border-radius: var(--radius-xl);
   }
+  .slide__quote-title { font-size: var(--text-md); }
   .slide__quote-head { gap: var(--space-sm); }
   .slide__quote-stars { height: var(--space-sm); }
   .slide__quote-attribution { font-size: var(--text-sm); }

@@ -437,39 +437,50 @@
 }
 
 .slide--quote .slide__inner {
-  align-items: center;
   justify-content: center;
 }
+.slide__quotes {
+  display: flex;
+  align-items: stretch;
+  gap: 2.25cqw;
+}
 .slide__quote {
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 1.85cqw;
-  width: 56cqw;
-  padding: 2.3cqw;
+  gap: 1cqw;
+  padding: 1.8cqw;
   background: var(--color-surface-alt);
-  border-radius: 2cqw;
+  border-radius: 1.2cqw;
   box-shadow: var(--elevation-2);
+}
+.slide__quote-title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-semibold);
+  font-size: 1.7cqw;
+  line-height: 1.3;
 }
 .slide__quote-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.85cqw;
+  gap: 1cqw;
 }
 .slide__quote-stars {
   display: block;
-  height: 2.3cqw;
+  height: 1.5cqw;
   width: auto;
 }
 .slide__quote-attribution {
-  font-size: 1.6cqw;
+  font-size: 1.25cqw;
   line-height: 1.3;
   color: var(--color-ink-muted);
 }
 .slide__quote-text p {
   font-family: var(--font-serif);
   font-weight: var(--weight-light);
-  font-size: 1.9cqw;
+  font-size: 1.45cqw;
   line-height: 1.5;
 }
 
