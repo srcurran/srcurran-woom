@@ -133,4 +133,9 @@
   }
 
   .footer-link { font-size: var(--text-base); }
+
+  .slide__results li {
+    font-size: var(--text-md);
+    line-height: var(--leading-normal);
+  }
 }
