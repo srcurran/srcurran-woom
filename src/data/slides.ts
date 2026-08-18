@@ -71,10 +71,14 @@ export const slides: Slide[] = [
     heading: "Foyer",
     meta: [
       { label: "Role", value: "Staff (Founding) Product Designer" },
-      { label: "Link", value: "foyersavings.com", href: "https://foyersavings.com" },
+      {
+        label: "Link",
+        value: "foyersavings.com",
+        href: "https://foyersavings.com",
+      },
     ],
     paragraphs: [
-      "I joined Foyer, the 401(k) for homeownership, as the founding product designer in mid-2023.",
+      "I joined Foyer, the 401(k) for homeownership, in mid-2023, when the company was pre-seed and pre-product.",
       "As the founding designer I brought the app to life. As a design-engineer I work in code and Figma. As the de facto product owner I prioritized features and drove outcomes. As the sole designer I have owned design end-to-end.",
     ],
   },
@@ -105,12 +109,12 @@ export const slides: Slide[] = [
     tasks:
       "User flow • performance optimization • design • interaction patterns • component development",
     media: [
-      { src: "/work/foyer-1-a.png", alt: "Where" },
-      { src: "/work/foyer-1-c.png", alt: "Price" },
-      { src: "/work/foyer-1-d.png", alt: "Concerns" },
+      { src: "/work/foyer-1-a.png", alt: "Onboarding: choosing where you want to buy" },
+      { src: "/work/foyer-1-c.png", alt: "Onboarding: setting a target home price and down payment" },
+      { src: "/work/foyer-1-d.png", alt: "Onboarding: picking what you want the most help with" },
       {
         src: "/work/foyer-home-goal.mp4",
-        alt: "Homegoal",
+        alt: "Home goal animation",
         type: "video",
         phoneFrame: true,
       },
@@ -138,10 +142,10 @@ export const slides: Slide[] = [
     heading: "Tools and calculators",
     tasks: "Interaction patterns • design • content • development",
     media: [
-      { src: "/work/foyer-3-a.png", alt: "Calculator" },
-      { src: "/work/foyer-3-b.png", alt: "Calculator" },
-      { src: "/work/foyer-3-c.png", alt: "Calculator" },
-      { src: "/work/foyer-3-d.png", alt: "Calculator" },
+      { src: "/work/foyer-3-a.png", alt: "Tools index with home goal summary" },
+      { src: "/work/foyer-3-b.png", alt: "Affordability calculator: monthly debt input" },
+      { src: "/work/foyer-3-c.png", alt: "Affordability calculator: result with DTI scale" },
+      { src: "/work/foyer-3-d.png", alt: "Affordability calculator: mortgage inputs" },
     ],
   },
   {
@@ -152,7 +156,7 @@ export const slides: Slide[] = [
     heading: "Foyer results",
     items: [
       "Founding designer, ran successful __0-to-1 launch__",
-      "__40pt increase__ in onboarded users, by leading with home goal",
+      "__40pt increase__ in onboarding completion, by swapping the order of home goal and register",
       "Achieved __64% attach rate__ on paid product",
       "Helped __hundreds of members__ purchase a home",
     ],
@@ -166,8 +170,8 @@ export const slides: Slide[] = [
     heading: "Hawthorne",
     meta: [{ label: "Role", value: "Product Designer" }],
     paragraphs: [
-      "I joined Hawthorne, a D2C men's grooming startup, to work product-side after decade+ of working at agencies and design firms.",
-      "With a wealth of e-commerce experience, it was a natural fit that unlocked new ways of working: iterating on live design, managing internal bandwidth, and real time insights into customers/data.",
+      "I joined Hawthorne, a D2C men's grooming startup, to work product-side after a decade+ at agencies and design firms.",
+      "With a wealth of e-commerce experience, it was a natural fit that unlocked new ways of working: iterating on live design, managing internal bandwidth, and gleaning real-time insights from customers.",
     ],
   },
   {
@@ -220,7 +224,7 @@ export const slides: Slide[] = [
     section: "hawthorne",
     kind: "mockup",
     heading: "E-commerce design",
-    tasks: "Site design and optimization",
+    tasks: "Site design • optimization",
     media: [{ src: "/work/hawthorne-4.jpg", alt: "E-commerce design" }],
   },
   {
@@ -233,7 +237,7 @@ export const slides: Slide[] = [
       "0-to-1 launch of a __direct-buy channel__ for customers",
       "__Increased subscriptions 15%__ from quiz results redesign",
       "Led CMS redesign to update the site __faster and cheaper__",
-      "__Average session value__ was the top line metric I owned",
+      "Defined __average session value__ as the core metric to cleanly evaluate smaller-basket solutions",
     ],
   },
 
@@ -248,7 +252,7 @@ export const slides: Slide[] = [
       { label: "Link", value: "ohsee.app", href: "https://ohsee.app" },
     ],
     paragraphs: [
-      "Designing in code increases the risk of introducing visual bugs. I looked for a product for visual regression testing, but nothing that existed did what I needed.",
+      "Designing in code increases the risk of introducing visual bugs. I looked for a visual regression testing app, but nothing that existed did what I needed.",
       "So I made my own.",
       "Working code-first, I built and refined a visual QA tool.",
     ],
@@ -316,7 +320,7 @@ export const slides: Slide[] = [
     theme: "light",
     heading: "Ohsee results",
     items: [
-      "Has caught __dozens of bugs__ in my own work, before it shipped",
+      "Has caught __dozens of bugs__ in my own work, before they shipped",
       "Works for designers and developers with __CLI and app__",
       "Tracks the __visual history__ of your project",
       "Built __code-first__, to meet my specific needs",
@@ -334,7 +338,7 @@ export const slides: Slide[] = [
       { label: "Agency", value: "Savage Bureau" },
     ],
     paragraphs: [
-      "Consulted with App Omni (via Savage Bureau) across several small projects, to provide product thinking and guidance",
+      "Consulted with App Omni (via Savage Bureau) across several small projects, to provide product thinking and guidance.",
       "Projects included application-wide audits and single-feature deep dives.",
     ],
   },
@@ -368,7 +372,7 @@ export const slides: Slide[] = [
     theme: "dark",
     heading: "Neiman Marcus",
     meta: [
-      { label: "Role", value: "Product/UX Design Freelance" },
+      { label: "Role", value: "Freelance Product/UX Designer" },
       { label: "Agency", value: "Said Differently" },
     ],
     paragraphs: [
@@ -411,7 +415,7 @@ export const slides: Slide[] = [
     heading: "Neiman Marcus results",
     items: [
       "Checkout launched after beating the existing flow in testing",
-      "Store finder that celebrates each location's character",
+      "Store finder celebrates each location's character",
     ],
   },
 
