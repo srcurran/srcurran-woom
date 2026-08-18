@@ -444,6 +444,10 @@
   grid-template-columns: 1fr 1fr;
   gap: 1.5cqw;
 }
+.slide__quotes--featured {
+  grid-template-columns: 1.7fr 1fr;
+  grid-template-rows: repeat(3, 1fr);
+}
 .slide__quote {
   min-width: 0;
   display: flex;
@@ -481,6 +485,24 @@
   font-weight: var(--weight-light);
   font-size: 1.4cqw;
   line-height: 1.5;
+}
+
+.slide__quote--featured {
+  grid-row: 1 / -1;
+  gap: 1.4cqw;
+  padding: 2.4cqw;
+}
+.slide__quote--featured .slide__quote-title {
+  font-size: 2.2cqw;
+}
+.slide__quote--featured .slide__quote-stars {
+  height: 1.8cqw;
+}
+.slide__quote--featured .slide__quote-attribution {
+  font-size: 1.4cqw;
+}
+.slide__quote--featured .slide__quote-text p {
+  font-size: 2cqw;
 }
 
 .slide--results .slide__inner {

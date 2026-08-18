@@ -19,6 +19,8 @@ export interface SlideQuote {
   title: string;
   attribution: string;
   text: string;
+  /** Render this review large with its full text; the rest become compact title cards. */
+  featured?: boolean;
 }
 
 /** One credit row on a title card. With `href`, the value renders as a link out. */
@@ -174,6 +176,7 @@ export const slides: Slide[] = [
         title: "The easiest way to save",
         attribution: "VanLee318",
         text: "As a first-time homebuyer, I was overwhelmed by the idea of saving for a down payment, but Foyer makes the process feel achievable and straightforward. The app is designed specifically for people like me.",
+        featured: true,
       },
       {
         title: "Easy to use",

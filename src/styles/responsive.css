@@ -91,6 +91,16 @@
     line-height: var(--leading-normal);
   }
 
+  .slide__quote--featured {
+    order: -1;
+    gap: var(--space-2xs);
+    padding: var(--space-md);
+  }
+  .slide__quote--featured .slide__quote-title { font-size: var(--text-lg); }
+  .slide__quote--featured .slide__quote-stars { height: var(--space-sm); }
+  .slide__quote--featured .slide__quote-attribution { font-size: var(--text-sm); }
+  .slide__quote--featured .slide__quote-text p { font-size: var(--text-base); }
+
   .slide__results {
     margin-top: var(--space-md);
     gap: var(--space-sm);
