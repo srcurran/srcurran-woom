@@ -175,6 +175,11 @@ export const slides: Slide[] = [
         attribution: "VanLee318",
         text: "As a first-time homebuyer, I was overwhelmed by the idea of saving for a down payment, but Foyer makes the process feel achievable and straightforward. The app is designed specifically for people like me.",
       },
+      {
+        title: "Easy to use",
+        attribution: "Munchie T",
+        text: "App is very easy to use. Everything is available right from the app. The best part is the deposit match and the interest.",
+      },
     ],
     media: [
       { src: "/work/foyer-review-stars.svg", alt: "Five out of five stars" },
