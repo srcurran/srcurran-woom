@@ -1,0 +1,37 @@
+---
+import type { Slide } from "../../data/slides";
+import { emphasize } from "../../lib/emphasize";
+
+interface Props {
+  slide: Slide;
+}
+const { slide } = Astro.props;
+const stars = slide.media?.[0];
+const hasFeatured = slide.quotes?.some((quote) => quote.featured) ?? false;
+const paragraphs = (text: string) =>
+  text
+    .split(/\n+/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+---
+
+<div class="slide__inner slide__inner--quote">
+  <div class:list={["slide__quotes", hasFeatured && "slide__quotes--featured"]}>
+    {slide.quotes?.map((quote) => (
+      <div class:list={["slide__quote", quote.featured && "slide__quote--featured"]}>
+        <h3 class="slide__quote-title">{quote.title}</h3>
+        <div class="slide__quote-head">
+          {stars && <img class="slide__quote-stars" src={stars.src} alt={stars.alt ?? ""} />}
+          <p class="slide__quote-attribution">{quote.attribution}</p>
+        </div>
+        {(quote.featured || !hasFeatured) && (
+          <blockquote class="slide__quote-text">
+            {paragraphs(quote.text).map((part) => (
+              <p set:html={emphasize(part)} />
+            ))}
+          </blockquote>
+        )}
+      </div>
+    ))}
+  </div>
+</div>

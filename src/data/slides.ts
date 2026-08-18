@@ -1,4 +1,4 @@
-export type SlideKind = "bio" | "intro" | "mockup" | "results";
+export type SlideKind = "bio" | "intro" | "mockup" | "quote" | "results";
 export type SlideTheme = "dark" | "light";
 
 export interface SlideMedia {
@@ -12,6 +12,15 @@ export interface SlideMedia {
   rounded?: boolean;
   /** Overlay the iPhone bezel on a bezel-less asset (phone-mask.png). */
   phoneFrame?: boolean;
+}
+
+/** One review on a quote card. */
+export interface SlideQuote {
+  title: string;
+  attribution: string;
+  text: string;
+  /** Render this review large with its full text; the rest become compact title cards. */
+  featured?: boolean;
 }
 
 /** One credit row on a title card. With `href`, the value renders as a link out. */
@@ -33,6 +42,8 @@ export interface Slide {
   meta?: SlideMetaRow[];
   /** Disciplines listed in a mockup card's caption chin. */
   tasks?: string;
+  /** Reviews listed on a quote card. */
+  quotes?: SlideQuote[];
   items?: string[];
   media?: SlideMedia[];
   /** Crop for a single-image mockup. Ignored when there are several. */
@@ -146,6 +157,39 @@ export const slides: Slide[] = [
       { src: "/work/foyer-3-b.png", alt: "Affordability calculator: monthly debt input" },
       { src: "/work/foyer-3-c.png", alt: "Affordability calculator: result with DTI scale" },
       { src: "/work/foyer-3-d.png", alt: "Affordability calculator: mortgage inputs" },
+    ],
+  },
+  {
+    id: "foyer-review",
+    section: "foyer",
+    kind: "quote",
+    theme: "light",
+    background: "var(--gradient-lavender-peach)",
+    quotes: [
+      {
+        title: "Great app",
+        attribution: "Ebeck8994",
+        text: "Foyer is a great app to use for saving money toward your new home no matter how little or small. It's easy to use and there's a lot of tools available to help you with purchasing your new home.",
+      },
+      {
+        title: "User friendly interface",
+        attribution: "justinsehunk",
+        text: "It's a well designed product that also comes with ample yet not so overwhelming information on saving for home ownership. I recommend this especially for first-time home buyers.",
+      },
+      {
+        title: "The easiest way to save",
+        attribution: "VanLee318",
+        text: "The app is designed specifically for people like me, offering customized planning tools and resources that take the guesswork out of saving. \n\n It feels like having a financial coach in my pocket, guiding me every step of the way.",
+        featured: true,
+      },
+      {
+        title: "Easy to use",
+        attribution: "Munchie T",
+        text: "App is very easy to use. Everything is available right from the app. The best part is the deposit match and the interest.",
+      },
+    ],
+    media: [
+      { src: "/work/foyer-review-stars.svg", alt: "Five out of five stars" },
     ],
   },
   {
