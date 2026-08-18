@@ -114,6 +114,7 @@
   :root {
     --page-padding-x: var(--space-md);
     --header-height: 3.75rem;
+    --radius-card: var(--radius-xl);
   }
 
   .logo-strip {
@@ -133,4 +134,9 @@
   }
 
   .footer-link { font-size: var(--text-base); }
+
+  .slide__results li {
+    font-size: var(--text-card-list);
+    line-height: var(--leading-normal);
+  }
 }

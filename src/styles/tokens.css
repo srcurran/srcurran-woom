@@ -103,6 +103,8 @@
   --text-3xl: 3rem;
   --text-display: clamp(3rem, 6vw, 4.75rem);
 
+  --text-card-list: 1.25rem;
+
   --weight-light: 300;
   --weight-regular: 400;
   --weight-medium: 500;
@@ -134,7 +136,10 @@
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 16px;
+  --radius-xl: 20px;
   --radius-full: 999px;
+
+  --radius-card: var(--radius-lg);
 
   --elevation-0: none;
   --elevation-1:

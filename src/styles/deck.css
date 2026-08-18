@@ -182,7 +182,7 @@
   position: relative;
   width: var(--card-w);
   aspect-ratio: 16 / 9;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-card);
   overflow: hidden;
 
   --focus: 1;
@@ -412,7 +412,7 @@
 .slide__frame {
   position: relative;
   aspect-ratio: 16 / 9;
-  border-radius: 0 var(--radius-lg);
+  border-radius: 0 0 var(--radius-card) var(--radius-card);
   overflow: hidden;
 }
 .slide--dark .slide__frame {
