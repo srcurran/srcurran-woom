@@ -90,6 +90,7 @@
     font-size: var(--text-base);
     line-height: var(--leading-normal);
   }
+  .slide__quote-text p + p { margin-top: var(--space-2xs); }
 
   .slide__quote--featured {
     order: -1;

@@ -486,6 +486,9 @@
   font-size: 1.4cqw;
   line-height: 1.5;
 }
+.slide__quote-text p + p {
+  margin-top: 1.2cqw;
+}
 
 .slide__quote--featured {
   grid-row: 1 / -1;

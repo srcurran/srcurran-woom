@@ -82,7 +82,11 @@ export const slides: Slide[] = [
     heading: "Foyer",
     meta: [
       { label: "Role", value: "Staff (Founding) Product Designer" },
-      { label: "Link", value: "foyersavings.com", href: "https://foyersavings.com" },
+      {
+        label: "Link",
+        value: "foyersavings.com",
+        href: "https://foyersavings.com",
+      },
     ],
     paragraphs: [
       "I joined Foyer, the 401(k) for homeownership, as the founding product designer in mid-2023.",
@@ -175,7 +179,7 @@ export const slides: Slide[] = [
       {
         title: "The easiest way to save",
         attribution: "VanLee318",
-        text: "As a first-time homebuyer, I was overwhelmed by the idea of saving for a down payment, but Foyer makes the process feel achievable and straightforward. The app is designed specifically for people like me.",
+        text: "The app is designed specifically for people like me, offering customized planning tools and resources that take the guesswork out of saving. \n\n It feels like having a financial coach in my pocket, guiding me every step of the way.",
         featured: true,
       },
       {
