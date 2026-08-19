@@ -1,0 +1,73 @@
+name: visual-qa
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, labeled]
+
+concurrency:
+  group: promote-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  ohsee:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Wait for dev.srcurran.com to serve this commit
+        run: |
+          want="${{ github.event.pull_request.head.sha }}"
+          got=""
+          for i in $(seq 1 60); do
+            got=$(curl -fsS "https://dev.srcurran.com/version.txt?nocache=$i" || true)
+            [ "$got" = "$want" ] && exit 0
+            sleep 10
+          done
+          echo "::error::dev.srcurran.com never served $want (last saw: ${got:-nothing})"
+          exit 1
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ runner.os }}
+
+      - name: Install Chromium
+        run: npx --yes playwright install --with-deps chromium
+
+      - name: Run ohsee (prod vs dev)
+        id: ohsee
+        run: |
+          set +e
+          npx --yes ohsee-qa run promote --fail-on-changes --json \
+            --data-dir ./ohsee-ci-data > ohsee-result.json
+          echo "code=$?" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ohsee-report
+          path: |
+            ohsee-ci-data
+            ohsee-result.json
+
+      - name: Gate
+        env:
+          APPROVED: ${{ contains(github.event.pull_request.labels.*.name, 'visual-approved') }}
+        run: |
+          code="${{ steps.ohsee.outputs.code }}"
+          case "$code" in
+            0) echo "No visual changes — clean promotion." ;;
+            2) if [ "$APPROVED" = "true" ]; then
+                 echo "Changes accepted via visual-approved label."
+               else
+                 echo "::error::Visual changes found. Download the ohsee-report artifact and run: npx ohsee-qa open --all --data-dir ./ohsee-ci-data --browser — then push a fix to dev, or add the 'visual-approved' label to accept."
+                 exit 1
+               fi ;;
+            *) echo "::error::ohsee run failed (exit ${code:-unknown})"; exit 1 ;;
+          esac

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://unpkg.com/ohsee-qa/schema/ohsee.config.schema.json",
+  "name": "woom",
+  "prodUrl": "https://srcurran.com",
+  "devUrl": "http://localhost:4321",
+  "breakpoints": [1440, 768, 375],
+  "tests": {
+    "local": {
+      "pages": ["/", "/work"]
+    },
+    "promote": {
+      "prodUrl": "https://srcurran.com",
+      "devUrl": "https://dev.srcurran.com",
+      "pages": ["/", "/work"]
+    }
+  }
+}
