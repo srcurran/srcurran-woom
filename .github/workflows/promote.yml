@@ -3,16 +3,24 @@ name: visual-qa
 on:
   pull_request:
     branches: [main]
-    types: [opened, synchronize, reopened, labeled]
+
+permissions:
+  contents: read
+  pull-requests: write
 
 concurrency:
   group: promote-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
+  # Captures prod vs dev and diffs them. Succeeds on exit 0 (clean) AND
+  # exit 2 (changes found) — the verdict is passed to the gate job via the
+  # `code` output. Only a broken run (exit 1) fails this job.
   ohsee:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    outputs:
+      code: ${{ steps.ohsee.outputs.code }}
     steps:
       - uses: actions/checkout@v4
 
@@ -46,7 +54,12 @@ jobs:
           set +e
           npx --yes ohsee-qa run promote --fail-on-changes --json \
             --data-dir ./ohsee-ci-data > ohsee-result.json
-          echo "code=$?" >> "$GITHUB_OUTPUT"
+          code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          case "$code" in
+            0|2) exit 0 ;;
+            *) echo "::error::ohsee run failed (exit $code)"; exit 1 ;;
+          esac
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -56,18 +69,72 @@ jobs:
             ohsee-ci-data
             ohsee-result.json
 
-      - name: Gate
+      - name: Post summary comment
+        if: always() && steps.ohsee.outputs.code != ''
         env:
-          APPROVED: ${{ contains(github.event.pull_request.labels.*.name, 'visual-approved') }}
+          GH_TOKEN: ${{ github.token }}
+          CODE: ${{ steps.ohsee.outputs.code }}
+          PR: ${{ github.event.pull_request.number }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
-          code="${{ steps.ohsee.outputs.code }}"
-          case "$code" in
-            0) echo "No visual changes — clean promotion." ;;
-            2) if [ "$APPROVED" = "true" ]; then
-                 echo "Changes accepted via visual-approved label."
-               else
-                 echo "::error::Visual changes found. Download the ohsee-report artifact and run: npx ohsee-qa open --all --data-dir ./ohsee-ci-data --browser — then push a fix to dev, or add the 'visual-approved' label to accept."
-                 exit 1
-               fi ;;
-            *) echo "::error::ohsee run failed (exit ${code:-unknown})"; exit 1 ;;
-          esac
+          marker="<!-- ohsee-visual-qa -->"
+          {
+            echo "$marker"
+            echo "### ohsee visual QA — srcurran.com vs dev.srcurran.com"
+            echo
+            if [ "$CODE" = "0" ]; then
+              echo "✅ **No visual changes** — clean promotion, merging automatically."
+            elif [ "$CODE" = "2" ]; then
+              jq -r '"⏸️ **\(.totals.changeCount) change(s) on \(.totals.changedPages) of \(.totals.pages) page(s)** — approval required."' ohsee-result.json
+              echo
+              echo "| Page | Changes | Max pixel diff |"
+              echo "|---|---:|---:|"
+              jq -r '.pages[] | "| `\(.path)` | \(.changeCount) | \(.maxChangePercentage * 100 | round / 100)% |"' ohsee-result.json
+              echo
+              echo "**To review:** download the \`ohsee-report\` artifact from [this run]($RUN_URL), extract it, then:"
+              echo '```'
+              echo "npx ohsee-qa open --all --data-dir ./ohsee-ci-data --browser"
+              echo '```'
+              echo "Then **Approve** or **Reject** the \`visual-approval\` deployment on [the run page]($RUN_URL). Approving merges this PR; rejecting holds it until a fix lands on \`dev\`."
+            else
+              echo "❌ **ohsee run failed** (exit $CODE) — see [the run log]($RUN_URL)."
+            fi
+          } > comment.md
+          existing=$(gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" --paginate \
+            --jq "[.[] | select(.body | startswith(\"$marker\"))][0].id // empty")
+          if [ -n "$existing" ]; then
+            gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$existing" -F body=@comment.md > /dev/null
+          else
+            gh api -X POST "repos/$GITHUB_REPOSITORY/issues/$PR/comments" -F body=@comment.md > /dev/null
+          fi
+
+  # Runs only when changes were found. The `visual-approval` environment has a
+  # required reviewer, so the workflow pauses here — no runner burning — until
+  # the deployment is approved or rejected on the run page.
+  approve:
+    needs: ohsee
+    if: needs.ohsee.outputs.code == '2'
+    runs-on: ubuntu-latest
+    environment: visual-approval
+    steps:
+      - run: echo "Visual changes approved for promotion."
+
+  # The single required status check for branch protection on main.
+  gate:
+    needs: [ohsee, approve]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decide
+        env:
+          CODE: ${{ needs.ohsee.outputs.code }}
+          APPROVAL: ${{ needs.approve.result }}
+        run: |
+          if [ "$CODE" = "0" ]; then
+            echo "Clean — no visual changes."
+          elif [ "$CODE" = "2" ] && [ "$APPROVAL" = "success" ]; then
+            echo "Changes reviewed and approved."
+          else
+            echo "::error::Not promotable (ohsee exit: ${CODE:-none}, approval: $APPROVAL)"
+            exit 1
+          fi
