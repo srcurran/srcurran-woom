@@ -160,6 +160,20 @@ export const slides: Slide[] = [
     ],
   },
   {
+    id: "foyer-4",
+    section: "foyer",
+    kind: "mockup",
+    heading: "Home advisor dashboard",
+    tasks: "Design • development • animation",
+    pin: "top",
+    media: [
+      {
+        src: "/work/foyer-4-a.png",
+        alt: "Home advisor dashboard showing a member's readiness, finances, and activity feed",
+      },
+    ],
+  },
+  {
     id: "foyer-review",
     section: "foyer",
     kind: "quote",
