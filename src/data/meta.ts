@@ -4,6 +4,11 @@ export const site = {
   email: "srcurran@gmail.com",
 } as const;
 
+export interface SideProject {
+  label: string;
+  href: string;
+}
+
 export const about = {
   heading: "Hi, I'm Sean.",
   headingFull: "Hello, I'm Sean.",
@@ -12,4 +17,13 @@ export const about = {
     "Agency hustle, startup grit. A designer's eye and developer's mind.",
   ],
   notes: ["Currently Staff Designer at Foyer."],
+  /** Lead-in for the side-project links that follow the notes. */
+  sideProjectsLead: "Also building",
+  sideProjects: [
+    { label: "Ohsee, visual QA", href: "https://ohsee.app" },
+    {
+      label: "Focal Point, a Figma plugin",
+      href: "https://www.figma.com/community/plugin/1661755431369623402/focal-point-resize-dont-recrop",
+    },
+  ] satisfies SideProject[],
 };

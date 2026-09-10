@@ -16,6 +16,16 @@ const heading = full ? about.headingFull : about.heading;
       <div class="hero__bio">
         {about.paragraphs.map((p) => <p>{p}</p>)}
         {about.notes.map((p) => <p class="body-sm">{p}</p>)}
+        <p class="body-sm hero__projects">
+          <span class="hero__projects-lead">{about.sideProjectsLead}</span>
+          {
+            about.sideProjects.map((project) => (
+              <a class="hero__project-link" href={project.href} target="_blank" rel="noopener noreferrer">
+                {project.label}
+              </a>
+            ))
+          }
+        </p>
       </div>
     </div>
   </div>
