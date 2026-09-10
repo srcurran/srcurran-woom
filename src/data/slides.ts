@@ -233,6 +233,17 @@ export const slides: Slide[] = [
     ],
   },
   {
+    id: "hawthorne-1",
+    section: "hawthorne",
+    kind: "mockup",
+    heading: "Concept sketches (quiz results)",
+    tasks: "Exploration • user flows • interaction patterns",
+    onIndex: 7,
+    media: [
+      { src: "/work/hawthorne-1.jpg", alt: "Quiz result concept sketches" },
+    ],
+  },
+  {
     id: "hawthorne-device",
     section: "hawthorne",
     kind: "mockup",
@@ -248,17 +259,6 @@ export const slides: Slide[] = [
         type: "video",
         rounded: true,
       },
-    ],
-  },
-  {
-    id: "hawthorne-1",
-    section: "hawthorne",
-    kind: "mockup",
-    heading: "Concept sketches (quiz results)",
-    tasks: "Exploration • user flows • interaction patterns",
-    onIndex: 7,
-    media: [
-      { src: "/work/hawthorne-1.jpg", alt: "Quiz result concept sketches" },
     ],
   },
   {
