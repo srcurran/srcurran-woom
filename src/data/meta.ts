@@ -20,7 +20,7 @@ export const about = {
   /** Lead-in for the side-project links that follow the notes. */
   sideProjectsLead: "Also building",
   sideProjects: [
-    { label: "Ohsee, visual QA", href: "https://ohsee.app" },
+    { label: "Ohsee, visual QA", href: "https://www.npmjs.com/package/ohsee-qa" },
     {
       label: "Focal Point, a Figma plugin",
       href: "https://www.figma.com/community/plugin/1661755431369623402/focal-point-resize-dont-recrop",
