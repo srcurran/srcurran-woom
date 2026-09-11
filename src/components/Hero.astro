@@ -15,7 +15,21 @@ const heading = full ? about.headingFull : about.heading;
       <h1 class="hero__headline">{heading}</h1>
       <div class="hero__bio">
         {about.paragraphs.map((p) => <p>{p}</p>)}
-        {about.notes.map((p) => <p class="body-sm">{p}</p>)}
+        {
+          about.notes.map((note) => (
+            <p class="body-sm">
+              {note.map((segment) =>
+                segment.href ? (
+                  <a class="hero__link" href={segment.href} target="_blank" rel="noopener noreferrer">
+                    {segment.text}
+                  </a>
+                ) : (
+                  segment.text
+                ),
+              )}
+            </p>
+          ))
+        }
       </div>
     </div>
   </div>

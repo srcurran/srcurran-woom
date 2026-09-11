@@ -68,6 +68,18 @@
   line-height: var(--leading-relaxed);
 }
 
+.hero__link {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--color-ink-subtle);
+  transition: text-decoration-color var(--duration-fast) var(--ease-out);
+}
+.hero__link:hover {
+  text-decoration-color: currentColor;
+}
+
 .hero__aside {
   margin-top: var(--space-xs);
   font-style: italic;
