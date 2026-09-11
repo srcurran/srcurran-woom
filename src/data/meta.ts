@@ -19,16 +19,19 @@ export const about = {
   ],
   notes: [
     [
-      { text: "Currently Staff Designer at " },
+      { text: "Currently: Staff Designer at " },
       { text: "Foyer", href: "https://foyersavings.com" },
       { text: "." },
     ],
     [
-      { text: "Also building " },
-      { text: "Ohsee, visual QA", href: "https://www.npmjs.com/package/ohsee-qa" },
-      { text: " and " },
+      { text: "Projects: " },
       {
-        text: "Focal Point, a Figma plugin",
+        text: "Ohsee QA",
+        href: "https://www.npmjs.com/package/ohsee-qa",
+      },
+      { text: " • " },
+      {
+        text: "Focal Point (Figma plugin)",
         href: "https://www.figma.com/community/plugin/1661755431369623402/focal-point-resize-dont-recrop",
       },
       { text: "." },
