@@ -77,7 +77,7 @@
 .hero__projects-lead {
   color: var(--color-ink-muted);
 }
-.hero__project-link {
+.hero__link {
   color: var(--color-ink);
   text-decoration: underline;
   text-underline-offset: 0.25em;
@@ -85,7 +85,7 @@
   text-decoration-color: var(--color-ink-subtle);
   transition: text-decoration-color var(--duration-fast) var(--ease-out);
 }
-.hero__project-link:hover {
+.hero__link:hover {
   text-decoration-color: currentColor;
 }
 
