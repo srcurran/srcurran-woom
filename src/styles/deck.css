@@ -68,15 +68,6 @@
   line-height: var(--leading-relaxed);
 }
 
-.hero__projects {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-xs);
-}
-.hero__projects-lead {
-  color: var(--color-ink-muted);
-}
 .hero__link {
   color: var(--color-ink);
   text-decoration: underline;

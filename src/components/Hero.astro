@@ -30,16 +30,6 @@ const heading = full ? about.headingFull : about.heading;
             </p>
           ))
         }
-        <p class="body-sm hero__projects">
-          <span class="hero__projects-lead">{about.sideProjectsLead}</span>
-          {
-            about.sideProjects.map((project) => (
-              <a class="hero__link" href={project.href} target="_blank" rel="noopener noreferrer">
-                {project.label}
-              </a>
-            ))
-          }
-        </p>
       </div>
     </div>
   </div>

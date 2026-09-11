@@ -10,11 +10,6 @@ export interface NoteSegment {
   href?: string;
 }
 
-export interface SideProject {
-  label: string;
-  href: string;
-}
-
 export const about = {
   heading: "Hi, I'm Sean.",
   headingFull: "Hello, I'm Sean.",
@@ -28,17 +23,15 @@ export const about = {
       { text: "Foyer", href: "https://foyersavings.com" },
       { text: "." },
     ],
+    [
+      { text: "Also building " },
+      { text: "Ohsee, visual QA", href: "https://www.npmjs.com/package/ohsee-qa" },
+      { text: " and " },
+      {
+        text: "Focal Point, a Figma plugin",
+        href: "https://www.figma.com/community/plugin/1661755431369623402/focal-point-resize-dont-recrop",
+      },
+      { text: "." },
+    ],
   ] satisfies NoteSegment[][],
-  /** Lead-in for the side-project links that follow the notes. */
-  sideProjectsLead: "Also building",
-  sideProjects: [
-    {
-      label: "Ohsee, visual QA",
-      href: "https://www.npmjs.com/package/ohsee-qa",
-    },
-    {
-      label: "Focal Point, a Figma plugin",
-      href: "https://www.figma.com/community/plugin/1661755431369623402/focal-point-resize-dont-recrop",
-    },
-  ] satisfies SideProject[],
 };
