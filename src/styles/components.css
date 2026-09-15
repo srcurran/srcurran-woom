@@ -286,7 +286,9 @@
   transition:
     opacity var(--menu-fall) var(--ease-in-out),
     translate var(--menu-fall) var(--ease-in-out);
-  transition-delay: calc(var(--i) * var(--menu-exit-stagger));
+  transition-delay: calc(
+    (var(--menu-count) - 1 - var(--i)) * var(--menu-exit-stagger)
+  );
 }
 .section-menu:popover-open .section-menu__item {
   opacity: 1;
@@ -294,9 +296,7 @@
   transition:
     opacity var(--menu-rise) var(--ease-out),
     translate var(--menu-rise) var(--ease-out);
-  transition-delay: calc(
-    var(--menu-fade) + (var(--menu-count) - 1 - var(--i)) * var(--menu-stagger)
-  );
+  transition-delay: calc(var(--menu-fade) + var(--i) * var(--menu-stagger));
 }
 @starting-style {
   .section-menu:popover-open .section-menu__item {
