@@ -1,5 +1,6 @@
 ---
 import { site, contactLinks, navSections } from "../data/site";
+import MenuGlyph from "./MenuGlyph.astro";
 ---
 
 <header class="site-header">
@@ -48,7 +49,7 @@ import { site, contactLinks, navSections } from "../data/site";
           aria-label="Sections"
           aria-haspopup="menu"
         >
-          <span class="menu-toggle__bars" aria-hidden="true" />
+          <MenuGlyph />
         </button>
         <div id="section-menu" class="section-menu" popover="auto">
           <div class="section-menu__inner">
@@ -60,7 +61,7 @@ import { site, contactLinks, navSections } from "../data/site";
                 popovertargetaction="hide"
                 aria-label="Close menu"
               >
-                <span class="section-menu__close-glyph" aria-hidden="true" />
+                <MenuGlyph />
               </button>
             </div>
             <ul class="section-menu__list">

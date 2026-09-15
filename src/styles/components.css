@@ -151,29 +151,46 @@
   display: none;
 }
 
-.menu-toggle__bars,
-.menu-toggle__bars::before,
-.menu-toggle__bars::after {
+.menu-glyph {
   display: block;
   width: 18px;
-  height: 2px;
-  border-radius: 1px;
-  background: currentColor;
+  height: 18px;
+  fill: currentColor;
 }
-.menu-toggle__bars {
-  position: relative;
+.menu-glyph__bar {
+  --glyph-step: var(--duration-fast);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition-property: translate, rotate, opacity;
+  transition-duration: var(--glyph-step), var(--glyph-step), 0s;
+  transition-delay: var(--glyph-step), 0s, var(--glyph-step);
+  transition-timing-function: var(--ease-in-out);
 }
-.menu-toggle__bars::before,
-.menu-toggle__bars::after {
-  content: "";
-  position: absolute;
-  left: 0;
+.site-header__actions:has(.section-menu:popover-open) .menu-glyph__bar {
+  transition-delay: 0s, var(--glyph-step), var(--glyph-step);
 }
-.menu-toggle__bars::before {
-  top: -6px;
+.site-header__actions:has(.section-menu:popover-open)
+  .menu-glyph__bar:first-child {
+  translate: 0 6px;
+  rotate: 45deg;
 }
-.menu-toggle__bars::after {
-  top: 6px;
+.site-header__actions:has(.section-menu:popover-open)
+  .menu-glyph__bar:nth-child(2) {
+  opacity: 0;
+}
+.site-header__actions:has(.section-menu:popover-open)
+  .menu-glyph__bar:last-child {
+  translate: 0 -6px;
+  rotate: -45deg;
+}
+@starting-style {
+  .site-header__actions:has(.section-menu:popover-open)
+    .section-menu__close
+    .menu-glyph__bar {
+    translate: none;
+    rotate: none;
+    opacity: 1;
+  }
 }
 
 .section-menu {
@@ -235,30 +252,6 @@
   color: var(--color-ink);
 }
 
-.section-menu__close-glyph {
-  position: relative;
-  display: block;
-  width: 18px;
-  height: 18px;
-}
-.section-menu__close-glyph::before,
-.section-menu__close-glyph::after {
-  content: "";
-  position: absolute;
-  top: calc(50% - 1px);
-  left: 0;
-  width: 100%;
-  height: 2px;
-  border-radius: 1px;
-  background: currentColor;
-}
-.section-menu__close-glyph::before {
-  rotate: 45deg;
-}
-.section-menu__close-glyph::after {
-  rotate: -45deg;
-}
-
 .section-menu__list {
   display: flex;
   flex: 1;
@@ -318,6 +311,9 @@
   }
   .section-menu__item {
     translate: none;
+  }
+  .menu-glyph__bar {
+    --glyph-step: 0s;
   }
 }
 
