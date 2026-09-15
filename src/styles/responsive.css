@@ -164,6 +164,7 @@
   .brand {
     flex-direction: column;
     gap: 0;
+    line-height: var(--leading-snug);
   }
 
   .hero__glow {

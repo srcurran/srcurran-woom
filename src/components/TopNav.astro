@@ -1,5 +1,6 @@
 ---
 import { site, contactLinks, navSections } from "../data/site";
+import MenuGlyph from "./MenuGlyph.astro";
 ---
 
 <header class="site-header">
@@ -40,7 +41,7 @@ import { site, contactLinks, navSections } from "../data/site";
         </div>
       </nav>
 
-      <nav aria-label="Sections">
+      <nav class="flex row items-center" aria-label="Sections">
         <button
           class="header-link menu-toggle"
           type="button"
@@ -48,9 +49,14 @@ import { site, contactLinks, navSections } from "../data/site";
           aria-label="Sections"
           aria-haspopup="menu"
         >
-          <span class="menu-toggle__bars" aria-hidden="true" />
+          <MenuGlyph />
         </button>
-        <div id="section-menu" class="section-menu" popover="auto">
+        <div
+          id="section-menu"
+          class="section-menu"
+          popover="auto"
+          style={`--menu-count: ${navSections.length}`}
+        >
           <div class="section-menu__inner">
             <div class="section-menu__bar">
               <button
@@ -60,7 +66,7 @@ import { site, contactLinks, navSections } from "../data/site";
                 popovertargetaction="hide"
                 aria-label="Close menu"
               >
-                <span class="section-menu__close-glyph" aria-hidden="true" />
+                <MenuGlyph />
               </button>
             </div>
             <ul class="section-menu__list">

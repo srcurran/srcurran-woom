@@ -151,32 +151,55 @@
   display: none;
 }
 
-.menu-toggle__bars,
-.menu-toggle__bars::before,
-.menu-toggle__bars::after {
+.menu-glyph {
   display: block;
   width: 18px;
-  height: 2px;
-  border-radius: 1px;
-  background: currentColor;
+  height: 18px;
+  fill: currentColor;
 }
-.menu-toggle__bars {
-  position: relative;
+.menu-glyph__bar {
+  --glyph-open: 0;
+  --glyph-step: var(--duration-fast);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition-property: translate, rotate, opacity;
+  transition-duration: var(--glyph-step), var(--glyph-step), 0s;
+  transition-delay: var(--glyph-step), 0s, var(--glyph-step);
+  transition-timing-function: var(--ease-in-out);
 }
-.menu-toggle__bars::before,
-.menu-toggle__bars::after {
-  content: "";
-  position: absolute;
-  left: 0;
+.menu-glyph__bar:first-child {
+  translate: 0 calc(var(--glyph-open) * 6px);
+  rotate: calc(var(--glyph-open) * 45deg);
 }
-.menu-toggle__bars::before {
-  top: -6px;
+.menu-glyph__bar:nth-child(2) {
+  opacity: calc(1 - var(--glyph-open));
 }
-.menu-toggle__bars::after {
-  top: 6px;
+.menu-glyph__bar:last-child {
+  translate: 0 calc(var(--glyph-open) * -6px);
+  rotate: calc(var(--glyph-open) * -45deg);
+}
+.site-header__actions:has(.section-menu:popover-open) .menu-glyph__bar {
+  --glyph-open: 1;
+  transition-delay: 0s, var(--glyph-step), var(--glyph-step);
+}
+@starting-style {
+  .site-header__actions:has(.section-menu:popover-open)
+    .section-menu__close
+    .menu-glyph__bar {
+    --glyph-open: 0;
+  }
 }
 
 .section-menu {
+  --menu-fade: var(--duration-fast);
+  --menu-rise: var(--duration-base);
+  --menu-fall: var(--duration-fast);
+  --menu-stagger: 35ms;
+  --menu-exit-stagger: 20ms;
+  --menu-clear: calc(
+    (var(--menu-count) - 1) * var(--menu-exit-stagger) + var(--menu-fall)
+  );
+
   position: fixed;
   inset: 0;
   width: 100%;
@@ -195,12 +218,18 @@
   overscroll-behavior: contain;
   opacity: 0;
   transition:
-    opacity var(--duration-base) var(--ease-out),
-    overlay var(--duration-base) var(--ease-out) allow-discrete,
-    display var(--duration-base) var(--ease-out) allow-discrete;
+    opacity var(--menu-fade) var(--ease-in-out) var(--menu-clear),
+    overlay var(--menu-fade) var(--ease-in-out) var(--menu-clear)
+      allow-discrete,
+    display var(--menu-fade) var(--ease-in-out) var(--menu-clear)
+      allow-discrete;
 }
 .section-menu:popover-open {
   opacity: 1;
+  transition:
+    opacity var(--menu-fade) var(--ease-in-out),
+    overlay var(--menu-fade) var(--ease-in-out) allow-discrete,
+    display var(--menu-fade) var(--ease-in-out) allow-discrete;
 }
 @starting-style {
   .section-menu:popover-open {
@@ -235,30 +264,6 @@
   color: var(--color-ink);
 }
 
-.section-menu__close-glyph {
-  position: relative;
-  display: block;
-  width: 18px;
-  height: 18px;
-}
-.section-menu__close-glyph::before,
-.section-menu__close-glyph::after {
-  content: "";
-  position: absolute;
-  top: calc(50% - 1px);
-  left: 0;
-  width: 100%;
-  height: 2px;
-  border-radius: 1px;
-  background: currentColor;
-}
-.section-menu__close-glyph::before {
-  rotate: 45deg;
-}
-.section-menu__close-glyph::after {
-  rotate: -45deg;
-}
-
 .section-menu__list {
   display: flex;
   flex: 1;
@@ -276,13 +281,19 @@
   opacity: 0;
   translate: 0 14px;
   transition:
-    opacity var(--duration-base) var(--ease-out),
-    translate var(--duration-base) var(--ease-out);
+    opacity var(--menu-fall) var(--ease-in-out),
+    translate var(--menu-fall) var(--ease-in-out);
+  transition-delay: calc(
+    (var(--menu-count) - 1 - var(--i)) * var(--menu-exit-stagger)
+  );
 }
 .section-menu:popover-open .section-menu__item {
   opacity: 1;
   translate: 0 0;
-  transition-delay: calc(var(--i) * 35ms);
+  transition:
+    opacity var(--menu-rise) var(--ease-out),
+    translate var(--menu-rise) var(--ease-out);
+  transition-delay: calc(var(--menu-fade) + var(--i) * var(--menu-stagger));
 }
 @starting-style {
   .section-menu:popover-open .section-menu__item {
@@ -311,13 +322,18 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .section-menu,
-  .section-menu__item {
-    transition-duration: 1ms;
-    transition-delay: 0ms;
+  .section-menu {
+    --menu-fade: 1ms;
+    --menu-rise: 1ms;
+    --menu-fall: 1ms;
+    --menu-stagger: 0ms;
+    --menu-exit-stagger: 0ms;
   }
   .section-menu__item {
     translate: none;
+  }
+  .menu-glyph__bar {
+    --glyph-step: 0ms;
   }
 }
 
