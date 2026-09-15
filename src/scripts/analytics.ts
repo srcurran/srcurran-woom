@@ -24,6 +24,7 @@ interface ViewModeDetail {
 }
 
 const CONTACT_LINKS = ".contact-menu__link, .contact-end__link";
+const HERO_LINKS = "[data-hero] a[href]";
 
 const DWELL_MS = 2000;
 const SETTLE_MS = 300;
@@ -73,12 +74,28 @@ function channelFor(href: string): string {
   return "other";
 }
 
+function clickAction(href: string): string {
+  return href.startsWith("http") ? "external_click" : "click";
+}
+
 function trackContactClicks(): void {
   document.addEventListener("click", (e) => {
     const link = (e.target as Element | null)?.closest<HTMLAnchorElement>(CONTACT_LINKS);
     if (!link) return;
-    track(eventName("click", "contact", channelFor(link.getAttribute("href") ?? "")), {
+    const href = link.getAttribute("href") ?? "";
+    track(eventName(clickAction(href), "contact", channelFor(href)), {
       location: link.classList.contains("contact-menu__link") ? "nav" : "footer",
+    });
+  });
+}
+
+function trackHeroLinks(): void {
+  document.addEventListener("click", (e) => {
+    const link = (e.target as Element | null)?.closest<HTMLAnchorElement>(HERO_LINKS);
+    if (!link) return;
+    const href = link.getAttribute("href") ?? "";
+    track(eventName(clickAction(href), "hero", link.textContent ?? ""), {
+      url: href,
     });
   });
 }
@@ -89,7 +106,7 @@ function trackExternalLinks(): void {
     if (!link) return;
     const href = link.getAttribute("href") ?? "";
     if (!href.startsWith("http")) return;
-    if (link.closest(CONTACT_LINKS)) return;
+    if (link.closest(`${CONTACT_LINKS}, ${HERO_LINKS}`)) return;
 
     const url = new URL(href);
     track(eventName("click", "link", channelFor(href)), {
@@ -185,6 +202,7 @@ export function initAnalytics(): void {
   trackViewMode();
   trackFurthest();
   trackContactClicks();
+  trackHeroLinks();
   trackExternalLinks();
   trackDeckInteractions();
   trackNavigation();
