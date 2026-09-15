@@ -196,7 +196,12 @@
 .section-menu {
   --menu-fade: var(--duration-fast);
   --menu-rise: var(--duration-base);
+  --menu-fall: var(--duration-fast);
   --menu-stagger: 35ms;
+  --menu-exit-stagger: 20ms;
+  --menu-exit: calc(
+    (var(--menu-count) - 1) * var(--menu-exit-stagger) + var(--menu-fall)
+  );
 
   position: fixed;
   inset: 0;
@@ -216,10 +221,10 @@
   overscroll-behavior: contain;
   opacity: 0;
   transition:
-    opacity var(--menu-fade) var(--ease-in-out) var(--menu-fade),
-    overlay var(--menu-fade) var(--ease-in-out) var(--menu-fade)
+    opacity var(--menu-fade) var(--ease-in-out) var(--menu-exit),
+    overlay var(--menu-fade) var(--ease-in-out) var(--menu-exit)
       allow-discrete,
-    display var(--menu-fade) var(--ease-in-out) var(--menu-fade)
+    display var(--menu-fade) var(--ease-in-out) var(--menu-exit)
       allow-discrete;
 }
 .section-menu:popover-open {
@@ -279,8 +284,11 @@
   opacity: 0;
   translate: 0 14px;
   transition:
-    opacity var(--menu-fade) var(--ease-in-out),
-    translate var(--menu-fade) var(--ease-in-out);
+    opacity var(--menu-fall) var(--ease-in-out),
+    translate var(--menu-fall) var(--ease-in-out);
+  transition-delay: calc(
+    (var(--menu-count) - 1 - var(--i)) * var(--menu-exit-stagger)
+  );
 }
 .section-menu:popover-open .section-menu__item {
   opacity: 1;
@@ -320,7 +328,9 @@
   .section-menu {
     --menu-fade: 1ms;
     --menu-rise: 1ms;
+    --menu-fall: 1ms;
     --menu-stagger: 0ms;
+    --menu-exit-stagger: 0ms;
   }
   .section-menu__item {
     translate: none;

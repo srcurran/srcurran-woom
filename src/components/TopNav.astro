@@ -51,7 +51,12 @@ import MenuGlyph from "./MenuGlyph.astro";
         >
           <MenuGlyph />
         </button>
-        <div id="section-menu" class="section-menu" popover="auto">
+        <div
+          id="section-menu"
+          class="section-menu"
+          popover="auto"
+          style={`--menu-count: ${navSections.length}`}
+        >
           <div class="section-menu__inner">
             <div class="section-menu__bar">
               <button
