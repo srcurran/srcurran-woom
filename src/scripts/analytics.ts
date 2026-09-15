@@ -75,7 +75,10 @@ function channelFor(href: string): string {
 }
 
 function clickAction(href: string): string {
-  return href.startsWith("http") ? "external_click" : "click";
+  if (href.startsWith("http")) return "external_click";
+  if (href.startsWith("mailto:")) return "mailto_click";
+  if (href.startsWith("tel:")) return "tel_click";
+  return "click";
 }
 
 function trackContactClicks(): void {
