@@ -317,6 +317,11 @@ main:has(.deck__section-title) {
   margin: 0;
   color: var(--color-on-dark);
 }
+.slide__meta-value--links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2cqw 1.6cqw;
+}
 
 .slide__meta-link {
   color: inherit;

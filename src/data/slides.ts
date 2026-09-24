@@ -22,11 +22,18 @@ export interface SlideQuote {
   featured?: boolean;
 }
 
+export interface SlideMetaLink {
+  label: string;
+  href: string;
+}
+
 /** One credit row on a title card. With `href`, the value renders as a link out. */
 export interface SlideMetaRow {
   label: string;
-  value: string;
+  value?: string;
   href?: string;
+  /** Several links out side by side, in place of `value`. */
+  links?: SlideMetaLink[];
 }
 
 export interface Slide {
@@ -251,6 +258,93 @@ export const slides: Slide[] = [
   },
 
   {
+    id: "side-projects-intro",
+    section: "side-projects",
+    kind: "intro",
+    theme: "dark",
+    heading: "Side Projects",
+    meta: [
+      { label: "Role", value: "Personal Projects (Designed & Developed)" },
+      {
+        label: "Links",
+        links: [
+          {
+            label: "MacThing (Github)",
+            href: "https://github.com/srcurran/MacThing",
+          },
+          { label: "Ohsee.app", href: "https://ohsee.app" },
+          {
+            label: "Focal-Point (Figma)",
+            href: "https://www.figma.com/community/plugin/1661755431369623402/focal-point-resize-dont-recrop",
+          },
+        ],
+      },
+    ],
+    paragraphs: [
+      "Projects I have designed and developed through agentic tooling.",
+      "**MacThing:** A desktop widget using the Spotify Car Thing hardware.",
+      "**Ohsee:** A visual QA tool built code-first to catch agentic bugs.",
+      "**Focal Point:** Easily reframe images with off-centered subjects.",
+    ],
+  },
+  {
+    id: "macthing-now-playing",
+    section: "side-projects",
+    kind: "mockup",
+    heading: "MacThing",
+    tasks: "Concept • design • development",
+    media: [
+      {
+        src: "/work/macthing-now-playing.mp4",
+        alt: "MacThing turning a Car Thing into a Mac display, cycling between now playing and a clock",
+        type: "video",
+      },
+    ],
+  },
+  {
+    id: "ohsee-compare",
+    section: "side-projects",
+    kind: "mockup",
+    heading: "Ohsee: CLI diff report",
+    tasks: "Concept • design • development",
+    media: [
+      {
+        src: "/work/ohsee-cli-compare.mp4",
+        alt: "Ohsee's report highlighting diffs beside a list of detected changes",
+        type: "video",
+      },
+    ],
+  },
+  {
+    id: "ohsee-app-overview",
+    section: "side-projects",
+    kind: "mockup",
+    heading: "Ohsee: Desktop app showing captured pages",
+    tasks: "Concept • design • development",
+    media: [
+      {
+        src: "/work/ohsee-app-overview.mp4",
+        alt: "Ohsee's desktop app showing every captured page in a test, then opening one",
+        type: "video",
+      },
+    ],
+  },
+  {
+    id: "focal-point-resize",
+    section: "side-projects",
+    kind: "mockup",
+    heading: "Focal Point",
+    tasks: "Concept • design • development",
+    media: [
+      {
+        src: "/work/focal-point-resize.mp4",
+        alt: "Focal Point Figma plugin keeping a photo's subject in frame as the image is resized",
+        type: "video",
+      },
+    ],
+  },
+
+  {
     id: "hawthorne-intro",
     section: "hawthorne",
     kind: "intro",
@@ -326,92 +420,6 @@ export const slides: Slide[] = [
       "__Increased subscriptions 15%__ from quiz results redesign",
       "Led CMS redesign to update the site __faster and cheaper__",
       "Defined __average session value__ as the core metric to cleanly evaluate smaller-basket solutions",
-    ],
-  },
-
-  {
-    id: "ohsee-intro",
-    section: "ohsee",
-    kind: "intro",
-    theme: "dark",
-    heading: "Ohsee QA",
-    meta: [
-      { label: "Role", value: "Personal Project (Designed & Developed)" },
-      { label: "Link", value: "ohsee.app", href: "https://ohsee.app" },
-    ],
-    paragraphs: [
-      "Designing in code increases the risk of introducing visual bugs. I looked for a visual regression testing app, but nothing that existed did what I needed.",
-      "So I made my own.",
-      "Working code-first, I built and refined a visual QA tool.",
-    ],
-  },
-  {
-    id: "ohsee-app-overview",
-    section: "ohsee",
-    kind: "mockup",
-    heading: "Captured pages",
-    tasks: "Concept • design • development",
-    media: [
-      {
-        src: "/work/ohsee-app-overview.mp4",
-        alt: "Ohsee's desktop app showing every captured page in a test, then opening one",
-        type: "video",
-      },
-    ],
-  },
-  {
-    id: "ohsee-app-diff",
-    section: "ohsee",
-    kind: "mockup",
-    heading: "Page detail",
-    tasks: "Concept • design • development",
-    media: [
-      {
-        src: "/work/ohsee-diff.mp4",
-        alt: "Ohsee's desktop app diffing a page beside its detected changes",
-        type: "video",
-      },
-    ],
-  },
-  {
-    id: "ohsee-run",
-    section: "ohsee",
-    kind: "mockup",
-    heading: "Capture and diff",
-    tasks: "Concept • design • development",
-    media: [
-      {
-        src: "/work/ohsee-cli-run.mp4",
-        alt: "Ohsee capturing and diffing a run from the terminal",
-        type: "video",
-      },
-    ],
-  },
-  {
-    id: "ohsee-compare",
-    section: "ohsee",
-    kind: "mockup",
-    heading: "Diff report",
-    tasks: "Concept • design • development",
-    media: [
-      {
-        src: "/work/ohsee-cli-compare.mp4",
-        alt: "Ohsee's report highlighting diffs beside a list of detected changes",
-        type: "video",
-      },
-    ],
-  },
-  {
-    id: "ohsee-results",
-    section: "ohsee",
-    kind: "results",
-    theme: "light",
-    heading: "Ohsee results",
-    items: [
-      "Has caught __dozens of bugs__ in my own work, before they shipped",
-      "Works for designers and developers with __CLI and app__",
-      "Tracks the __visual history__ of your project",
-      "Built __code-first__, to meet my specific needs",
     ],
   },
 
