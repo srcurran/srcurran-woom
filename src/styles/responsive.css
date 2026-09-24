@@ -27,13 +27,16 @@
     --logo-strip-pad-bottom: var(--space-3xl);
   }
 
-  .deck__viewport { --card-w: var(--static-card-w); }
+  main {
+    --card-w: var(--static-card-w);
+    --section-title-size: var(--text-3xl);
+  }
   .deck__card { width: var(--card-w); }
 
   .contact-end__peace { max-width: none; }
 
   .deck__viewport {
-    gap: clamp(1.25rem, 4vh, 2.5rem);
+    --deck-gap: clamp(1.25rem, 4vh, 2.5rem);
     padding-block: 0 clamp(1.5rem, 6vh, 3rem);
   }
 
