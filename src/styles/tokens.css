@@ -47,7 +47,11 @@
   --color-accent: var(--accent-500);
   --color-accent-hover: var(--accent-600);
   --color-highlight: color-mix(in srgb, var(--butter-300) 52%, transparent);
-  --color-highlight-soft: color-mix(in srgb, var(--butter-300) 26%, transparent);
+  --color-highlight-soft: color-mix(
+    in srgb,
+    var(--butter-300) 26%,
+    transparent
+  );
   --color-warning: var(--warning-500);
   --color-warning-hover: var(--warning-600);
 
@@ -82,6 +86,8 @@
     #f9f0eb 55%,
     #fbefe9
   );
+  --gradient-linear-purple: linear-gradient(0deg, #3f1e89 0%, #835adc 100%);
+  --gradient-linear-sand: linear-gradient(180deg, #f1ede5 0%, #e6e4e0 100%);
 
   --font-sans:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
@@ -152,6 +158,10 @@
   --elevation-3:
     0 16px 40px rgba(var(--shadow-rgb), 0.12),
     0 4px 10px rgba(var(--shadow-rgb), 0.08);
+
+  --shadow-device:
+    drop-shadow(0 2cqw 4cqw rgba(var(--shadow-rgb), 0.18))
+    drop-shadow(0 0.5cqw 1cqw rgba(var(--shadow-rgb), 0.12));
 
   --duration-fast: 150ms;
   --duration-base: 300ms;

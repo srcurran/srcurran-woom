@@ -7,7 +7,6 @@ export interface SlideMedia {
   type?: "image" | "video";
   /** Bleed the device mockup off the right edge (project intros). */
   bleed?: boolean;
-  phoneBorder?: boolean;
   /** Round the asset's own corners, in cqw, so it scales with the card. */
   rounded?: boolean;
   /** Overlay the iPhone bezel on a bezel-less asset (phone-mask.png). */
@@ -58,7 +57,7 @@ export interface Slide {
   /** Force a single-image mockup to contain (centred + padded) over cover-fill. */
   fit?: "cover" | "contain";
   /** Fill behind the card, overriding the theme. A token reference
-   *  (`var(--gradient-lavender-peach)`), never a literal color. */
+   *  (`var(--gradient-linear-purple)`), never a literal color. */
   background?: string;
   /** Vestigial: position on the retired home highlights deck. Nothing reads it. */
   onIndex?: number;
@@ -108,13 +107,13 @@ export const slides: Slide[] = [
     onIndex: 2,
     heading: "Welcome screen",
     tasks: "Animation • design • development",
-    background: "var(--gradient-lavender-peach)",
+    background: "var(--gradient-linear-purple)",
     media: [
       {
         src: "/work/foyer-app.mp4",
         alt: "Foyer app",
         type: "video",
-        phoneBorder: true,
+        phoneFrame: true,
       },
     ],
   },
@@ -123,13 +122,26 @@ export const slides: Slide[] = [
     section: "foyer",
     kind: "mockup",
     heading: "Onboarding",
+    background: "var(--gradient-linear-purple)",
     onIndex: 5,
     tasks:
       "User flow • performance optimization • design • interaction patterns • component development",
     media: [
-      { src: "/work/foyer-1-a.png", alt: "Onboarding: choosing where you want to buy" },
-      { src: "/work/foyer-1-c.png", alt: "Onboarding: setting a target home price and down payment" },
-      { src: "/work/foyer-1-d.png", alt: "Onboarding: picking what you want the most help with" },
+      {
+        src: "/work/foyer-1-a.png",
+        alt: "Onboarding: choosing where you want to buy",
+        phoneFrame: true,
+      },
+      {
+        src: "/work/foyer-1-c.png",
+        alt: "Onboarding: setting a target home price and down payment",
+        phoneFrame: true,
+      },
+      {
+        src: "/work/foyer-1-d.png",
+        alt: "Onboarding: picking what you want the most help with",
+        phoneFrame: true,
+      },
       {
         src: "/work/foyer-home-goal.mp4",
         alt: "Home goal animation",
@@ -143,6 +155,7 @@ export const slides: Slide[] = [
     section: "foyer",
     kind: "mockup",
     heading: "Foyer × Zillow",
+    background: "var(--gradient-linear-sand)",
     tasks: "Partnership concepting • design • hero animation • content",
     media: [
       {
@@ -158,12 +171,29 @@ export const slides: Slide[] = [
     section: "foyer",
     kind: "mockup",
     heading: "Tools and calculators",
+    background: "var(--gradient-linear-purple)",
     tasks: "Interaction patterns • design • content • development",
     media: [
-      { src: "/work/foyer-3-a.png", alt: "Tools index with home goal summary" },
-      { src: "/work/foyer-3-b.png", alt: "Affordability calculator: monthly debt input" },
-      { src: "/work/foyer-3-c.png", alt: "Affordability calculator: result with DTI scale" },
-      { src: "/work/foyer-3-d.png", alt: "Affordability calculator: mortgage inputs" },
+      {
+        src: "/work/foyer-3-a.png",
+        alt: "Tools index with home goal summary",
+        phoneFrame: true,
+      },
+      {
+        src: "/work/foyer-3-b.png",
+        alt: "Affordability calculator: monthly debt input",
+        phoneFrame: true,
+      },
+      {
+        src: "/work/foyer-3-c.png",
+        alt: "Affordability calculator: result with DTI scale",
+        phoneFrame: true,
+      },
+      {
+        src: "/work/foyer-3-d.png",
+        alt: "Affordability calculator: mortgage inputs",
+        phoneFrame: true,
+      },
     ],
   },
   {
