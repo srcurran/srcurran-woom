@@ -11,8 +11,10 @@ interface Props {
   title: string;
   /** Greet with "Hello" instead of "Hi" — /work's longer opening. */
   full?: boolean;
+  /** Visitor's name from the URL, so /Foo says "Hi Foo." */
+  name?: string;
 }
-const { title, full = false } = Astro.props;
+const { title, full = false, name } = Astro.props;
 ---
 
 <Layout title={title}>
@@ -21,7 +23,7 @@ const { title, full = false } = Astro.props;
 
   <main>
     <div class="opening">
-      <Hero full={full} />
+      <Hero full={full} name={name} />
       <LogoStrip />
     </div>
     <Deck />

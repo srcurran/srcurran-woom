@@ -11,6 +11,7 @@
     --static-card-w: min(78vw, var(--rail-max), max(92svh * 16 / 9, var(--card-min)));
     --container-max: var(--static-card-w);
     --content-max: calc(var(--static-card-w) - 2 * var(--space-lg));
+    --card-w: var(--static-card-w);
   }
 
   [data-hero].hero {
@@ -27,7 +28,6 @@
     --logo-strip-pad-bottom: var(--space-3xl);
   }
 
-  .deck__viewport { --card-w: var(--static-card-w); }
   .deck__card { width: var(--card-w); }
 
   .contact-end__peace { max-width: none; }
@@ -52,6 +52,11 @@
   }
 
   .slide--intro .slide__heading { font-size: var(--text-3xl); }
+
+  .hero__headline--named {
+    font-size: var(--text-2xl);
+    letter-spacing: var(--tracking-tight);
+  }
 
   .slide__inner--intro .slide__text,
   .slide__inner--intro.is-text-only .slide__text { max-width: none; }
