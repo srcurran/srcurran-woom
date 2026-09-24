@@ -31,12 +31,12 @@ export const about = {
       },
       { text: " • " },
       {
-        text: "Focal Point (Figma plugin)",
+        text: "Focal Point",
         href: "https://www.figma.com/community/plugin/1661755431369623402/focal-point-resize-dont-recrop",
       },
       { text: " • " },
       {
-        text: "MacThing (Car Thing display)",
+        text: "MacThing",
         href: "https://github.com/srcurran/MacThing",
       },
       { text: "." },
