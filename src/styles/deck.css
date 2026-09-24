@@ -66,10 +66,10 @@ main:has(.deck__section-title) {
 }
 .hero__headline {
   font-family: var(--font-display);
-  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-size: var(--section-title-size);
   font-weight: var(--weight-bold);
-  line-height: 1.05;
-  letter-spacing: var(--tracking-tight);
+  line-height: var(--section-title-leading);
+  letter-spacing: calc(var(--card-w) * -0.001);
 }
 
 .hero__headline--named {
