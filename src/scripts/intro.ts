@@ -13,6 +13,7 @@ export function initIntro(): void {
   const sideNav = document.querySelector<HTMLElement>("[data-side-nav]");
 
   const firstCard = document.querySelector<HTMLElement>('[data-card][data-index="0"]');
+  const firstTitle = document.querySelector<HTMLElement>("[data-section-title]");
 
   const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
@@ -47,6 +48,9 @@ export function initIntro(): void {
   }
 
   tl.addLabel("card");
+  if (firstTitle) {
+    tl.fromTo(firstTitle, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6 }, "card");
+  }
   if (firstCard) {
     tl.from(
       firstCard,
