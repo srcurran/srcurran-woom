@@ -18,12 +18,14 @@ const media = slide.media?.[0];
               <figure class="slide__shot">
                 {m.phoneFrame ? (
                   <div class="phone">
-                    {m.type === "video" ? (
-                      <video src={m.src} autoplay muted loop playsinline class="phone__screen" />
-                    ) : (
-                      <img src={m.src} alt={m.alt ?? ""} class="phone__screen" />
-                    )}
-                    <img class="phone__frame" src="/work/phone-mask.png" alt="" aria-hidden="true" />
+                    <div class="phone__device">
+                      {m.type === "video" ? (
+                        <video src={m.src} autoplay muted loop playsinline class="phone__screen" />
+                      ) : (
+                        <img src={m.src} alt={m.alt ?? ""} class="phone__screen" />
+                      )}
+                      <img class="phone__frame" src="/work/phone-mask.png" alt="" aria-hidden="true" />
+                    </div>
                   </div>
                 ) : m.type === "video" ? (
                   <video
@@ -32,7 +34,7 @@ const media = slide.media?.[0];
                     muted
                     loop
                     playsinline
-                    class:list={[m.phoneBorder && "isPhoneBorder", m.rounded && "isRounded"]}
+                    class:list={[m.rounded && "isRounded"]}
                   />
                 ) : (
                   <img src={m.src} alt={m.alt ?? ""} class:list={[m.rounded && "isRounded"]} />
