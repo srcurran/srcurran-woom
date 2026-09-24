@@ -1,12 +1,29 @@
 ---
 import Card from "./Card.astro";
-import { slides } from "../data/site";
+import { slides } from "../data/slides";
+import { navSections } from "../data/navigation";
 
-const shown = slides.filter((s) => !s.indexOnly);
+interface Props {
+  /** Drop title and results cards; break sections with the company name on the canvas. */
+  sectionBreaks?: boolean;
+}
+const { sectionBreaks = false } = Astro.props;
+
+const shown = slides.filter(
+  (s) => !s.indexOnly && !(sectionBreaks && (s.kind === "intro" || s.kind === "results")),
+);
+const sectionLabel = (id: string) => navSections.find((n) => n.id === id)?.label ?? id;
+const opensSection = (i: number) =>
+  sectionBreaks && (i === 0 || shown[i - 1].section !== shown[i].section);
 ---
 
 <section class="deck" data-deck aria-label="Selected work">
   <div class="deck__viewport" data-deck-viewport>
-    {shown.map((slide, i) => <Card slide={slide} index={i} />)}
+    {shown.map((slide, i) => (
+      <Fragment>
+        {opensSection(i) && <h2 class="deck__section-title" data-section-title>{sectionLabel(slide.section)}</h2>}
+        <Card slide={slide} index={i} />
+      </Fragment>
+    ))}
   </div>
 </section>

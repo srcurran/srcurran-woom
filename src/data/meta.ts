@@ -18,7 +18,7 @@ export const about = {
   /** Opens the first paragraph when greeting by name. */
   leadNamed: "I'm Sean.",
   paragraphs: [
-    "Full-stack designer with nearly two decades of diverse experience. Working on projects from checkout optimization to 0-to-1 app creation, in fashion and fintech, for startups and design firms.",
+    "Full-stack designer with twenty years of diverse experience. I solve ambiguous problems with strategy, design craft and agentic development.",
     "Agency hustle, startup grit. A designer's eye and developer's mind.",
   ],
   notes: [
@@ -35,12 +35,12 @@ export const about = {
       },
       { text: " • " },
       {
-        text: "Focal Point (Figma plugin)",
+        text: "Focal Point",
         href: "https://www.figma.com/community/plugin/1661755431369623402/focal-point-resize-dont-recrop",
       },
       { text: " • " },
       {
-        text: "MacThing (Car Thing display)",
+        text: "MacThing",
         href: "https://github.com/srcurran/MacThing",
       },
       { text: "." },

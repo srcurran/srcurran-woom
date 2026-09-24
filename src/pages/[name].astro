@@ -9,4 +9,4 @@ const name = visitorName(Astro.params.name);
 if (!name) return Astro.redirect("/");
 ---
 
-<PortfolioPage title={`${greet(name)} — ${site.name}`} name={name} />
+<PortfolioPage title={`${greet(name)} — ${site.name}`} name={name} sectionBreaks />

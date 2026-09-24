@@ -7,7 +7,6 @@ export interface SlideMedia {
   type?: "image" | "video";
   /** Bleed the device mockup off the right edge (project intros). */
   bleed?: boolean;
-  phoneBorder?: boolean;
   /** Round the asset's own corners, in cqw, so it scales with the card. */
   rounded?: boolean;
   /** Overlay the iPhone bezel on a bezel-less asset (phone-mask.png). */
@@ -23,11 +22,18 @@ export interface SlideQuote {
   featured?: boolean;
 }
 
+export interface SlideMetaLink {
+  label: string;
+  href: string;
+}
+
 /** One credit row on a title card. With `href`, the value renders as a link out. */
 export interface SlideMetaRow {
   label: string;
-  value: string;
+  value?: string;
   href?: string;
+  /** Several links out side by side, in place of `value`. */
+  links?: SlideMetaLink[];
 }
 
 export interface Slide {
@@ -51,7 +57,7 @@ export interface Slide {
   /** Force a single-image mockup to contain (centred + padded) over cover-fill. */
   fit?: "cover" | "contain";
   /** Fill behind the card, overriding the theme. A token reference
-   *  (`var(--gradient-lavender-peach)`), never a literal color. */
+   *  (`var(--gradient-linear-purple)`), never a literal color. */
   background?: string;
   /** Vestigial: position on the retired home highlights deck. Nothing reads it. */
   onIndex?: number;
@@ -101,13 +107,13 @@ export const slides: Slide[] = [
     onIndex: 2,
     heading: "Welcome screen",
     tasks: "Animation • design • development",
-    background: "var(--gradient-lavender-peach)",
+    background: "var(--gradient-linear-purple)",
     media: [
       {
         src: "/work/foyer-app.mp4",
         alt: "Foyer app",
         type: "video",
-        phoneBorder: true,
+        phoneFrame: true,
       },
     ],
   },
@@ -116,13 +122,26 @@ export const slides: Slide[] = [
     section: "foyer",
     kind: "mockup",
     heading: "Onboarding",
+    background: "var(--gradient-linear-purple)",
     onIndex: 5,
     tasks:
       "User flow • performance optimization • design • interaction patterns • component development",
     media: [
-      { src: "/work/foyer-1-a.png", alt: "Onboarding: choosing where you want to buy" },
-      { src: "/work/foyer-1-c.png", alt: "Onboarding: setting a target home price and down payment" },
-      { src: "/work/foyer-1-d.png", alt: "Onboarding: picking what you want the most help with" },
+      {
+        src: "/work/foyer-1-a.png",
+        alt: "Onboarding: choosing where you want to buy",
+        phoneFrame: true,
+      },
+      {
+        src: "/work/foyer-1-c.png",
+        alt: "Onboarding: setting a target home price and down payment",
+        phoneFrame: true,
+      },
+      {
+        src: "/work/foyer-1-d.png",
+        alt: "Onboarding: picking what you want the most help with",
+        phoneFrame: true,
+      },
       {
         src: "/work/foyer-home-goal.mp4",
         alt: "Home goal animation",
@@ -136,6 +155,7 @@ export const slides: Slide[] = [
     section: "foyer",
     kind: "mockup",
     heading: "Foyer × Zillow",
+    background: "var(--gradient-linear-sand)",
     tasks: "Partnership concepting • design • hero animation • content",
     media: [
       {
@@ -151,12 +171,29 @@ export const slides: Slide[] = [
     section: "foyer",
     kind: "mockup",
     heading: "Tools and calculators",
+    background: "var(--gradient-linear-purple)",
     tasks: "Interaction patterns • design • content • development",
     media: [
-      { src: "/work/foyer-3-a.png", alt: "Tools index with home goal summary" },
-      { src: "/work/foyer-3-b.png", alt: "Affordability calculator: monthly debt input" },
-      { src: "/work/foyer-3-c.png", alt: "Affordability calculator: result with DTI scale" },
-      { src: "/work/foyer-3-d.png", alt: "Affordability calculator: mortgage inputs" },
+      {
+        src: "/work/foyer-3-a.png",
+        alt: "Tools index with home goal summary",
+        phoneFrame: true,
+      },
+      {
+        src: "/work/foyer-3-b.png",
+        alt: "Affordability calculator: monthly debt input",
+        phoneFrame: true,
+      },
+      {
+        src: "/work/foyer-3-c.png",
+        alt: "Affordability calculator: result with DTI scale",
+        phoneFrame: true,
+      },
+      {
+        src: "/work/foyer-3-d.png",
+        alt: "Affordability calculator: mortgage inputs",
+        phoneFrame: true,
+      },
     ],
   },
   {
@@ -217,6 +254,93 @@ export const slides: Slide[] = [
       "__40pt increase__ in onboarding completion, by swapping the order of home goal and register",
       "Achieved __64% attach rate__ on paid product",
       "Helped __hundreds of members__ purchase a home",
+    ],
+  },
+
+  {
+    id: "side-projects-intro",
+    section: "side-projects",
+    kind: "intro",
+    theme: "dark",
+    heading: "Side Projects",
+    meta: [
+      { label: "Role", value: "Personal Projects (Designed & Developed)" },
+      {
+        label: "Links",
+        links: [
+          {
+            label: "MacThing (Github)",
+            href: "https://github.com/srcurran/MacThing",
+          },
+          { label: "Ohsee.app", href: "https://ohsee.app" },
+          {
+            label: "Focal-Point (Figma)",
+            href: "https://www.figma.com/community/plugin/1661755431369623402/focal-point-resize-dont-recrop",
+          },
+        ],
+      },
+    ],
+    paragraphs: [
+      "Projects I have designed and developed through agentic tooling.",
+      "**MacThing:** A desktop widget using the Spotify Car Thing hardware.",
+      "**Ohsee:** A visual QA tool built code-first to catch agentic bugs.",
+      "**Focal Point:** Easily reframe images with off-centered subjects.",
+    ],
+  },
+  {
+    id: "macthing-now-playing",
+    section: "side-projects",
+    kind: "mockup",
+    heading: "MacThing",
+    tasks: "Concept • design • development",
+    media: [
+      {
+        src: "/work/macthing-now-playing.mp4",
+        alt: "MacThing turning a Car Thing into a Mac display, cycling between now playing and a clock",
+        type: "video",
+      },
+    ],
+  },
+  {
+    id: "ohsee-compare",
+    section: "side-projects",
+    kind: "mockup",
+    heading: "Ohsee: CLI diff report",
+    tasks: "Concept • design • development",
+    media: [
+      {
+        src: "/work/ohsee-cli-compare.mp4",
+        alt: "Ohsee's report highlighting diffs beside a list of detected changes",
+        type: "video",
+      },
+    ],
+  },
+  {
+    id: "ohsee-app-overview",
+    section: "side-projects",
+    kind: "mockup",
+    heading: "Ohsee: Desktop app showing captured pages",
+    tasks: "Concept • design • development",
+    media: [
+      {
+        src: "/work/ohsee-app-overview.mp4",
+        alt: "Ohsee's desktop app showing every captured page in a test, then opening one",
+        type: "video",
+      },
+    ],
+  },
+  {
+    id: "focal-point-resize",
+    section: "side-projects",
+    kind: "mockup",
+    heading: "Focal Point",
+    tasks: "Concept • design • development",
+    media: [
+      {
+        src: "/work/focal-point-resize.mp4",
+        alt: "Focal Point Figma plugin keeping a photo's subject in frame as the image is resized",
+        type: "video",
+      },
     ],
   },
 
@@ -296,92 +420,6 @@ export const slides: Slide[] = [
       "__Increased subscriptions 15%__ from quiz results redesign",
       "Led CMS redesign to update the site __faster and cheaper__",
       "Defined __average session value__ as the core metric to cleanly evaluate smaller-basket solutions",
-    ],
-  },
-
-  {
-    id: "ohsee-intro",
-    section: "ohsee",
-    kind: "intro",
-    theme: "dark",
-    heading: "Ohsee QA",
-    meta: [
-      { label: "Role", value: "Personal Project (Designed & Developed)" },
-      { label: "Link", value: "ohsee.app", href: "https://ohsee.app" },
-    ],
-    paragraphs: [
-      "Designing in code increases the risk of introducing visual bugs. I looked for a visual regression testing app, but nothing that existed did what I needed.",
-      "So I made my own.",
-      "Working code-first, I built and refined a visual QA tool.",
-    ],
-  },
-  {
-    id: "ohsee-app-overview",
-    section: "ohsee",
-    kind: "mockup",
-    heading: "Captured pages",
-    tasks: "Concept • design • development",
-    media: [
-      {
-        src: "/work/ohsee-app-overview.mp4",
-        alt: "Ohsee's desktop app showing every captured page in a test, then opening one",
-        type: "video",
-      },
-    ],
-  },
-  {
-    id: "ohsee-app-diff",
-    section: "ohsee",
-    kind: "mockup",
-    heading: "Page detail",
-    tasks: "Concept • design • development",
-    media: [
-      {
-        src: "/work/ohsee-diff.mp4",
-        alt: "Ohsee's desktop app diffing a page beside its detected changes",
-        type: "video",
-      },
-    ],
-  },
-  {
-    id: "ohsee-run",
-    section: "ohsee",
-    kind: "mockup",
-    heading: "Capture and diff",
-    tasks: "Concept • design • development",
-    media: [
-      {
-        src: "/work/ohsee-cli-run.mp4",
-        alt: "Ohsee capturing and diffing a run from the terminal",
-        type: "video",
-      },
-    ],
-  },
-  {
-    id: "ohsee-compare",
-    section: "ohsee",
-    kind: "mockup",
-    heading: "Diff report",
-    tasks: "Concept • design • development",
-    media: [
-      {
-        src: "/work/ohsee-cli-compare.mp4",
-        alt: "Ohsee's report highlighting diffs beside a list of detected changes",
-        type: "video",
-      },
-    ],
-  },
-  {
-    id: "ohsee-results",
-    section: "ohsee",
-    kind: "results",
-    theme: "light",
-    heading: "Ohsee results",
-    items: [
-      "Has caught __dozens of bugs__ in my own work, before they shipped",
-      "Works for designers and developers with __CLI and app__",
-      "Tracks the __visual history__ of your project",
-      "Built __code-first__, to meet my specific needs",
     ],
   },
 

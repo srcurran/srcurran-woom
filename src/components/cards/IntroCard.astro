@@ -1,6 +1,7 @@
 ---
 import type { Slide } from "../../data/slides";
 import { emphasize } from "../../lib/emphasize";
+import MetaLink from "./MetaLink.astro";
 
 interface Props {
   slide: Slide;
@@ -21,14 +22,12 @@ const media = slide.media?.[0];
       {slide.meta.map((row) => (
         <div class="slide__meta-row">
           <dt class="slide__meta-label">{row.label}</dt>
-          <dd class="slide__meta-value">
-            {row.href
-              ? (
-                  <a class="slide__meta-link" href={row.href} target="_blank" rel="noopener noreferrer">
-                    {row.value}
-                  </a>
-                )
-              : row.value}
+          <dd class:list={["slide__meta-value", row.links && "slide__meta-value--links"]}>
+            {row.links
+              ? row.links.map((link) => <MetaLink href={link.href}>{link.label}</MetaLink>)
+              : row.href
+                ? <MetaLink href={row.href}>{row.value}</MetaLink>
+                : row.value}
           </dd>
         </div>
       ))}
