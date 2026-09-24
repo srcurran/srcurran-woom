@@ -79,6 +79,7 @@
 
 :root {
   --color-veil: var(--color-bg);
+  --color-scrim: color-mix(in srgb, var(--color-ink) 24%, transparent);
 
   --gradient-lavender-peach: linear-gradient(
     to top right,

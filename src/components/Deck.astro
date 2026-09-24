@@ -1,5 +1,6 @@
 ---
 import Card from "./Card.astro";
+import SectionTitle from "./SectionTitle.astro";
 import { slides } from "../data/slides";
 import { navSections } from "../data/navigation";
 
@@ -13,6 +14,7 @@ const shown = slides.filter(
   (s) => !s.indexOnly && !(sectionBreaks && (s.kind === "intro" || s.kind === "results")),
 );
 const sectionLabel = (id: string) => navSections.find((n) => n.id === id)?.label ?? id;
+const sectionIntro = (id: string) => slides.find((s) => s.section === id && s.kind === "intro");
 const opensSection = (i: number) =>
   sectionBreaks && (i === 0 || shown[i - 1].section !== shown[i].section);
 ---
@@ -21,7 +23,9 @@ const opensSection = (i: number) =>
   <div class="deck__viewport" data-deck-viewport>
     {shown.map((slide, i) => (
       <Fragment>
-        {opensSection(i) && <h2 class="deck__section-title" data-section-title>{sectionLabel(slide.section)}</h2>}
+        {opensSection(i) && (
+          <SectionTitle label={sectionLabel(slide.section)} details={sectionIntro(slide.section)} />
+        )}
         <Card slide={slide} index={i} />
       </Fragment>
     ))}
