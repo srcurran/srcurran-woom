@@ -268,11 +268,11 @@ export const slides: Slide[] = [
       {
         label: "Links",
         links: [
-          { label: "Ohsee.app", href: "https://ohsee.app" },
           {
             label: "MacThing (Github)",
             href: "https://github.com/srcurran/MacThing",
           },
+          { label: "Ohsee.app", href: "https://ohsee.app" },
           {
             label: "Focal-Point (Figma)",
             href: "https://www.figma.com/community/plugin/1661755431369623402/focal-point-resize-dont-recrop",
@@ -281,17 +281,31 @@ export const slides: Slide[] = [
       },
     ],
     paragraphs: [
-      "Recent projects that I have designed and developed with agentic tooling.",
-      "**Ohsee:** A visual QA tool built code-first to catch agentic bugs.",
+      "Projects I have designed and developed through agentic tooling.",
       "**MacThing:** A desktop widget using the Spotify Car Thing hardware.",
+      "**Ohsee:** A visual QA tool built code-first to catch agentic bugs.",
       "**Focal Point:** Easily reframe images with off-centered subjects.",
+    ],
+  },
+  {
+    id: "macthing-now-playing",
+    section: "side-projects",
+    kind: "mockup",
+    heading: "MacThing",
+    tasks: "Concept • design • development",
+    media: [
+      {
+        src: "/work/macthing-now-playing.mp4",
+        alt: "MacThing turning a Car Thing into a Mac display, cycling between now playing and a clock",
+        type: "video",
+      },
     ],
   },
   {
     id: "ohsee-compare",
     section: "side-projects",
     kind: "mockup",
-    heading: "Diff report",
+    heading: "Ohsee: CLI diff report",
     tasks: "Concept • design • development",
     media: [
       {
@@ -305,26 +319,12 @@ export const slides: Slide[] = [
     id: "ohsee-app-overview",
     section: "side-projects",
     kind: "mockup",
-    heading: "Captured pages",
+    heading: "Ohsee: Desktop app showing captured pages",
     tasks: "Concept • design • development",
     media: [
       {
         src: "/work/ohsee-app-overview.mp4",
         alt: "Ohsee's desktop app showing every captured page in a test, then opening one",
-        type: "video",
-      },
-    ],
-  },
-  {
-    id: "macthing-now-playing",
-    section: "side-projects",
-    kind: "mockup",
-    heading: "MacThing",
-    tasks: "Concept • design • development",
-    media: [
-      {
-        src: "/work/macthing-now-playing.mp4",
-        alt: "MacThing turning a Car Thing into a Mac display, cycling between now playing and a clock",
         type: "video",
       },
     ],
