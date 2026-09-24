@@ -72,12 +72,6 @@ main:has(.deck__section-title) {
   letter-spacing: calc(var(--card-w) * -0.001);
 }
 
-.hero__headline--named {
-  font-size: var(--section-title-size);
-  line-height: var(--section-title-leading);
-  letter-spacing: calc(var(--card-w) * -0.001);
-}
-
 .hero__bio {
   display: flex;
   flex-direction: column;

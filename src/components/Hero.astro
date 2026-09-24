@@ -18,9 +18,7 @@ const paragraphs = name
 <section class="hero" data-hero data-hero-named={name ? "" : undefined} id="about">
   <div class="hero__inner">
     <div class="hero__content">
-      <h1 class:list={["hero__headline", { "hero__headline--named": name }]}>
-        {heading}
-      </h1>
+      <h1 class="hero__headline">{heading}</h1>
       <div class="hero__bio">
         {paragraphs.map((p) => <p>{p}</p>)}
         {
