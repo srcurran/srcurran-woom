@@ -19,3 +19,8 @@ const titleCase = (text: string): string =>
 
 export const greet = (name: string): string =>
   about.headingNamed.replace("{name}", name);
+
+export function greeting(): [before: string, after: string] {
+  const [before = "", after = ""] = about.headingNamed.split("{name}");
+  return [before, after];
+}
