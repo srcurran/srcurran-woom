@@ -175,6 +175,9 @@ main:has(.deck__section-title) {
 }
 
 .deck__section-title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
   width: min(100% - 2 * var(--page-padding-x), var(--content-max));
   font-family: var(--font-display);
   font-weight: var(--weight-bold);
@@ -188,6 +191,96 @@ main:has(.deck__section-title) {
 }
 .deck__section-title + .deck__slide {
   margin-top: calc(var(--section-title-gap) - var(--deck-gap));
+}
+
+.deck__section-info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  translate: 0 calc(var(--icon-sm) - 1cap);
+  padding: 0;
+  border-radius: var(--radius-full);
+  color: var(--color-ink-subtle);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.deck__section-info:hover,
+.deck__section-info:focus-visible,
+.deck__section-title:has(.role-details:popover-open) .deck__section-info {
+  color: var(--color-ink);
+}
+
+.info-glyph {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+.info-glyph__ring {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.role-details {
+  position: fixed;
+  inset: 0;
+  width: min(var(--card-w) * 1.08, 100% - 2 * var(--page-padding-x));
+  max-height: calc(100% - 2 * var(--page-padding-x));
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+  opacity: 0;
+  transform: translateY(var(--space-sm)) scale(0.98);
+  transition:
+    opacity var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out),
+    overlay var(--duration-base) var(--ease-out) allow-discrete,
+    display var(--duration-base) var(--ease-out) allow-discrete;
+}
+.role-details:popover-open {
+  opacity: 1;
+  transform: none;
+}
+@starting-style {
+  .role-details:popover-open {
+    opacity: 0;
+    transform: translateY(var(--space-sm)) scale(0.98);
+  }
+}
+.role-details::backdrop {
+  background: transparent;
+  backdrop-filter: blur(0);
+  transition:
+    background var(--duration-base) var(--ease-out),
+    backdrop-filter var(--duration-base) var(--ease-out),
+    overlay var(--duration-base) var(--ease-out) allow-discrete,
+    display var(--duration-base) var(--ease-out) allow-discrete;
+}
+.role-details:popover-open::backdrop {
+  background: var(--color-scrim);
+  backdrop-filter: blur(6px);
+}
+@starting-style {
+  .role-details:popover-open::backdrop {
+    background: transparent;
+    backdrop-filter: blur(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .role-details,
+  .role-details::backdrop {
+    transition: none;
+  }
+}
+.role-details .deck__card {
+  width: 100%;
+  scroll-snap-align: none;
+  box-shadow: var(--elevation-3);
 }
 
 .deck__slide {
