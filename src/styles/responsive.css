@@ -69,8 +69,19 @@
   }
   .slide__prose p + p { margin-top: var(--space-sm); }
 
-  .slide--quote .slide__inner {
-    min-height: calc(var(--card-w) * 9 / 16);
+  .deck__card.slide--quote {
+    min-height: 0;
+    background: var(--color-surface-alt);
+  }
+  .deck__card.slide--quote .slide__inner { padding: 0; }
+  .deck__card.slide--quote .slide__quote {
+    padding: var(--space-lg);
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .slide__quotes--featured .slide__quote:not(.slide__quote--featured),
+  .slide__quotes:not(.slide__quotes--featured) .slide__quote:nth-child(n + 2) {
+    display: none;
   }
   .slide__quotes {
     display: flex;
@@ -81,7 +92,6 @@
   .slide__quote {
     gap: var(--space-2xs);
     width: 100%;
-    max-width: 34rem;
     padding: var(--space-md);
     border-radius: var(--radius-xl);
   }

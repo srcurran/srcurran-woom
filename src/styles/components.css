@@ -248,9 +248,7 @@
   align-items: center;
   justify-content: flex-end;
   width: 100%;
-  max-width: var(--content-max);
   min-height: var(--header-height);
-  margin-inline: auto;
 }
 .section-menu__close {
   display: inline-flex;
