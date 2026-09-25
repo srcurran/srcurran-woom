@@ -208,6 +208,16 @@ function trackNamedVisit(): void {
   describeSession({ named: name });
 }
 
+function trackReferrer(): void {
+  if (!document.referrer) {
+    describeSession({ referrer: "direct" });
+    return;
+  }
+  const { hostname } = new URL(document.referrer);
+  if (hostname === location.hostname) return;
+  describeSession({ referrer: hostname.replace(/^www\./, "") });
+}
+
 function trackShaderUse(): void {
   document.addEventListener("lenticular:engage", (e) => {
     const { image } = (e as CustomEvent<{ image: string }>).detail;
@@ -225,5 +235,6 @@ export function initAnalytics(): void {
   trackNavigation();
   trackLogoClicks();
   trackNamedVisit();
+  trackReferrer();
   trackShaderUse();
 }
