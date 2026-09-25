@@ -52,17 +52,12 @@ export interface LensSource {
   height: number;
 }
 
-export interface LensHandle {
-  refresh: () => void;
-  wiggle: (delay?: number) => void;
-}
-
 export function mountLens(
   host: HTMLElement,
   canvas: HTMLCanvasElement,
   paint: (width: number, height: number) => LensSource | null,
   tuning: Partial<typeof LENS> = {},
-): LensHandle | null {
+): (() => void) | null {
   const lens = { ...LENS, ...tuning };
   const gl = canvas.getContext("webgl", { antialias: true, premultipliedAlpha: false });
   if (!gl) return null;
@@ -164,19 +159,7 @@ export function mountLens(
     ease: "power2.out",
     onUpdate: render,
   });
-  let wiggling: gsap.core.Timeline | null = null;
-  const wiggle = (delay = 0) => {
-    wiggling?.kill();
-    wiggling = gsap
-      .timeline({ delay, defaults: { ease: "sine.inOut" }, onUpdate: render })
-      .to(state, { strength: 70, duration: 0.35, ease: "power2.out" }, 0)
-      .to(state, { keyframes: { angle: [0.9, -0.9, 0.5, -0.3, lens.angle] }, duration: 1.4 }, 0)
-      .to(state, { strength: 0, duration: 0.5, ease: "power2.inOut" }, 0.95);
-  };
-
   host.addEventListener("pointermove", (e) => {
-    wiggling?.kill();
-    wiggling = null;
     const rect = canvas.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
@@ -193,7 +176,7 @@ export function mountLens(
     setAngle(lens.angle);
   });
 
-  return { refresh, wiggle };
+  return refresh;
 }
 
 function setup(figure: HTMLElement): void {
@@ -201,14 +184,14 @@ function setup(figure: HTMLElement): void {
   const canvas = figure.querySelector("canvas");
   if (!img || !canvas) return;
 
-  const lens = mountLens(figure, canvas, () =>
+  const refresh = mountLens(figure, canvas, () =>
     img.complete && img.naturalWidth
       ? { image: img, width: img.naturalWidth, height: img.naturalHeight }
       : null,
   );
-  if (!lens) return;
-  lens.refresh();
-  img.addEventListener("load", lens.refresh, { once: true });
+  if (!refresh) return;
+  refresh();
+  img.addEventListener("load", refresh, { once: true });
 }
 
 export function initLenticular(): void {
