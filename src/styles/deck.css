@@ -84,7 +84,6 @@ main:has(.deck__section-title) {
   height: calc(100% + var(--name-shader-bleed) * 2);
   pointer-events: none;
   opacity: 0;
-  transition: opacity var(--duration-base) var(--ease-out);
 }
 .hero__name.is-shaded .hero__name-text {
   color: transparent;
