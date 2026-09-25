@@ -22,7 +22,6 @@
 
   --sand-0: #fffcf8;
   --butter-300: #ffd76a;
-  --violet-500: #835adc;
 
   --shadow-rgb: 10, 10, 10;
 
@@ -53,10 +52,6 @@
     var(--butter-300) 26%,
     transparent
   );
-  --color-name-shader-base: var(--color-ink);
-  --color-name-shader-flow: var(--accent-500);
-  --color-name-shader-swirl: var(--violet-500);
-  --color-name-shader-glint: var(--butter-300);
   --color-warning: var(--warning-500);
   --color-warning-hover: var(--warning-600);
 
