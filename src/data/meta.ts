@@ -13,6 +13,10 @@ export interface NoteSegment {
 export const about = {
   heading: "Hi, I'm Sean.",
   headingFull: "Hello, I'm Sean.",
+  /** Greeting for a visitor whose name is the URL path; `{name}` is replaced. */
+  headingNamed: "Hey {name}!",
+  /** Opens the first paragraph when greeting by name. */
+  leadNamed: "I'm Sean.",
   paragraphs: [
     "Full-stack designer with twenty years of diverse experience. I solve ambiguous problems with strategy, design craft and agentic development.",
     "Agency hustle, startup grit. A designer's eye and developer's mind.",
