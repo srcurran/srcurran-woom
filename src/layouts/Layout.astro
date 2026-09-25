@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Analytics from "@vercel/analytics/astro";
+import SpeedInsights from "@vercel/speed-insights/astro";
 import { site } from "../data/site";
 
 interface Props {
@@ -72,6 +73,7 @@ const {
       data-website-id="c8d029e1-295b-4f7c-bd3e-d93bb0608e14"></script>
 
     <Analytics />
+    <SpeedInsights />
   </head>
   <body>
     <slot />
