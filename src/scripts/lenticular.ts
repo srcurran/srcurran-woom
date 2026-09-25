@@ -155,7 +155,14 @@ function setup(figure: HTMLElement): void {
     ease: "power2.out",
     onUpdate: render,
   });
+  let engaged = false;
   figure.addEventListener("pointermove", (e) => {
+    if (!engaged && figure.classList.contains("is-shaded")) {
+      engaged = true;
+      document.dispatchEvent(
+        new CustomEvent("lenticular:engage", { detail: { image: img.getAttribute("alt") ?? "" } }),
+      );
+    }
     const rect = canvas.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;

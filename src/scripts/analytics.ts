@@ -201,6 +201,20 @@ function trackLogoClicks(): void {
   });
 }
 
+function trackNamedVisit(): void {
+  const name = document.querySelector<HTMLElement>("[data-hero-named]")?.dataset.heroNamed;
+  if (!name) return;
+  track(eventName("view", "named_url"), { name });
+  describeSession({ named: name });
+}
+
+function trackShaderUse(): void {
+  document.addEventListener("lenticular:engage", (e) => {
+    const { image } = (e as CustomEvent<{ image: string }>).detail;
+    track(eventName("use", "image_shader"), { image });
+  });
+}
+
 export function initAnalytics(): void {
   trackViewMode();
   trackFurthest();
@@ -210,4 +224,6 @@ export function initAnalytics(): void {
   trackDeckInteractions();
   trackNavigation();
   trackLogoClicks();
+  trackNamedVisit();
+  trackShaderUse();
 }
