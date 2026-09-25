@@ -11,6 +11,9 @@ importers:
       '@astrojs/vercel':
         specifier: ^11.0.11
         version: 11.0.11(astro@7.0.3(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@vercel/functions@3.9.9))
+      '@vercel/analytics':
+        specifier: ^2.0.1
+        version: 2.0.1
       astro:
         specifier: ^7.0.2
         version: 7.0.3(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@vercel/functions@3.9.9)
