@@ -26,10 +26,10 @@ void main() {
   float t = dot(vUv - 0.5, dir);
   float wave = sin(t * uFreq * 6.28318530718);
   vec2 d = dir * wave * uStrength * uAmp;
-  float r = texture2D(uTex, base + d * (1.0 + uDisp)).r;
-  float g = texture2D(uTex, base + d).g;
-  float b = texture2D(uTex, base + d * (1.0 - uDisp)).b;
-  gl_FragColor = vec4(r, g, b, 1.0);
+  vec4 r = texture2D(uTex, base + d * (1.0 + uDisp));
+  vec4 g = texture2D(uTex, base + d);
+  vec4 b = texture2D(uTex, base + d * (1.0 - uDisp));
+  gl_FragColor = vec4(r.r, g.g, b.b, max(r.a, max(g.a, b.a)));
 }`;
 
 const LENS = { freq: 3, angle: 0, disp: .1, amp: .1 };
@@ -46,23 +46,32 @@ function compile(gl: WebGLRenderingContext, type: number, src: string) {
   return sh;
 }
 
-function setup(figure: HTMLElement): void {
-  const img = figure.querySelector("img");
-  const canvas = figure.querySelector("canvas");
-  if (!img || !canvas) return;
+export interface LensSource {
+  image: TexImageSource;
+  width: number;
+  height: number;
+}
 
+export function mountLens(
+  host: HTMLElement,
+  canvas: HTMLCanvasElement,
+  label: string,
+  paint: (width: number, height: number) => LensSource | null,
+  tuning: Partial<typeof LENS> = {},
+): (() => void) | null {
+  const lens = { ...LENS, ...tuning };
   const gl = canvas.getContext("webgl", { antialias: true, premultipliedAlpha: false });
-  if (!gl) return;
+  if (!gl) return null;
 
   const vs = compile(gl, gl.VERTEX_SHADER, VERT);
   const fs = compile(gl, gl.FRAGMENT_SHADER, FRAG);
-  if (!vs || !fs) return;
+  if (!vs || !fs) return null;
   const prog = gl.createProgram();
-  if (!prog) return;
+  if (!prog) return null;
   gl.attachShader(prog, vs);
   gl.attachShader(prog, fs);
   gl.linkProgram(prog);
-  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return null;
   gl.useProgram(prog);
 
   const buf = gl.createBuffer();
@@ -98,19 +107,19 @@ function setup(figure: HTMLElement): void {
   const uAngle = u("uAngle");
   const uUvScale = u("uUvScale");
   const uUvOffset = u("uUvOffset");
-  gl.uniform1f(u("uFreq"), LENS.freq);
-  gl.uniform1f(u("uDisp"), LENS.disp);
-  gl.uniform1f(u("uAmp"), LENS.amp);
+  gl.uniform1f(u("uFreq"), lens.freq);
+  gl.uniform1f(u("uDisp"), lens.disp);
+  gl.uniform1f(u("uAmp"), lens.amp);
 
-  const state = { strength: 0, angle: LENS.angle };
+  const state = { strength: 0, angle: lens.angle };
   const render = () => {
     gl.uniform1f(uStrength, state.strength / 50);
     gl.uniform1f(uAngle, state.angle);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   };
 
-  const setCover = () => {
-    const ia = img.naturalWidth / img.naturalHeight;
+  const setCover = (source: LensSource) => {
+    const ia = source.width / source.height;
     const ca = canvas.width / canvas.height;
     let sx = 1;
     let sy = 1;
@@ -120,7 +129,7 @@ function setup(figure: HTMLElement): void {
     gl.uniform2f(uUvOffset, (1 - sx) / 2, (1 - sy) / 2);
   };
 
-  const resize = () => {
+  const refresh = () => {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const w = Math.round(canvas.clientWidth * dpr);
     const h = Math.round(canvas.clientHeight * dpr);
@@ -130,20 +139,16 @@ function setup(figure: HTMLElement): void {
       canvas.height = h;
       gl.viewport(0, 0, w, h);
     }
-    setCover();
+    const source = paint(w, h);
+    if (!source) return;
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source.image);
+    setCover(source);
+    host.classList.add("is-shaded");
     render();
   };
 
-  const start = () => {
-    gl.bindTexture(gl.TEXTURE_2D, tex);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
-    figure.classList.add("is-shaded");
-    resize();
-  };
-
-  if (img.complete && img.naturalWidth) start();
-  else img.addEventListener("load", start, { once: true });
-  new ResizeObserver(resize).observe(canvas);
+  new ResizeObserver(refresh).observe(canvas);
 
   const setStrength = gsap.quickTo(state, "strength", {
     duration: 0.3,
@@ -156,12 +161,10 @@ function setup(figure: HTMLElement): void {
     onUpdate: render,
   });
   let engaged = false;
-  figure.addEventListener("pointermove", (e) => {
-    if (!engaged && figure.classList.contains("is-shaded")) {
+  host.addEventListener("pointermove", (e) => {
+    if (!engaged && host.classList.contains("is-shaded")) {
       engaged = true;
-      document.dispatchEvent(
-        new CustomEvent("lenticular:engage", { detail: { image: img.getAttribute("alt") ?? "" } }),
-      );
+      document.dispatchEvent(new CustomEvent("lenticular:engage", { detail: { image: label } }));
     }
     const rect = canvas.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
@@ -174,10 +177,27 @@ function setup(figure: HTMLElement): void {
     setStrength(fx * fy * 100);
     setAngle((0.5 - cx) * Math.PI);
   });
-  figure.addEventListener("pointerleave", () => {
+  host.addEventListener("pointerleave", () => {
     setStrength(0);
-    setAngle(LENS.angle);
+    setAngle(lens.angle);
   });
+
+  return refresh;
+}
+
+function setup(figure: HTMLElement): void {
+  const img = figure.querySelector("img");
+  const canvas = figure.querySelector("canvas");
+  if (!img || !canvas) return;
+
+  const refresh = mountLens(figure, canvas, img.getAttribute("alt") ?? "", () =>
+    img.complete && img.naturalWidth
+      ? { image: img, width: img.naturalWidth, height: img.naturalHeight }
+      : null,
+  );
+  if (!refresh) return;
+  refresh();
+  img.addEventListener("load", refresh, { once: true });
 }
 
 export function initLenticular(): void {
