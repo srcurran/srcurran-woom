@@ -5,18 +5,17 @@ import { slides } from "../data/slides";
 import { navSections } from "../data/navigation";
 
 interface Props {
-  /** Drop title and results cards; break sections with the company name on the canvas. */
-  sectionBreaks?: boolean;
+  /** Keep each section's results card in the deck. */
+  results?: boolean;
 }
-const { sectionBreaks = false } = Astro.props;
+const { results = false } = Astro.props;
 
 const shown = slides.filter(
-  (s) => !s.indexOnly && !(sectionBreaks && (s.kind === "intro" || s.kind === "results")),
+  (s) => !s.indexOnly && s.kind !== "intro" && (results || s.kind !== "results"),
 );
 const sectionLabel = (id: string) => navSections.find((n) => n.id === id)?.label ?? id;
 const sectionIntro = (id: string) => slides.find((s) => s.section === id && s.kind === "intro");
-const opensSection = (i: number) =>
-  sectionBreaks && (i === 0 || shown[i - 1].section !== shown[i].section);
+const opensSection = (i: number) => i === 0 || shown[i - 1].section !== shown[i].section;
 ---
 
 <section class="deck" data-deck aria-label="Selected work">

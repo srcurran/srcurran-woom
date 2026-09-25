@@ -11,10 +11,10 @@ interface Props {
   title: string;
   /** Greet with "Hello" instead of "Hi" — /work's longer opening. */
   full?: boolean;
-  /** Break the deck's sections with company names instead of title and results cards. */
-  sectionBreaks?: boolean;
+  /** Keep each section's results card — /work's fuller deck. */
+  results?: boolean;
 }
-const { title, full = false, sectionBreaks = false } = Astro.props;
+const { title, full = false, results = false } = Astro.props;
 ---
 
 <Layout title={title}>
@@ -26,7 +26,7 @@ const { title, full = false, sectionBreaks = false } = Astro.props;
       <Hero full={full} />
       <LogoStrip />
     </div>
-    <Deck sectionBreaks={sectionBreaks} />
+    <Deck results={results} />
     <Contact />
   </main>
 </Layout>
