@@ -1,0 +1,35 @@
+---
+import type { Slide } from "../data/slides";
+import IntroCard from "./cards/IntroCard.astro";
+import InfoGlyph from "./InfoGlyph.astro";
+
+interface Props {
+  label: string;
+  /** The section's title card, revealed from the info button. */
+  details?: Slide;
+}
+const { label, details } = Astro.props;
+const popoverId = details && `role-details-${details.section}`;
+---
+
+<div class="deck__section-title" data-section-title>
+  <h2 class="deck__section-name">{label}</h2>
+  {details && (
+    <Fragment>
+      <button
+        class="deck__section-info"
+        type="button"
+        popovertarget={popoverId}
+        aria-label={`${label} role details`}
+        aria-haspopup="dialog"
+      >
+        <InfoGlyph />
+      </button>
+      <div id={popoverId} class="role-details" popover="auto" role="dialog" aria-label={label} data-role-details>
+        <article class:list={["deck__card", "theme-reset", "slide", "slide--intro", `slide--${details.theme ?? "light"}`]}>
+          <IntroCard slide={details} />
+        </article>
+      </div>
+    </Fragment>
+  )}
+</div>

@@ -34,7 +34,7 @@ src/styles/     The whole visual system
 
 **`src/components`** render that data and nothing else. A component declares `interface Props`, destructures `Astro.props` with defaults, and maps over data. The only strings that belong in a component are chrome labels on controls (`aria-label="Close menu"`, the word "Contact" on its button).
 
-**`src/pages`** are routes, not markup. `index.astro` and `work.astro` are one line each, both rendering `layouts/PortfolioPage.astro` — which owns the entire composition. The routes differ only by its `full` flag, which swaps the hero greeting. When they need to diverge again, add a prop to `PortfolioPage`; don't fork the markup back into the pages.
+**`src/pages`** are routes, not markup. `index.astro` and `work.astro` are one line each, both rendering `layouts/PortfolioPage.astro` — which owns the entire composition. The routes differ only by its flags: `full` swaps the hero greeting, and `results` keeps each section's results card in the deck. When they need to diverge again, add a prop to `PortfolioPage`; don't fork the markup back into the pages.
 
 **`src/scripts`** own behavior. `main.ts` calls one `initX()` per module. Scripts find elements through `data-*` hooks (`data-deck`, `data-card`, `data-nav-link`, `data-hero`, `data-lenticular`), never through styling classes — so a class can be renamed without breaking JS.
 
