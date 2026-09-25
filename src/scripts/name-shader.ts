@@ -1,6 +1,7 @@
 import { mountLens } from "./lenticular";
 
 const TEXT_LENS = { amp: 0.02 };
+const NAME_LENS_LABEL = "hero name";
 
 function setup(host: HTMLElement): void {
   const text = host.querySelector<HTMLElement>(".hero__name-text");
@@ -32,7 +33,7 @@ function setup(host: HTMLElement): void {
     return { image: plate, width, height };
   };
 
-  document.fonts.ready.then(() => mountLens(host, canvas, paint, TEXT_LENS)?.());
+  document.fonts.ready.then(() => mountLens(host, canvas, NAME_LENS_LABEL, paint, TEXT_LENS)?.());
 }
 
 export function initNameShader(): void {

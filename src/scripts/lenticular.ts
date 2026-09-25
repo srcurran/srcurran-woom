@@ -55,6 +55,7 @@ export interface LensSource {
 export function mountLens(
   host: HTMLElement,
   canvas: HTMLCanvasElement,
+  label: string,
   paint: (width: number, height: number) => LensSource | null,
   tuning: Partial<typeof LENS> = {},
 ): (() => void) | null {
@@ -159,7 +160,12 @@ export function mountLens(
     ease: "power2.out",
     onUpdate: render,
   });
+  let engaged = false;
   host.addEventListener("pointermove", (e) => {
+    if (!engaged && host.classList.contains("is-shaded")) {
+      engaged = true;
+      document.dispatchEvent(new CustomEvent("lenticular:engage", { detail: { image: label } }));
+    }
     const rect = canvas.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
@@ -184,7 +190,7 @@ function setup(figure: HTMLElement): void {
   const canvas = figure.querySelector("canvas");
   if (!img || !canvas) return;
 
-  const refresh = mountLens(figure, canvas, () =>
+  const refresh = mountLens(figure, canvas, img.getAttribute("alt") ?? "", () =>
     img.complete && img.naturalWidth
       ? { image: img, width: img.naturalWidth, height: img.naturalHeight }
       : null,

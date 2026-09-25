@@ -176,6 +176,8 @@
     right: -20%;
   }
 
+  .deck__section-title { justify-content: space-between; }
+
   .footer-link { font-size: var(--text-base); }
 
   .slide__results li {
