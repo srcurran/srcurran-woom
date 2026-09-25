@@ -1,6 +1,11 @@
 import { mountLens } from "./lenticular";
 
 const TEXT_LENS = { amp: 0.02 };
+const WIGGLE_DELAY = 0.6;
+
+const greetsWithWiggle = () =>
+  document.documentElement.classList.contains("play-intro") &&
+  !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function setup(host: HTMLElement): void {
   const text = host.querySelector<HTMLElement>(".hero__name-text");
@@ -32,7 +37,12 @@ function setup(host: HTMLElement): void {
     return { image: plate, width, height };
   };
 
-  document.fonts.ready.then(() => mountLens(host, canvas, paint, TEXT_LENS)?.());
+  document.fonts.ready.then(() => {
+    const lens = mountLens(host, canvas, paint, TEXT_LENS);
+    if (!lens) return;
+    lens.refresh();
+    if (greetsWithWiggle()) lens.wiggle(WIGGLE_DELAY);
+  });
 }
 
 export function initNameShader(): void {
