@@ -25,9 +25,14 @@ interface ViewModeDetail {
 
 const CONTACT_LINKS = ".contact-menu__link, .contact-end__link";
 const HERO_LINKS = "[data-hero] a[href]";
+const ROLE_LINKS = "[data-role-link]";
 
 const DWELL_MS = 2000;
 const SETTLE_MS = 300;
+
+const ENGAGEMENT = ["browsed", "explored", "clicked_out", "contacted"] as const;
+type Engagement = (typeof ENGAGEMENT)[number];
+let engagementRank = -1;
 
 const DESKTOP_VIEWS: Record<string, string> = {
   labels: "desktop-labels",
@@ -65,6 +70,13 @@ function describeSession(data: Record<string, string>): void {
   }
 }
 
+function engage(level: Engagement): void {
+  const rank = ENGAGEMENT.indexOf(level);
+  if (rank <= engagementRank) return;
+  engagementRank = rank;
+  describeSession({ engagement: level });
+}
+
 function channelFor(href: string): string {
   if (href.startsWith("mailto:")) return "email";
   if (href.startsWith("tel:")) return "phone";
@@ -86,6 +98,7 @@ function trackContactClicks(): void {
     const link = (e.target as Element | null)?.closest<HTMLAnchorElement>(CONTACT_LINKS);
     if (!link) return;
     const href = link.getAttribute("href") ?? "";
+    engage("contacted");
     track(eventName(clickAction(href), "contact", channelFor(href)), {
       location: link.classList.contains("contact-menu__link") ? "nav" : "footer",
     });
@@ -97,6 +110,7 @@ function trackHeroLinks(): void {
     const link = (e.target as Element | null)?.closest<HTMLAnchorElement>(HERO_LINKS);
     if (!link) return;
     const href = link.getAttribute("href") ?? "";
+    engage(href.startsWith("http") ? "clicked_out" : "explored");
     track(eventName(clickAction(href), "hero", link.textContent ?? ""), {
       url: href,
     });
@@ -109,12 +123,48 @@ function trackExternalLinks(): void {
     if (!link) return;
     const href = link.getAttribute("href") ?? "";
     if (!href.startsWith("http")) return;
-    if (link.closest(`${CONTACT_LINKS}, ${HERO_LINKS}`)) return;
+    if (link.closest(`${CONTACT_LINKS}, ${HERO_LINKS}, ${ROLE_LINKS}`)) return;
 
     const url = new URL(href);
+    engage("clicked_out");
     track(eventName("click", "link", channelFor(href)), {
       domain: url.hostname,
       url: href,
+    });
+  });
+}
+
+function onPopoverOpen(popover: HTMLElement, handler: () => void): void {
+  popover.addEventListener("toggle", (e) => {
+    if ((e as ToggleEvent).newState !== "open") return;
+    engage("explored");
+    handler();
+  });
+}
+
+function trackPopovers(): void {
+  document.querySelectorAll<HTMLElement>("[data-role-details]").forEach((popover) => {
+    onPopoverOpen(popover, () =>
+      track(eventName("open", "role_details", popover.dataset.roleDetails ?? "")),
+    );
+  });
+
+  const contactMenu = document.querySelector<HTMLElement>("[data-contact-menu]");
+  if (contactMenu) onPopoverOpen(contactMenu, () => track(eventName("open", "contact_menu")));
+}
+
+function trackRoleLinks(): void {
+  document.addEventListener("click", (e) => {
+    const link = (e.target as Element | null)?.closest<HTMLAnchorElement>(ROLE_LINKS);
+    if (!link) return;
+    const href = link.getAttribute("href") ?? "";
+    const popover = link.closest<HTMLElement>("[data-role-details]");
+    const section =
+      popover?.dataset.roleDetails ?? link.closest<HTMLElement>("[data-card]")?.dataset.section;
+    engage(href.startsWith("http") ? "clicked_out" : "explored");
+    track(eventName(clickAction(href), "role_link", section), {
+      url: href,
+      location: popover ? "popup" : "deck",
     });
   });
 }
@@ -136,6 +186,7 @@ function trackDeckInteractions(): void {
   document.addEventListener("card:click", (e) => {
     const detail = (e as CustomEvent<CardClickDetail>).detail;
     const action = detail.dead ? "dead_click" : "click";
+    if (!detail.dead) engage("explored");
     track(eventName(action, detail.kind ?? "slide", detail.section), {
       slide: detail.slide,
       index: detail.index,
@@ -183,11 +234,14 @@ function trackNavigation(): void {
 
     const link = target?.closest<HTMLAnchorElement>("[data-nav-link]");
     if (link) {
+      engage("explored");
       track(eventName("click", "nav", link.getAttribute("data-nav-link") ?? ""));
       return;
     }
 
-    if (target?.closest(".brand")) track(eventName("click", "nav", site.name));
+    if (!target?.closest(".brand")) return;
+    engage("explored");
+    track(eventName("click", "nav", site.name));
   });
 }
 
@@ -197,6 +251,7 @@ function trackLogoClicks(): void {
     if (!mark) return;
 
     const dead = !mark.closest("a[href], button");
+    if (!dead) engage("explored");
     track(eventName(dead ? "dead_click" : "click", "logo", mark.dataset.logo ?? ""));
   });
 }
@@ -221,16 +276,20 @@ function trackReferrer(): void {
 function trackShaderUse(): void {
   document.addEventListener("lenticular:engage", (e) => {
     const { image } = (e as CustomEvent<{ image: string }>).detail;
+    engage("explored");
     track(eventName("use", "image_shader"), { image });
   });
 }
 
 export function initAnalytics(): void {
+  engage("browsed");
   trackViewMode();
   trackFurthest();
   trackContactClicks();
   trackHeroLinks();
   trackExternalLinks();
+  trackRoleLinks();
+  trackPopovers();
   trackDeckInteractions();
   trackNavigation();
   trackLogoClicks();
