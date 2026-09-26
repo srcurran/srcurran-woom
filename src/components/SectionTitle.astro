@@ -25,7 +25,7 @@ const popoverId = details && `role-details-${details.section}`;
       >
         <InfoGlyph />
       </button>
-      <div id={popoverId} class="role-details" popover="auto" role="dialog" aria-label={label} data-role-details>
+      <div id={popoverId} class="role-details" popover="auto" role="dialog" aria-label={label} data-role-details={details.section}>
         <article class:list={["deck__card", "theme-reset", "slide", "slide--intro", `slide--${details.theme ?? "light"}`]}>
           <IntroCard slide={details} />
         </article>

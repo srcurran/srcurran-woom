@@ -25,6 +25,7 @@ interface ViewModeDetail {
 
 const CONTACT_LINKS = ".contact-menu__link, .contact-end__link";
 const HERO_LINKS = "[data-hero] a[href]";
+const ROLE_LINKS = "[data-role-link]";
 
 const DWELL_MS = 2000;
 const SETTLE_MS = 300;
@@ -109,12 +110,44 @@ function trackExternalLinks(): void {
     if (!link) return;
     const href = link.getAttribute("href") ?? "";
     if (!href.startsWith("http")) return;
-    if (link.closest(`${CONTACT_LINKS}, ${HERO_LINKS}`)) return;
+    if (link.closest(`${CONTACT_LINKS}, ${HERO_LINKS}, ${ROLE_LINKS}`)) return;
 
     const url = new URL(href);
     track(eventName("click", "link", channelFor(href)), {
       domain: url.hostname,
       url: href,
+    });
+  });
+}
+
+function onPopoverOpen(popover: HTMLElement, handler: () => void): void {
+  popover.addEventListener("toggle", (e) => {
+    if ((e as ToggleEvent).newState === "open") handler();
+  });
+}
+
+function trackPopovers(): void {
+  document.querySelectorAll<HTMLElement>("[data-role-details]").forEach((popover) => {
+    onPopoverOpen(popover, () =>
+      track(eventName("open", "role_details", popover.dataset.roleDetails ?? "")),
+    );
+  });
+
+  const contactMenu = document.querySelector<HTMLElement>("[data-contact-menu]");
+  if (contactMenu) onPopoverOpen(contactMenu, () => track(eventName("open", "contact_menu")));
+}
+
+function trackRoleLinks(): void {
+  document.addEventListener("click", (e) => {
+    const link = (e.target as Element | null)?.closest<HTMLAnchorElement>(ROLE_LINKS);
+    if (!link) return;
+    const href = link.getAttribute("href") ?? "";
+    const popover = link.closest<HTMLElement>("[data-role-details]");
+    const section =
+      popover?.dataset.roleDetails ?? link.closest<HTMLElement>("[data-card]")?.dataset.section;
+    track(eventName(clickAction(href), "role_link", section), {
+      url: href,
+      location: popover ? "popup" : "deck",
     });
   });
 }
@@ -231,6 +264,8 @@ export function initAnalytics(): void {
   trackContactClicks();
   trackHeroLinks();
   trackExternalLinks();
+  trackRoleLinks();
+  trackPopovers();
   trackDeckInteractions();
   trackNavigation();
   trackLogoClicks();
