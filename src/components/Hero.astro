@@ -1,6 +1,7 @@
 ---
 import { about } from "../data/site";
-import { greeting } from "../lib/visitor-name";
+import ShadedName from "./ShadedName.astro";
+import { aroundName } from "../lib/visitor-name";
 
 interface Props {
   /** /work rather than / — greets with "Hello" instead of "Hi". */
@@ -9,8 +10,8 @@ interface Props {
   name?: string;
 }
 const { full = false, name } = Astro.props;
-const heading = full ? about.headingFull : about.heading;
-const [greetBefore, greetAfter] = greeting();
+const template = name ? about.headingNamed : full ? about.headingFull : about.heading;
+const [before, after] = aroundName(template);
 const paragraphs = name
   ? about.paragraphs.map((p, i) => (i === 0 ? `${about.leadNamed} ${p}` : p))
   : about.paragraphs;
@@ -19,15 +20,7 @@ const paragraphs = name
 <section class="hero" data-hero data-hero-named={name} id="about">
   <div class="hero__inner">
     <div class="hero__content">
-      {
-        name ? (
-          <h1 class="hero__headline">
-            {greetBefore}<span class="hero__name" data-name-shader><span class="hero__name-text">{name}</span><canvas aria-hidden="true" /></span>{greetAfter}
-          </h1>
-        ) : (
-          <h1 class="hero__headline">{heading}</h1>
-        )
-      }
+      <h1 class="hero__headline">{before}<ShadedName name={name ?? about.name} />{after}</h1>
       <div class="hero__bio">
         {paragraphs.map((p) => <p>{p}</p>)}
         {

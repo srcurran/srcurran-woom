@@ -1,0 +1,8 @@
+---
+interface Props {
+  name: string;
+}
+const { name } = Astro.props;
+---
+
+<span class="hero__name" data-name-shader><span class="hero__name-text">{name}</span><canvas aria-hidden="true" /></span>
