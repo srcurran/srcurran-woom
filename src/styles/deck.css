@@ -83,13 +83,9 @@ main:has(.deck__section-title) {
   max-width: none;
   height: calc(100% + var(--name-shader-bleed) * 2);
   pointer-events: none;
-  opacity: 0;
 }
 .hero__name.is-shaded .hero__name-text {
   color: transparent;
-}
-.hero__name.is-shaded canvas {
-  opacity: 1;
 }
 
 .hero__bio {

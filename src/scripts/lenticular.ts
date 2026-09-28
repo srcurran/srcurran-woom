@@ -52,6 +52,9 @@ export interface LensSource {
   height: number;
 }
 
+const afterPresent = (then: () => void) =>
+  requestAnimationFrame(() => requestAnimationFrame(then));
+
 export function mountLens(
   host: HTMLElement,
   canvas: HTMLCanvasElement,
@@ -144,8 +147,8 @@ export function mountLens(
     gl.bindTexture(gl.TEXTURE_2D, tex);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source.image);
     setCover(source);
-    host.classList.add("is-shaded");
     render();
+    afterPresent(() => host.classList.add("is-shaded"));
   };
 
   new ResizeObserver(refresh).observe(canvas);
