@@ -8,6 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@astrojs/markdown-satteri':
+        specifier: ^0.3.2
+        version: 0.3.2
+      hast-util-from-html:
+        specifier: ^2.0.3
+        version: 2.0.3
+      hast-util-to-html:
+        specifier: ^9.0.5
+        version: 9.0.5
       astro:
         specifier: ^7.0.2
         version: 7.0.3(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)

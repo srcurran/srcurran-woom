@@ -28,3 +28,6 @@ pnpm-debug.log*
 
 # Figma reference downloads (not part of the site)
 .figma-ref/
+
+# Local visual checks
+.visual-qa/

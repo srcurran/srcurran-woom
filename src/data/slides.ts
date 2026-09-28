@@ -107,7 +107,7 @@ export const slides: Slide[] = [
         src: "/work/foyer-app.mp4",
         alt: "Foyer app",
         type: "video",
-        phoneBorder: true,
+        phoneFrame: true,
       },
     ],
   },
