@@ -11,8 +11,12 @@ export interface NoteSegment {
 }
 
 export const about = {
-  heading: "Hi, I'm Sean.",
-  headingFull: "Hello, I'm Sean.",
+  /** Shown through the lens wherever a greeting's `{name}` isn't a visitor's. */
+  name: "Sean",
+  /** `{name}` is replaced with `name`, shaded. */
+  heading: "Hi, I'm {name}.",
+  /** `{name}` is replaced with `name`, shaded. */
+  headingFull: "Hello, I'm {name}.",
   /** Greeting for a visitor whose name is the URL path; `{name}` is replaced. */
   headingNamed: "Hey {name}!",
   /** Opens the first paragraph when greeting by name. */
