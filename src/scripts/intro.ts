@@ -1,5 +1,7 @@
 import { gsap } from "gsap";
 
+const NAMED_BIO_BEAT = 0.5;
+
 const prefersReduced = () =>
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -8,11 +10,13 @@ export function initIntro(): void {
   if (!document.documentElement.classList.contains("play-intro")) return;
 
   const headline = document.querySelector<HTMLElement>("[data-hero] .hero__headline");
+  const named = document.querySelector("[data-hero-named]") !== null;
   const bio = gsap.utils.toArray<HTMLElement>("[data-hero] .hero__bio p");
   const header = document.querySelector<HTMLElement>(".site-header");
   const sideNav = document.querySelector<HTMLElement>("[data-side-nav]");
 
   const firstCard = document.querySelector<HTMLElement>('[data-card][data-index="0"]');
+  const firstTitle = document.querySelector<HTMLElement>("[data-section-title]");
 
   const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
@@ -24,7 +28,7 @@ export function initIntro(): void {
       bio,
       { opacity: 0, y: 18 },
       { opacity: 1, y: 0, stagger: 0.07, duration: 0.5 },
-      0.12,
+      named ? NAMED_BIO_BEAT : 0.12,
     );
   }
 
@@ -47,6 +51,9 @@ export function initIntro(): void {
   }
 
   tl.addLabel("card");
+  if (firstTitle) {
+    tl.fromTo(firstTitle, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6 }, "card");
+  }
   if (firstCard) {
     tl.from(
       firstCard,

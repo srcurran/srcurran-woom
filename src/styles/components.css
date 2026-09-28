@@ -153,8 +153,8 @@
 
 .menu-glyph {
   display: block;
-  width: 18px;
-  height: 18px;
+  width: var(--icon-sm);
+  height: var(--icon-sm);
   fill: currentColor;
 }
 .menu-glyph__bar {
@@ -248,9 +248,7 @@
   align-items: center;
   justify-content: flex-end;
   width: 100%;
-  max-width: var(--content-max);
   min-height: var(--header-height);
-  margin-inline: auto;
 }
 .section-menu__close {
   display: inline-flex;

@@ -105,7 +105,8 @@
   font-family: "Poppins Fallback";
   font-style: normal;
   font-weight: 600;
-  src: local("Helvetica Neue"), local("Arial");
+  src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"), local("Arial Bold"),
+    local("Arial-BoldMT");
   size-adjust: 106.5%;
   ascent-override: 98.59%;
   descent-override: 32.86%;
@@ -115,7 +116,8 @@
   font-family: "Poppins Fallback";
   font-style: normal;
   font-weight: 700;
-  src: local("Helvetica Neue"), local("Arial");
+  src: local("Helvetica Neue Bold"), local("HelveticaNeue-Bold"), local("Arial Bold"),
+    local("Arial-BoldMT");
   size-adjust: 107.44%;
   ascent-override: 97.73%;
   descent-override: 32.58%;

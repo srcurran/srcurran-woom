@@ -387,6 +387,10 @@ export function initDeck(): void {
     const t = event.target as HTMLElement | null;
     if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
     if (document.querySelector(".contact-menu:popover-open")) return;
+    if (document.querySelector("[data-role-details]:popover-open")) {
+      if (event.key.startsWith("Arrow")) event.preventDefault();
+      return;
+    }
     switch (event.key) {
       case "ArrowDown":
         event.preventDefault();
