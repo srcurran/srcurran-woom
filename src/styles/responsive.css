@@ -150,6 +150,9 @@
 
   .side-nav { display: none; }
 
+  .slide__meta,
+  .slide__meta-value--links { flex-direction: column; }
+
   .menu-toggle { display: inline-flex; }
   .site-header .header-contact { display: none; }
 }
