@@ -106,7 +106,7 @@ export const slides: Slide[] = [
     fit: "contain",
     onIndex: 2,
     heading: "Welcome screen",
-    tasks: "Animation • design • development",
+    tasks: "0-to-1 launch • animation • design • development",
     background: "var(--gradient-linear-purple)",
     media: [
       {
