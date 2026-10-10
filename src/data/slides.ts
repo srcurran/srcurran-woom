@@ -291,7 +291,7 @@ export const slides: Slide[] = [
     id: "macthing-now-playing",
     section: "side-projects",
     kind: "mockup",
-    heading: "MacThing",
+    heading: "[MacThing](https://github.com/srcurran/MacThing)",
     tasks: "Concept • design • development",
     media: [
       {
@@ -305,7 +305,7 @@ export const slides: Slide[] = [
     id: "ohsee-compare",
     section: "side-projects",
     kind: "mockup",
-    heading: "Ohsee: CLI diff report",
+    heading: "[Ohsee](https://ohsee.app): CLI diff report",
     tasks: "Concept • design • development",
     media: [
       {
@@ -319,7 +319,7 @@ export const slides: Slide[] = [
     id: "ohsee-app-overview",
     section: "side-projects",
     kind: "mockup",
-    heading: "Ohsee: Desktop app showing captured pages",
+    heading: "[Ohsee](https://ohsee.app): Desktop app showing captured pages",
     tasks: "Concept • design • development",
     media: [
       {
@@ -333,7 +333,7 @@ export const slides: Slide[] = [
     id: "focal-point-resize",
     section: "side-projects",
     kind: "mockup",
-    heading: "Focal Point",
+    heading: "[Focal Point](https://www.figma.com/community/plugin/1661755431369623402/focal-point-resize-dont-recrop): Figma Plugin",
     tasks: "Concept • design • development",
     media: [
       {

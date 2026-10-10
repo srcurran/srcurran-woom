@@ -1,5 +1,6 @@
 ---
 import type { Slide } from "../../data/slides";
+import { emphasize } from "../../lib/emphasize";
 
 interface Props {
   slide: Slide;
@@ -59,7 +60,7 @@ const media = slide.media?.[0];
 {
   (slide.heading || slide.tasks) && (
     <div class="slide__chin">
-      {slide.heading && <p class="slide__chin-title body">{slide.heading}</p>}
+      {slide.heading && <p class="slide__chin-title body" set:html={emphasize(slide.heading)} />}
       {slide.tasks && <p class="slide__chin-tasks body">{slide.tasks}</p>}
     </div>
   )

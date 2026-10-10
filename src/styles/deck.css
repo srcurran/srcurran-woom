@@ -598,6 +598,18 @@ main:has(.deck__section-title) {
   font-weight: var(--weight-medium);
 }
 
+.slide__link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.2em;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+}
+.slide__link:hover,
+.slide__link:focus-visible {
+  text-decoration-color: currentColor;
+}
+
 .slide--quote .slide__inner {
   --quote-type-sm: 1.6cqw;
   --quote-type-md: 1.9cqw;
