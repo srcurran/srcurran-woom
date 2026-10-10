@@ -6,6 +6,9 @@ interface Props {
 }
 const { slide } = Astro.props;
 const media = slide.media?.[0];
+const colon = slide.heading?.indexOf(":") ?? -1;
+const name = colon > 0 ? slide.heading?.slice(0, colon) : slide.heading;
+const rest = colon > 0 ? slide.heading?.slice(colon) : "";
 ---
 
 {
@@ -59,7 +62,18 @@ const media = slide.media?.[0];
 {
   (slide.heading || slide.tasks) && (
     <div class="slide__chin">
-      {slide.heading && <p class="slide__chin-title body">{slide.heading}</p>}
+      {slide.heading && (
+        <p class="slide__chin-title body">
+          {slide.href ? (
+            <a class="slide__chin-link" href={slide.href} target="_blank" rel="noopener noreferrer">
+              {name}
+            </a>
+          ) : (
+            slide.heading
+          )}
+          {slide.href && rest}
+        </p>
+      )}
       {slide.tasks && <p class="slide__chin-tasks body">{slide.tasks}</p>}
     </div>
   )

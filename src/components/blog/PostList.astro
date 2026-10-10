@@ -1,0 +1,13 @@
+---
+import { formatPostDate, postUrl, type Post } from '../../lib/blog';
+interface Props { posts: Post[]; current?: string }
+const { posts, current } = Astro.props;
+---
+{posts.length ? <ul class="post-list">
+  {posts.map(post => <li>
+    <a href={postUrl(post)} aria-current={current === post.id ? 'page' : undefined}>
+      <span>{post.title}{post.data.draft && <small>Draft</small>}</span>
+      <time datetime={post.date.toISOString()}>{formatPostDate(post.date)}</time>
+    </a>
+  </li>)}
+</ul> : <p class="blog-empty">No posts yet.</p>}

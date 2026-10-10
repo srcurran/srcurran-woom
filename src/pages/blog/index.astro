@@ -1,0 +1,10 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import PostList from '../../components/blog/PostList.astro';
+import { getPosts } from '../../lib/blog';
+const posts = await getPosts();
+---
+<BlogLayout title="Blog" description="Writing by Sean Curran.">
+  <h1 class="blog-title">Blog</h1>
+  <PostList posts={posts} />
+</BlogLayout>

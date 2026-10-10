@@ -1,0 +1,202 @@
+import { HandleValue } from './index';
+export type RouteApiError = {
+    name: string;
+    code: string;
+    message: string;
+    link?: string;
+    action?: string;
+    errors?: string[];
+};
+type MatchableValue = string | {
+    eq?: string | number;
+    neq?: string;
+    inc?: string[];
+    ninc?: string[];
+    pre?: string;
+    suf?: string;
+    re?: string;
+    gt?: number;
+    gte?: number;
+    lt?: number;
+    lte?: number;
+};
+type MitigateAction = 'challenge' | 'deny';
+export type HasField = Array<{
+    type: 'host';
+    value: MatchableValue;
+} | {
+    type: 'header' | 'cookie' | 'query';
+    key: string;
+    value?: MatchableValue;
+}>;
+export type HeaderQueryTransform = {
+    type: 'request.headers' | 'request.query' | 'response.headers';
+    op: 'append' | 'set' | 'delete';
+    target: {
+        key: string | {
+            eq?: string | number;
+            neq?: string;
+            inc?: string[];
+            ninc?: string[];
+            pre?: string;
+            suf?: string;
+            gt?: number;
+            gte?: number;
+            lt?: number;
+            lte?: number;
+        };
+    };
+    args?: string | string[];
+    env?: string[];
+};
+export type PathTransform = {
+    type: 'request.path';
+    op: 'set';
+    args: string;
+    env?: string[];
+};
+export type Transform = HeaderQueryTransform | PathTransform;
+export type ServiceDestination = {
+    /**
+     * Optional explicit format marker. The destination is identified by the
+     * presence of `service`, so `type` is no longer required.
+     */
+    type?: 'service';
+    service: string;
+    /** Routing-only path used to select a route inside the target service. */
+    path?: string;
+};
+export type RouteWithSrc = {
+    src: string;
+    dest?: string;
+    headers?: {
+        [name: string]: string;
+    };
+    methods?: string[];
+    continue?: boolean;
+    /** @deprecated */
+    override?: boolean;
+    caseSensitive?: boolean;
+    check?: boolean;
+    /** @deprecated */
+    important?: boolean;
+    status?: number;
+    has?: HasField;
+    missing?: HasField;
+    mitigate?: {
+        action: MitigateAction;
+    };
+    transforms?: Transform[];
+    env?: string[];
+    locale?: {
+        redirect?: Record<string, string>;
+        cookie?: string;
+    };
+    /**
+     * Aliases for `src`, `dest`, and `status`. These provide consistency with the
+     * `rewrites`, `redirects`, and `headers` fields which use `source`, `destination`,
+     * and `statusCode`. During normalization, the string forms are converted to
+     * their canonical forms (`src`, `dest`, `status`) and stripped from the route
+     * object.
+     *
+     * `destination` may also be a service-targeted object, in which case routing
+     * is delegated into the named service's internal route table and the object
+     * is preserved as-is (not folded into `dest`).
+     */
+    source?: string;
+    destination?: string | ServiceDestination;
+    statusCode?: number;
+    /**
+     * A middleware key within the `output` key under the build result.
+     * Overrides a `middleware` definition.
+     */
+    middlewarePath?: string;
+    /**
+     * The original middleware matchers.
+     */
+    middlewareRawSrc?: string[];
+    /**
+     * A middleware index in the `middleware` key under the build result
+     */
+    middleware?: number;
+    respectOriginCacheControl?: boolean;
+};
+export type RouteWithHandle = {
+    /** @deprecated Internal use only. Do not use in vercel.json. */
+    handle: HandleValue;
+    src?: string;
+    dest?: string;
+    status?: number;
+};
+export type Route = RouteWithSrc | RouteWithHandle;
+export type RouteInput = RouteWithSrc | (Omit<RouteWithSrc, 'src'> & {
+    src?: string;
+    source: string;
+}) | RouteWithHandle;
+export type NormalizedRoutes = {
+    routes: Route[] | null;
+    error: RouteApiError | null;
+};
+export interface GetRoutesProps {
+    routes?: RouteInput[];
+    cleanUrls?: boolean;
+    rewrites?: Rewrite[];
+    redirects?: Redirect[];
+    headers?: Header[];
+    trailingSlash?: boolean;
+}
+export interface MergeRoutesProps {
+    userRoutes?: Route[] | null | undefined;
+    builds: Build[];
+}
+export interface Build {
+    use: string;
+    entrypoint: string;
+    routes?: Route[];
+    projectMiddleware?: boolean;
+}
+export interface Rewrite {
+    source: string;
+    destination: string | ServiceDestination;
+    transforms?: PathTransform[];
+    has?: HasField;
+    missing?: HasField;
+    statusCode?: number;
+    env?: string[];
+    respectOriginCacheControl?: boolean;
+}
+export interface Redirect {
+    source: string;
+    destination: string;
+    permanent?: boolean;
+    statusCode?: number;
+    has?: HasField;
+    missing?: HasField;
+    env?: string[];
+}
+export interface Header {
+    source: string;
+    headers: HeaderKeyValue[];
+    has?: HasField;
+    missing?: HasField;
+}
+export interface HeaderKeyValue {
+    key: string;
+    value: string;
+}
+export interface AppendRoutesToPhaseProps {
+    /**
+     * All input routes including `handle` phases.
+     */
+    routes: Route[] | null;
+    /**
+     * The routes to append to a specific phase.
+     */
+    newRoutes: Route[] | null;
+    /**
+     * The phase to append the routes such as `filesystem`.
+     * If the phase is `null`, the routes will be appended prior to the first handle being found.
+     */
+    phase: HandleValue | null;
+}
+export {};

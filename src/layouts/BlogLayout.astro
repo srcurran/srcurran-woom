@@ -1,0 +1,28 @@
+---
+import Layout from './Layout.astro';
+import { site } from '../data/meta';
+import { blogNav, blogFooter } from '../data/blog';
+import '../styles/blog.css';
+interface Props { title: string; description?: string }
+const current = Astro.url.pathname;
+---
+<Layout title={`${Astro.props.title} — ${site.name}`} description={Astro.props.description}>
+  <div class="blog-shell">
+    <header class="blog-header flex row">
+      <a class="brand flex row" href="/" aria-label={site.name}>
+        <span class="brand__name">{site.name}</span>
+        <span class="brand__role">{site.role}</span>
+      </a>
+      <nav class="blog-header__nav flex row" aria-label="Site">
+        {blogNav.map(link => (
+          <a class="header-link" href={link.href} aria-current={current === link.href ? 'page' : undefined}>{link.label}</a>
+        ))}
+      </nav>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="blog-footer flex row">
+      <p class="body-lg text-muted">{blogFooter.lead}</p>
+      <a class="blog-footer__link" href={blogFooter.link.href}>{blogFooter.link.label} →</a>
+    </footer>
+  </div>
+</Layout>

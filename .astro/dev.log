@@ -1,0 +1,436 @@
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"Generated 0ms","label":"types","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"Syncing content","label":"content","level":"info"}
+{"message":"Synced content","label":"content","level":"info"}
+{"message":"Re-optimizing dependencies because vite config has changed","label":"vite","level":"info"}
+{"message":"Port 4321 is in use, trying another one...","label":"vite","level":"info"}
+{"message":" astro  v7.0.2 ready in 675 ms\n┃ Local    http://localhost:4322/\n┃ Network  use --host to expose","label":"SKIP_FORMAT","level":"info"}
+{"message":"watching for file changes...","label":null,"level":"info"}
+{"message":"[200] / 18ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"[console.warn] Data from this session is not being collected by Microsoft Clarity due to your configured project settings","label":"vite","level":"warn"}
+{"message":"✨ new dependencies optimized: gsap, gsap/ScrollToPlugin, gsap/ScrollTrigger","label":"vite","level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[console.warn] Data from this session is not being collected by Microsoft Clarity due to your configured project settings","label":"vite","level":"warn"}
+{"message":"Reloaded data from iphone-duo/2026-09-14-1200--iPhone-Apps-Are-About-to-Get-Weird.md","label":"glob-loader","level":"info"}
+{"message":"Reloaded data from iphone-duo/2026-09-14-1200--iPhone-Apps-Are-About-to-Get-Weird.md","label":"glob-loader","level":"info"}
+{"message":"[200] / 7ms","label":null,"level":"info"}
+{"message":"[200] / 5ms","label":null,"level":"info"}
+{"message":"[console.warn] Data from this session is not being collected by Microsoft Clarity due to your configured project settings","label":"vite","level":"warn"}
+{"message":"[console.warn] Data from this session is not being collected by Microsoft Clarity due to your configured project settings","label":"vite","level":"warn"}
+{"message":"Reloaded data from iphone-duo/2026-09-14-1200--iPhone-Apps-Are-About-to-Get-Weird.md","label":"glob-loader","level":"info"}
+{"message":"[UnknownFilesystemError] \n  Hint:\n    It can be caused by many things, eg. missing permissions or a file not existing we attempt to read. Check the error cause for more details.\n  Error reference:\n    https://docs.astro.build/en/reference/errors/unknown-filesystem-error/\n  Stack trace:\n    at /Users/seancurran/dev/srcurran-woom/node_modules/astro/dist/content/mutable-data-store.js:367:13\n    [...] See full stack trace in the browser, or rerun with --verbose.\n  Caused by:\n  ENOENT: no such file or directory, rename '/Users/seancurran/dev/srcurran-woom/.astro/data-store.json.tmp' -> '/Users/seancurran/dev/srcurran-woom/.astro/data-store.json'\n    at async Object.rename (node:internal/fs/promises:783:10)\n    [...] See full stack trace in the browser, or rerun with --verbose.","label":null,"level":"error"}
+{"message":"[200] / 9ms","label":null,"level":"info"}
+{"message":"[200] / 7ms","label":null,"level":"info"}
+{"message":"[console.warn] Data from this session is not being collected by Microsoft Clarity due to your configured project settings","label":"vite","level":"warn"}
+{"message":"[console.warn] Data from this session is not being collected by Microsoft Clarity due to your configured project settings","label":"vite","level":"warn"}
+{"message":"[200] /blog/2026-09-14-1200--iphone-apps-are-about-to-get-weird/ 29ms","label":null,"level":"info"}
+{"message":"[console.warn] Data from this session is not being collected by Microsoft Clarity due to your configured project settings","label":"vite","level":"warn"}
+{"message":"[200] /blog/2026-09-14-1200--iphone-apps-are-about-to-get-weird/ 8ms","label":null,"level":"info"}
+{"message":"[console.warn] Data from this session is not being collected by Microsoft Clarity due to your configured project settings","label":"vite","level":"warn"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/work-carousel/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/index.html","label":"watch","level":"info"}
+{"message":"[200] /blog/2026-09-14-1200--iphone-apps-are-about-to-get-weird/ 6ms","label":null,"level":"info"}
+{"message":"[console.warn] Data from this session is not being collected by Microsoft Clarity due to your configured project settings","label":"vite","level":"warn"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/index.html","label":"watch","level":"info"}
+{"message":"[200] /blog/2020-09-21-1421--foo-bar/ 4ms","label":null,"level":"info"}
+{"message":"[console.warn] Data from this session is not being collected by Microsoft Clarity due to your configured project settings","label":"vite","level":"warn"}
+{"message":"[200] /blog/2026-09-14-1200--iphone-apps-are-about-to-get-weird/ 5ms","label":null,"level":"info"}
+{"message":"[console.warn] Data from this session is not being collected by Microsoft Clarity due to your configured project settings","label":"vite","level":"warn"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/index.html","label":"watch","level":"info"}
+{"message":"/src/styles/blog.css","label":"watch","level":"info"}
+{"message":"[200] / 23ms","label":null,"level":"info"}
+{"message":"[console.warn] Data from this session is not being collected by Microsoft Clarity due to your configured project settings","label":"vite","level":"warn"}
+{"message":"[200] /blog/2026-09-14-1200--iphone-apps-are-about-to-get-weird/ 15ms","label":null,"level":"info"}
+{"message":"[console.warn] Data from this session is not being collected by Microsoft Clarity due to your configured project settings","label":"vite","level":"warn"}
+{"message":"[200] /blog/2026-09-14-1200--iphone-apps-are-about-to-get-weird/ 4ms","label":null,"level":"info"}
+{"message":"[console.warn] Data from this session is not being collected by Microsoft Clarity due to your configured project settings","label":"vite","level":"warn"}
+{"message":"[200] /blog/2026-09-14-1200--iphone-apps-are-about-to-get-weird/ 7ms","label":null,"level":"info"}
+{"message":"[console.warn] Data from this session is not being collected by Microsoft Clarity due to your configured project settings","label":"vite","level":"warn"}
+{"message":"[200] / 8ms","label":null,"level":"info"}
+{"message":"[console.warn] Data from this session is not being collected by Microsoft Clarity due to your configured project settings","label":"vite","level":"warn"}
+{"message":"[200] / 13ms","label":null,"level":"info"}
+{"message":"[console.warn] Data from this session is not being collected by Microsoft Clarity due to your configured project settings","label":"vite","level":"warn"}
+{"message":"Configuration file added. Restarting...","label":null,"level":"info"}
+{"message":"changed tsconfig file detected: /Users/seancurran/dev/srcurran-woom/.claude/worktrees/pathname-greeting-injector-ccb2de/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"An error happened during full reload\nFailed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\nError: Failed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\n    at loadAndTransform (file:///Users/seancurran/dev/srcurran-woom/node_modules/vite/dist/node/chunks/node.js:19714:31)","label":"vite","level":"error"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"Re-optimizing dependencies because vite config has changed","label":"vite","level":"info"}
+{"message":"server restarted.","label":"vite","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/404.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/404.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/404.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/index.html","label":"watch","level":"info"}
+{"message":"Configuration file updated. Restarting...","label":null,"level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"server restarted.","label":"vite","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/404.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":"Configuration file added. Restarting...","label":null,"level":"info"}
+{"message":"changed tsconfig file detected: /Users/seancurran/dev/srcurran-woom/.claude/worktrees/jolly-cray-40d174/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"An error happened during full reload\nFailed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\nError: Failed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\n    at loadAndTransform (file:///Users/seancurran/dev/srcurran-woom/node_modules/vite/dist/node/chunks/node.js:19714:31)","label":"vite","level":"error"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"server restarted.","label":"vite","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":"Configuration file updated. Restarting...","label":null,"level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"server restarted.","label":"vite","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":"Configuration file updated. Restarting...","label":null,"level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"server restarted.","label":"vite","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/pathname-greeting-injector-ccb2de/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/determined-tu-f42a1c/dist/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/determined-tu-f42a1c/dist/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/determined-tu-f42a1c/dist/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/determined-tu-f42a1c/dist/index.html","label":"watch","level":"info"}
+{"message":"Configuration file updated. Restarting...","label":null,"level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"server restarted.","label":"vite","level":"info"}
+{"message":".claude/worktrees/determined-tu-f42a1c/dist/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/determined-tu-f42a1c/dist/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/determined-tu-f42a1c/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/determined-tu-f42a1c/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/determined-tu-f42a1c/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/determined-tu-f42a1c/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":"Configuration file removed. Restarting...","label":null,"level":"info"}
+{"message":"changed tsconfig file detected: /Users/seancurran/dev/srcurran-woom/.claude/worktrees/work-page-card-carousel-31a09a/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/work-page-card-carousel-31a09a/dist/work/index.html","label":"watch","level":"info"}
+{"message":"changed tsconfig file detected: /Users/seancurran/dev/srcurran-woom/.claude/worktrees/.ccd-trash~0a53378948db/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.","label":"vite","level":"info"}
+{"message":"An error happened during full reload\nFailed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\nError: Failed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\n    at loadAndTransform (file:///Users/seancurran/dev/srcurran-woom/node_modules/vite/dist/node/chunks/node.js:19714:31)","label":"vite","level":"error"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"changed tsconfig file detected: /Users/seancurran/dev/srcurran-woom/.claude/worktrees/.ccd-trash~0a53378948db/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"server restarted.","label":"vite","level":"info"}
+{"message":"Configuration file updated. Restarting...","label":null,"level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"server restarted.","label":"vite","level":"info"}
+{"message":"Configuration file added. Restarting...","label":null,"level":"info"}
+{"message":"changed tsconfig file detected: /Users/seancurran/dev/srcurran-woom/.claude/worktrees/vercel-deployment-storage-e76bb4/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"An error happened during full reload\nFailed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\nError: Failed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\n    at loadAndTransform (file:///Users/seancurran/dev/srcurran-woom/node_modules/vite/dist/node/chunks/node.js:19714:31)","label":"vite","level":"error"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"server restarted.","label":"vite","level":"info"}
+{"message":"Configuration file removed. Restarting...","label":null,"level":"info"}
+{"message":"changed tsconfig file detected: /Users/seancurran/dev/srcurran-woom/.claude/worktrees/vercel-deployment-storage-e76bb4/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"An error happened during full reload\nFailed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\nError: Failed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\n    at loadAndTransform (file:///Users/seancurran/dev/srcurran-woom/node_modules/vite/dist/node/chunks/node.js:19714:31)","label":"vite","level":"error"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"server restarted.","label":"vite","level":"info"}
+{"message":".claude/worktrees/determined-tu-f42a1c/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/determined-tu-f42a1c/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/determined-tu-f42a1c/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/determined-tu-f42a1c/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/determined-tu-f42a1c/dist/client/work/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/determined-tu-f42a1c/dist/client/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/determined-tu-f42a1c/.vercel/output/static/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/determined-tu-f42a1c/.vercel/output/static/work/index.html","label":"watch","level":"info"}
+{"message":"Configuration file removed. Restarting...","label":null,"level":"info"}
+{"message":"changed tsconfig file detected: /Users/seancurran/dev/srcurran-woom/.claude/worktrees/qa-tool-stacked-icons-11dc87/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":".claude/worktrees/qa-tool-stacked-icons-11dc87/dist/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/qa-tool-stacked-icons-11dc87/dist/work/index.html","label":"watch","level":"info"}
+{"message":"changed tsconfig file detected: /Users/seancurran/dev/srcurran-woom/.claude/worktrees/.ccd-trash~e6eae14da2dd/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.","label":"vite","level":"info"}
+{"message":"An error happened during full reload\nFailed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\nError: Failed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\n    at loadAndTransform (file:///Users/seancurran/dev/srcurran-woom/node_modules/vite/dist/node/chunks/node.js:19714:31)","label":"vite","level":"error"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"server restarted.","label":"vite","level":"info"}
+{"message":"changed tsconfig file detected: /Users/seancurran/dev/srcurran-woom/.claude/worktrees/.ccd-trash~e6eae14da2dd/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"An error happened during full reload\nFailed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\nError: Failed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\n    at loadAndTransform (file:///Users/seancurran/dev/srcurran-woom/node_modules/vite/dist/node/chunks/node.js:19714:31)","label":"vite","level":"error"}
+dc87/dist/index.html","label":"watch","level":"info"}
+{"message":".claude/worktrees/qa-tool-stacked-icons-11dc87/dist/work/index.html","label":"watch","level":"info"}
+{"message":"changed tsconfig file detected: /Users/seancurran/dev/srcurran-woom/.claude/worktrees/.ccd-trash~e6eae14da2dd/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.","label":"vite","level":"info"}
+{"message":"An error happened during full reload\nFailed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\nError: Failed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\n    at loadAndTransform (file:///Users/seancurran/dev/srcurran-woom/node_modules/vite/dist/node/chunks/node.js:19714:31)","label":"vite","level":"error"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"connected.","label":"vite","level":"info"}
+{"message":"server restarted.","label":"vite","level":"info"}
+{"message":"changed tsconfig file detected: /Users/seancurran/dev/srcurran-woom/.claude/worktrees/.ccd-trash~e6eae14da2dd/tsconfig.json - Clearing cache and forcing full-reload to ensure TypeScript is compiled with updated config values.","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"program reload","label":"vite","level":"info"}
+{"message":"An error happened during full reload\nFailed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\nError: Failed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?\n    at loadAndTransform (file:///Users/seancurran/dev/srcurran-woom/node_modules/vite/dist/node/chunks/node.js:19714:31)","label":"vite","level":"error"}
