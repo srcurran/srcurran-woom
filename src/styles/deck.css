@@ -598,15 +598,15 @@ main:has(.deck__section-title) {
   font-weight: var(--weight-medium);
 }
 
-.slide__chin-link {
+.slide__link {
   color: inherit;
   text-decoration: underline;
   text-decoration-thickness: 0.06em;
   text-underline-offset: 0.2em;
   text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
 }
-.slide__chin-link:hover,
-.slide__chin-link:focus-visible {
+.slide__link:hover,
+.slide__link:focus-visible {
   text-decoration-color: currentColor;
 }
 
