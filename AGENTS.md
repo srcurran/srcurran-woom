@@ -76,6 +76,8 @@ The four facts below were load-bearing comments before the codebase was stripped
 
 **`emphasize.ts` runs the compound pass before the emphasis pass, also deliberately.** A short hyphenated compound reads as one word, so a line shouldn't break inside it ("successful 0-" / "to-1 launch"); CSS has no lever for that, since `line-break` and `word-break` address CJK and long unbroken strings, so the compound is wrapped in `.nobr`. Compounds over 16 characters are left breakable rather than risk overflowing a narrow card. `COMPOUND`'s bounds exclude letters, digits and hyphens but allow the emphasis markers, so a compound still matches inside `__…__` — and the `<span class="nobr">` it injects contains no `_` or `*` for the emphasis pass to trip over.
 
+**`emphasize.ts` lifts `[label](url)` links out before either pass runs.** URLs are full of hyphens and underscores, so folding links into `INLINE` would let the compound pass inject a `.nobr` span into an `href` and the italic rule turn `my_page` into `<em>`. Only the label and the text around the link are formatted. The cost of splitting first: emphasis can't wrap a link (`**see [x](url)**` renders literal asterisks; put the markers inside the label instead), a URL containing `)` is cut short, and the URL isn't escaped. None of that bites short card copy. If it starts to, switch to a real inline-markdown parser rather than growing the regex.
+
 ## CSS
 
 Three composed layers, imported in cascade order by `global.css`:
