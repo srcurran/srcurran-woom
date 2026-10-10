@@ -46,6 +46,8 @@ export interface Slide {
   paragraphs?: string[];
   /** Credits pinned to the bottom of a title card. */
   meta?: SlideMetaRow[];
+  /** Makes a mockup card's caption title a link out. */
+  href?: string;
   /** Disciplines listed in a mockup card's caption chin. */
   tasks?: string;
   /** Reviews listed on a quote card. */
@@ -292,6 +294,7 @@ export const slides: Slide[] = [
     section: "side-projects",
     kind: "mockup",
     heading: "MacThing",
+    href: "https://github.com/srcurran/MacThing",
     tasks: "Concept • design • development",
     media: [
       {
@@ -306,6 +309,7 @@ export const slides: Slide[] = [
     section: "side-projects",
     kind: "mockup",
     heading: "Ohsee: CLI diff report",
+    href: "https://ohsee.app",
     tasks: "Concept • design • development",
     media: [
       {
@@ -320,6 +324,7 @@ export const slides: Slide[] = [
     section: "side-projects",
     kind: "mockup",
     heading: "Ohsee: Desktop app showing captured pages",
+    href: "https://ohsee.app",
     tasks: "Concept • design • development",
     media: [
       {
@@ -333,7 +338,8 @@ export const slides: Slide[] = [
     id: "focal-point-resize",
     section: "side-projects",
     kind: "mockup",
-    heading: "Focal Point",
+    heading: "Focal Point: Figma Plugin",
+    href: "https://www.figma.com/community/plugin/1661755431369623402/focal-point-resize-dont-recrop",
     tasks: "Concept • design • development",
     media: [
       {
