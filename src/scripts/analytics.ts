@@ -263,14 +263,31 @@ function trackNamedVisit(): void {
   describeSession({ named: name });
 }
 
+const SOURCE_PARAMS = ["utm_source", "ref", "source"];
+
+function taggedSource(): string | undefined {
+  const params = new URLSearchParams(location.search);
+  for (const key of SOURCE_PARAMS) {
+    const value = params.get(key)?.trim().toLowerCase();
+    if (value) return value;
+  }
+}
+
+function referringHost(): string | undefined {
+  if (!document.referrer) return;
+  const { hostname } = new URL(document.referrer);
+  return hostname.replace(/^www\./, "");
+}
+
 function trackReferrer(): void {
-  if (!document.referrer) {
-    describeSession({ referrer: "direct" });
+  const tagged = taggedSource();
+  if (tagged) {
+    describeSession({ referrer: tagged });
     return;
   }
-  const { hostname } = new URL(document.referrer);
-  if (hostname === location.hostname) return;
-  describeSession({ referrer: hostname.replace(/^www\./, "") });
+  const host = referringHost();
+  if (host === location.hostname.replace(/^www\./, "")) return;
+  describeSession({ referrer: host ?? "direct" });
 }
 
 function trackShaderUse(): void {
