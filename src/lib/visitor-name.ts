@@ -1,4 +1,4 @@
-import { about } from "../data/meta";
+import { about, preview } from "../data/meta";
 
 const NAME = /^[\p{L}\p{M}' ]{1,32}$/u;
 
@@ -19,6 +19,9 @@ const titleCase = (text: string): string =>
 
 export const greet = (name: string): string =>
   about.headingNamed.replace("{name}", name);
+
+export const previewTitle = (name?: string): string =>
+  name ? preview.titleNamed.replace("{name}", name) : preview.title;
 
 export function aroundName(template: string): [before: string, after: string] {
   const [before = "", after = ""] = template.split("{name}");

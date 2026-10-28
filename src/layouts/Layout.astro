@@ -2,16 +2,20 @@
 import "../styles/global.css";
 import Analytics from "@vercel/analytics/astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
-import { site } from "../data/site";
+import { site, preview } from "../data/site";
 
 interface Props {
   title?: string;
   description?: string;
+  /** Headline for link previews, when it should differ from the tab title. */
+  previewTitle?: string;
 }
 const {
   title = `${site.name} — ${site.role}`,
   description = `Portfolio of ${site.name}, ${site.role}.`,
+  previewTitle = preview.title,
 } = Astro.props;
+const url = new URL(Astro.url.pathname.replace(/(.)\/$/, "$1"), Astro.site);
 ---
 
 <!doctype html>
@@ -23,6 +27,16 @@ const {
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <title>{title}</title>
+    <link rel="canonical" href={url} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={previewTitle} />
+    <meta property="og:description" content={preview.description} />
+    <meta property="og:url" content={url} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={previewTitle} />
+    <meta name="twitter:description" content={preview.description} />
 
     <link
       rel="preload"
