@@ -6,6 +6,7 @@ import Hero from "../components/Hero.astro";
 import Deck from "../components/Deck.astro";
 import LogoStrip from "../components/LogoStrip.astro";
 import Contact from "../components/Contact.astro";
+import { previewTitle } from "../lib/visitor-name";
 
 interface Props {
   title: string;
@@ -19,7 +20,7 @@ interface Props {
 const { title, full = false, name, results = false } = Astro.props;
 ---
 
-<Layout title={title}>
+<Layout title={title} previewTitle={previewTitle(name)}>
   <TopNav />
   <SideNav />
 

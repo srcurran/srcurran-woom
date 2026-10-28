@@ -4,6 +4,14 @@ export const site = {
   email: "srcurran@gmail.com",
 } as const;
 
+export const preview = {
+  /** Link-preview headline when there's no visitor name in the URL. */
+  title: "Hey! I'm Sean Curran",
+  /** Link-preview headline for a visitor's name page; `{name}` is replaced. */
+  titleNamed: "Hey {name}! I'm Sean Curran",
+  description: "Product design-engineer portfolio",
+};
+
 export interface NoteSegment {
   text: string;
   /** Renders this run as a link. */
