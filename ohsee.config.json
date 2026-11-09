@@ -1,0 +1,17 @@
+{
+  "$schema": "https://unpkg.com/ohsee-qa/schema/ohsee.config.schema.json",
+  "name": "srcurran",
+  "prodUrl": "https://srcurran.com",
+  "devUrl": "http://localhost:4321",
+  "breakpoints": [1440, 960, 375],
+  "tests": {
+    "local": {
+      "pages": ["/", "/work"]
+    },
+    "pr": {
+      "prodUrl": "http://127.0.0.1:4400",
+      "devUrl": "http://127.0.0.1:4401",
+      "pages": ["/", "/work"]
+    }
+  }
+}
