@@ -64,7 +64,7 @@ The one exception is a `/** */` one-liner on an *interface field* whose name can
 
 ## Things the code can't tell you
 
-The four facts below were load-bearing comments before the codebase was stripped. Each one explains why something is the way it is, where the obvious reading is that it's a mistake. Check here before "fixing" any of them.
+The facts below were load-bearing comments before the codebase was stripped, or would have been. Each one explains why something is the way it is, where the obvious reading is that it's a mistake. Check here before "fixing" any of them.
 
 **Analytics sends no consent signal, deliberately.** Clarity restricts itself in the EEA/UK/CH when it receives none, so those visitors aren't recorded and the site needs no cookie banner. Adding a consent call would start recording them and create the obligation.
 
@@ -77,6 +77,8 @@ The four facts below were load-bearing comments before the codebase was stripped
 **`emphasize.ts` runs the compound pass before the emphasis pass, also deliberately.** A short hyphenated compound reads as one word, so a line shouldn't break inside it ("successful 0-" / "to-1 launch"); CSS has no lever for that, since `line-break` and `word-break` address CJK and long unbroken strings, so the compound is wrapped in `.nobr`. Compounds over 16 characters are left breakable rather than risk overflowing a narrow card. `COMPOUND`'s bounds exclude letters, digits and hyphens but allow the emphasis markers, so a compound still matches inside `__…__` — and the `<span class="nobr">` it injects contains no `_` or `*` for the emphasis pass to trip over.
 
 **`emphasize.ts` lifts `[label](url)` links out before either pass runs.** URLs are full of hyphens and underscores, so folding links into `INLINE` would let the compound pass inject a `.nobr` span into an `href` and the italic rule turn `my_page` into `<em>`. Only the label and the text around the link are formatted. The cost of splitting first: emphasis can't wrap a link (`**see [x](url)**` renders literal asterisks; put the markers inside the label instead), a URL containing `)` is cut short, and the URL isn't escaped. None of that bites short card copy. If it starts to, switch to a real inline-markdown parser rather than growing the regex.
+
+**`deck.ts` reloads only when the coverflow mode really changes.** Coverflow and the static list are different page setups, so crossing the `COVERFLOW` media query reloads. But the query can blip and come straight back — a full-page screenshot resizes the viewport for an instant — and a bare `change` → `reload()` reloaded on the blip, which made every Ohsee capture photograph a page mid-reload. The check waits a frame and compares against the mode the page booted in, so only a lasting switch reloads.
 
 ## CSS
 
@@ -97,6 +99,12 @@ Deck cards are container-query contexts, so card content sizes in `cqw` (1cqw �
 CSS-first. Hover, focus, and popover transitions are pure CSS. GSAP appears only in `src/scripts` (`intro.ts` for the first-load timeline, `deck.ts` for ScrollTrigger, `lenticular.ts`).
 
 Every animation checks `prefers-reduced-motion`, and the page must render complete with JS off — reveal targets are hidden only under a class the inline script in `Layout.astro` sets before paint.
+
+## Visual QA
+
+Every PR into `main` runs `.github/workflows/visual-qa.yml`: it builds `main` and the PR, serves both, and diffs them with [Ohsee](https://ohsee.app) (`ohsee.config.json`, test `pr`). A clean diff passes the `gate` check on its own. Visual changes post a summary comment and pause on the `visual-approval` environment; `gate` goes green once that deployment is approved on the run page. A new push restarts the run, so an approval never outlives the diff it covered.
+
+To check locally before pushing, run `npx ohsee-qa local` with the dev server up — it compares srcurran.com with `localhost:4321`.
 
 ## Git
 
