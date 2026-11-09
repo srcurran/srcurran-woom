@@ -97,8 +97,13 @@ export function initDeck(): void {
   const coverflow = window.matchMedia(COVERFLOW);
   const desktopLayout = window.matchMedia(DESKTOP_LAYOUT);
   const mobileNav = window.matchMedia(MOBILE_NAV);
-  const animate = !prefersReduced() && coverflow.matches;
-  coverflow.addEventListener("change", () => location.reload());
+  const bootedInCoverflow = coverflow.matches;
+  const animate = !prefersReduced() && bootedInCoverflow;
+  coverflow.addEventListener("change", () => {
+    requestAnimationFrame(() => {
+      if (coverflow.matches !== bootedInCoverflow) location.reload();
+    });
+  });
 
   if (animate) {
     for (const card of cards) {
