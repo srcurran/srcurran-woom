@@ -1,0 +1,3 @@
+{
+  "rewrites": [{ "source": "/u/:path*", "destination": "https://cloud.umami.is/:path*" }]
+}
