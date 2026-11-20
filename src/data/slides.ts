@@ -269,8 +269,8 @@ export const slides: Slide[] = [
         label: "Links",
         links: [
           {
-            label: "MacThing (Github)",
-            href: "https://github.com/srcurran/MacThing",
+            label: "MacThing",
+            href: "/macthing/",
           },
           { label: "Ohsee.app", href: "https://ohsee.app" },
           {
@@ -291,7 +291,7 @@ export const slides: Slide[] = [
     id: "macthing-now-playing",
     section: "side-projects",
     kind: "mockup",
-    heading: "[MacThing](https://github.com/srcurran/MacThing)",
+    heading: "[MacThing](/macthing/)",
     tasks: "Concept • design • development",
     media: [
       {
