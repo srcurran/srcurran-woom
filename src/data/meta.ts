@@ -53,7 +53,7 @@ export const about = {
       { text: " • " },
       {
         text: "MacThing",
-        href: "https://github.com/srcurran/MacThing",
+        href: "/macthing/",
       },
       { text: "." },
     ],
