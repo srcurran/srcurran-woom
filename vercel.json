@@ -1,5 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [{ "source": "/macthing", "destination": "/macthing/", "permanent": true }],
-  "rewrites": [{ "source": "/u/:path*", "destination": "https://cloud.umami.is/:path*" }]
+  "rewrites": [{ "source": "/u/script.js", "destination": "https://cloud.umami.is/script.js" }]
 }
