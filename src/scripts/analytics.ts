@@ -298,7 +298,25 @@ function trackShaderUse(): void {
   });
 }
 
+/**
+ * MacThing (srcurran.com/macthing/) reports into this website too. A visitor who has seen any page
+ * here counts as srcurran.com's, whichever side they started on. The flag tells MacThing's pages
+ * to stop claiming them, and stays put because Umami's sessions outlast a browser tab. The key is
+ * shared with macthing-site's src/scripts/analytics.ts.
+ */
+const AUDIENCE_KEY = "umami-audience";
+
+function claimAudience(): void {
+  try {
+    localStorage.setItem(AUDIENCE_KEY, "srcurran");
+  } catch {
+    // Storage blocked: this page still reports as srcurran.com's.
+  }
+  describeSession({ audience: "srcurran" });
+}
+
 export function initAnalytics(): void {
+  claimAudience();
   engage("browsed");
   trackViewMode();
   trackFurthest();
