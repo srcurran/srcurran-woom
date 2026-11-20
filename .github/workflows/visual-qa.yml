@@ -1,0 +1,146 @@
+name: visual-qa
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: visual-qa-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  OHSEE_VERSION: 0.1.10
+
+jobs:
+  ohsee:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    outputs:
+      code: ${{ steps.ohsee.outputs.code }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: pr
+          fetch-depth: 2
+
+      - name: Check out the base this PR merges into
+        run: git -C pr worktree add --detach ../base HEAD^1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: pr/package-lock.json
+
+      - name: Build base and PR
+        run: |
+          for side in base pr; do
+            (cd "$side" && npm ci --no-audit --no-fund && npm run build)
+          done
+
+      - name: Serve both builds
+        run: |
+          python3 -m http.server 4400 --bind 127.0.0.1 --directory base/.vercel/output/static > /dev/null 2>&1 &
+          python3 -m http.server 4401 --bind 127.0.0.1 --directory pr/.vercel/output/static > /dev/null 2>&1 &
+          for port in 4400 4401; do
+            curl -fsS --retry 10 --retry-connrefused --retry-delay 1 "http://127.0.0.1:$port/" > /dev/null
+          done
+
+      - name: Install Ohsee
+        run: npm install --prefix "$RUNNER_TEMP/ohsee" --no-audit --no-fund "ohsee-qa@$OHSEE_VERSION"
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-ohsee-${{ env.OHSEE_VERSION }}
+
+      - name: Install Chromium
+        run: '"$RUNNER_TEMP/ohsee/node_modules/.bin/playwright" install --with-deps chromium'
+
+      - name: Run Ohsee (base vs PR)
+        id: ohsee
+        working-directory: pr
+        run: |
+          set +e
+          "$RUNNER_TEMP/ohsee/node_modules/.bin/ohsee" run pr \
+            --fail-on-changes --json --no-open \
+            --data-dir "$RUNNER_TEMP/ohsee-data" \
+            --summary "$RUNNER_TEMP/ohsee-summary.md" > "$RUNNER_TEMP/ohsee-result.json"
+          code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          case "$code" in
+            0|2) exit 0 ;;
+            *) echo "::error::Ohsee run failed (exit $code)"; exit 1 ;;
+          esac
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ohsee-report
+          path: |
+            ${{ runner.temp }}/ohsee-data
+            ${{ runner.temp }}/ohsee-result.json
+            ${{ runner.temp }}/ohsee-summary.md
+          if-no-files-found: ignore
+
+      - name: Post summary
+        if: always() && steps.ohsee.outputs.code != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CODE: ${{ steps.ohsee.outputs.code }}
+          PR: ${{ github.event.pull_request.number }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          marker="<!-- ohsee-visual-qa -->"
+          {
+            echo "$marker"
+            cat "$RUNNER_TEMP/ohsee-summary.md" 2>/dev/null || echo "Ohsee wrote no summary (exit $CODE)."
+            echo
+            if [ "$CODE" = "2" ]; then
+              echo "**Merging needs approval.** Review the changes, then approve the \`visual-approval\` deployment on [the run]($RUN_URL)."
+              echo
+              echo "To see the screenshots, download the \`ohsee-report\` artifact from the run, unzip it, and run:"
+              echo '```bash'
+              echo "npx ohsee-qa@$OHSEE_VERSION open --all --data-dir ./ohsee-data --browser"
+              echo '```'
+            fi
+          } > comment.md
+          cat comment.md >> "$GITHUB_STEP_SUMMARY"
+          existing=$(gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" --paginate \
+            --jq "[.[] | select(.body | startswith(\"$marker\"))][0].id // empty")
+          if [ -n "$existing" ]; then
+            gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$existing" -F body=@comment.md > /dev/null
+          else
+            gh api -X POST "repos/$GITHUB_REPOSITORY/issues/$PR/comments" -F body=@comment.md > /dev/null
+          fi
+
+  approve:
+    needs: ohsee
+    if: needs.ohsee.outputs.code == '2'
+    runs-on: ubuntu-latest
+    environment: visual-approval
+    steps:
+      - run: echo "Visual changes approved."
+
+  gate:
+    needs: [ohsee, approve]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decide
+        env:
+          CODE: ${{ needs.ohsee.outputs.code }}
+          APPROVAL: ${{ needs.approve.result }}
+        run: |
+          if [ "$CODE" = "0" ]; then
+            echo "No visual changes."
+          elif [ "$CODE" = "2" ] && [ "$APPROVAL" = "success" ]; then
+            echo "Visual changes approved."
+          else
+            echo "::error::Not mergeable (ohsee exit: ${CODE:-none}, approval: $APPROVAL)"
+            exit 1
+          fi
